@@ -14,13 +14,19 @@ class MainMenuViewController: UIViewController {
     @IBOutlet weak var databroserButton: UIButton!
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var cableInfoButton: UIButton!
-    @IBOutlet weak var manuView: UIView!
-    @IBOutlet weak var backgroundImageView: UIImageView!
-    
+//    @IBOutlet weak var manuView: UIView!
+//    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var currentIPAddress: UILabel!
     let blurFilter = CIFilter(name: "CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 10])
     
+    let caObject = ChannelAccessClient.sharedObject()!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
        
         monitoringButton.setTitle(nil, for: .normal)
         monitoringButton.setImage(UIImage(named: "Monitoring"), for: .normal)
@@ -33,6 +39,11 @@ class MainMenuViewController: UIViewController {
         
         settingButton.setTitle(nil, for: .normal)
         settingButton.setImage(UIImage(named: "Setting"), for: .normal)
+        
+        var ipAddress: String?
+        ipAddress = caObject.channelAccessGetIPAddress()
+        
+        currentIPAddress.text = ipAddress
         
 //        let backgroundImage = UIImage(named: "background3")!
 //        
@@ -72,9 +83,7 @@ class MainMenuViewController: UIViewController {
         //view.backgroundColor = UIColor(patternImage: backgroundImage!)
 //        view.layer.addSublayer(foreground)
 
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
         //manuView.layer.cornerRadius = 20
         
 //        navigationController?.navigationBar.tintColor = UIColor.red

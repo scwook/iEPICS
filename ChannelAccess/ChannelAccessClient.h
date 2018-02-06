@@ -99,7 +99,7 @@ typedef struct {
 - (void)ChannelAccessArrayDataRemoveAll;
 - (void)ChannelAccessArrayDataAddObject:(double)value;
 - (void)ChannelAccessAllClear;
-- (NSString *)getIPAddress;
+- (NSString *)ChannelAccessGetIPAddress;
 
 
 @end

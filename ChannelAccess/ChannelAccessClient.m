@@ -44,7 +44,7 @@ static ChannelAccessNotification *notification;
         notification = [[ChannelAccessNotification alloc] init];
         NSLog(@"Create ChannelAccess");
         
-        NSString *ipaddr = [self getIPAddress];
+        NSString *ipaddr = [self ChannelAccessGetIPAddress];
         
         NSLog(@"%@", ipaddr);
     }
@@ -351,7 +351,7 @@ static ChannelAccessNotification *notification;
     [pvDictionaryIndex removeAllObjects];
 }
 
-- (NSString *)getIPAddress {
+- (NSString *)ChannelAccessGetIPAddress {
     
     NSString *address = @"error";
     struct ifaddrs *interfaces = NULL;
