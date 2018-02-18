@@ -80,6 +80,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="I"/>
+                                <connections>
+                                    <segue destination="9Hf-ap-Lqd" kind="show" id="vLz-EV-Q5z"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="192.168.100.200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lVn-Uk-iwI">
                                 <rect key="frame" x="124" y="335" width="126" height="21"/>
@@ -186,6 +189,72 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="980" y="438.53073463268368"/>
+        </scene>
+        <!--Cable Info Page View Controller-->
+        <scene sceneID="0ZK-WI-YrU">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="9Hf-ap-Lqd" customClass="CableInfoPageViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RNl-1M-LZr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-847" y="800"/>
+        </scene>
+        <!--FirstCP View Controller-->
+        <scene sceneID="F8f-i5-xEi">
+            <objects>
+                <viewController storyboardIdentifier="RJ45InfoView" id="giS-Gl-rxw" customClass="FirstCPViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="g8p-2t-YIb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="RJ45_T568A_ST" translatesAutoresizingMaskIntoConstraints="NO" id="AHg-nY-Xyx">
+                                <rect key="frame" x="51" y="103" width="104" height="187"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="RJ45_T568B_ST" translatesAutoresizingMaskIntoConstraints="NO" id="hEf-Tc-UIC">
+                                <rect key="frame" x="219" y="103" width="104" height="187"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="RJ45_T568A_CR" translatesAutoresizingMaskIntoConstraints="NO" id="oJm-HG-ASE">
+                                <rect key="frame" x="51" y="377" width="104" height="187"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="RJ45_T568B_CR" translatesAutoresizingMaskIntoConstraints="NO" id="Rtg-EH-Hb1">
+                                <rect key="frame" x="219" y="377" width="104" height="187"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.81176470590000005" green="0.76862745099999996" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="S73-Xs-8HA"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sYL-Yc-GPU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-847" y="1576"/>
+        </scene>
+        <!--SecondCP View Controller-->
+        <scene sceneID="Mdh-vT-A8f">
+            <objects>
+                <viewController storyboardIdentifier="Dsub9InfoView" id="0fv-aZ-26p" customClass="SecondCPViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5nM-V0-bB7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Dsub9_male" translatesAutoresizingMaskIntoConstraints="NO" id="fgw-71-IbA">
+                                <rect key="frame" x="91" y="126" width="193" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Dsub9_female" translatesAutoresizingMaskIntoConstraints="NO" id="CTi-B9-RAp">
+                                <rect key="frame" x="91" y="404" width="193" height="92"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.81176470590000005" green="0.76862745099999996" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="ecw-EK-DP4"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gPy-qT-goE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="95" y="1576"/>
         </scene>
         <!--Setting-->
         <scene sceneID="gXr-NR-70o">
@@ -496,6 +565,12 @@
     <resources>
         <image name="Array" width="48" height="48"/>
         <image name="Clock" width="48" height="48"/>
+        <image name="Dsub9_female" width="191" height="91"/>
+        <image name="Dsub9_male" width="193" height="92"/>
+        <image name="RJ45_T568A_CR" width="104" height="187"/>
+        <image name="RJ45_T568A_ST" width="104" height="187"/>
+        <image name="RJ45_T568B_CR" width="104" height="187"/>
+        <image name="RJ45_T568B_ST" width="104" height="187"/>
         <image name="iEPICS" width="100" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>

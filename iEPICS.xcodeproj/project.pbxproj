@@ -26,6 +26,9 @@
 		4D6B004B1FD6541E004B5A7E /* libCom.3.16.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4D6B004E1FD6543B004B5A7E /* libca.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */; };
 		4D6B004F1FD6543B004B5A7E /* libCom.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */; };
+		4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */; };
+		4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906820386CF100B5E01B /* SecondCPViewController.swift */; };
+		4DCA906B20386D0A00B5E01B /* FirstCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */; };
 		4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */; };
 		4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C571FC693E90003FC01 /* DataDrawView.swift */; };
 		4DF79C5C1FC695EB0003FC01 /* DataBrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */; };
@@ -72,6 +75,9 @@
 		4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libCom.3.16.1.dylib; sourceTree = "<group>"; };
 		4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libca.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libca.3.16.1.dylib"; sourceTree = "<group>"; };
 		4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libCom.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libCom.3.16.1.dylib"; sourceTree = "<group>"; };
+		4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CableInfoPageViewController.swift; sourceTree = "<group>"; };
+		4DCA906820386CF100B5E01B /* SecondCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCPViewController.swift; sourceTree = "<group>"; };
+		4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCPViewController.swift; sourceTree = "<group>"; };
 		4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserViewController.swift; sourceTree = "<group>"; };
 		4DF79C571FC693E90003FC01 /* DataDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDrawView.swift; sourceTree = "<group>"; };
 		4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserModel.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		4D4D76A01FA97D51000BCAD1 /* iEPICS */ = {
 			isa = PBXGroup;
 			children = (
+				4DCA906320386C0700B5E01B /* CableInformaion */,
 				4DF79C5F1FC6A3890003FC01 /* NewElement */,
 				4DF79C541FC692A60003FC01 /* DataBrowser */,
 				4D4D76C11FA97F16000BCAD1 /* Setting */,
@@ -176,6 +183,16 @@
 				4D4D76C81FA97F8D000BCAD1 /* SettingViewController.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		4DCA906320386C0700B5E01B /* CableInformaion */ = {
+			isa = PBXGroup;
+			children = (
+				4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */,
+				4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */,
+				4DCA906820386CF100B5E01B /* SecondCPViewController.swift */,
+			);
+			path = CableInformaion;
 			sourceTree = "<group>";
 		};
 		4DF79C541FC692A60003FC01 /* DataBrowser */ = {
@@ -278,13 +295,16 @@
 				4D4D77141FA9942E000BCAD1 /* ChannelAccessNotification.swift in Sources */,
 				4D258B171FCF93F9004083B2 /* ArrayTableViewCell.swift in Sources */,
 				4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */,
+				4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */,
 				4D4D76C71FA97F83000BCAD1 /* MonitoringViewController.swift in Sources */,
 				4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */,
 				4D4D76BF1FA97F04000BCAD1 /* MainMenuViewController.swift in Sources */,
 				4D4D771A1FA9A65C000BCAD1 /* NewElementViewController.swift in Sources */,
 				4D4D76C51FA97F6F000BCAD1 /* ChildMonitoringTableViewCell.swift in Sources */,
 				4D4D76A21FA97D51000BCAD1 /* AppDelegate.swift in Sources */,
+				4DCA906B20386D0A00B5E01B /* FirstCPViewController.swift in Sources */,
 				4DF79C5C1FC695EB0003FC01 /* DataBrowserModel.swift in Sources */,
+				4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */,
 				4D4D76C91FA97F8D000BCAD1 /* SettingViewController.swift in Sources */,
 				4D258B151FCF9300004083B2 /* ArrayTableViewController.swift in Sources */,
 			);
