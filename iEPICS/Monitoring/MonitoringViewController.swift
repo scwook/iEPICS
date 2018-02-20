@@ -87,11 +87,11 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                             cell.pvValueLabel.textColor = UIColor.orange
                         }
                         else {
-                            cell.pvValueLabel.textColor = UIColor.white
+                            cell.pvValueLabel.textColor = UIColor.black
                         }
 
                         cell.pvNameLabel.text = title
-                        cell.pvValueLabel.text = "Value is Empty"
+                        cell.pvValueLabel.text = "Empty"
                         
                         if( value.count != 0 ) {
                             cell.pvValueLabel.text = String(describing: value[0])
