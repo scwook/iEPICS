@@ -13,18 +13,28 @@ class ArrayTableViewController: UITableViewController {
     var pvDataArray = NSMutableArray()
     var pvName: String? = "Array Data Element"
     
+    let caObject = ChannelAccessClient.sharedObject()!
+
+    @IBOutlet weak var arrayTableView: UITableView!
+    
+    @IBAction func refreshTable(_ sender: UIRefreshControl) {
+        
+        print("refreshed")
+        arrayTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        
-        let backgroundImage = UIImage(named: "background")
-        let imageView = UIImageView(image: backgroundImage)
-        imageView.addSubview(blurEffectView)
-        
-        tableView.backgroundView = imageView
+//        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = view.bounds
+//
+//        let backgroundImage = UIImage(named: "background")
+//        let imageView = UIImageView(image: backgroundImage)
+//        imageView.addSubview(blurEffectView)
+//
+//        tableView.backgroundView = imageView
         
         self.title = pvName
     }

@@ -457,8 +457,8 @@
 				INFOPLIST_FILE = iEPICS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
-				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.0]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
-				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator11.0]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.2]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";
@@ -486,8 +486,8 @@
 				INFOPLIST_FILE = iEPICS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
-				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.0]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
-				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator11.0]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator11.2]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";

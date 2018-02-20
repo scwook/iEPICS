@@ -37,6 +37,7 @@ class CableInfoPageViewController: UIPageViewController, UIPageViewControllerDel
         pageControl.tintColor = UIColor.black
         pageControl.pageIndicatorTintColor = UIColor.white
         pageControl.currentPageIndicatorTintColor = UIColor.black
+        
         self.view.addSubview(pageControl)
         
     }
