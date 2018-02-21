@@ -381,6 +381,11 @@ static ChannelAccessNotification *notification;
     return address;
 }
 
+- (void)ChannelAccessSetEnvironment:(NSString *)envName key:(NSString *)value {
+    setenv("EPICS_CA_ADDRLLIST", "192.168.0.6", 1);
+}
+
+
 @end
 
 void connectionCallback( struct connection_handler_args cha) {
@@ -478,6 +483,7 @@ void eventCallbackString( evargs eha) {
             [myData.value addObject:[NSString stringWithUTF8String:pValue[i]]];
         }
         
+        myData.name = pname;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
         myData.alarmStatus = status;
@@ -520,7 +526,8 @@ void eventCallbackShort( evargs eha) {
         for(int i = 0; i < nElement; i++) {
             [myData.value addObject:[[NSNumber numberWithShort:pValue[i]] stringValue]];
         }
-
+        
+        myData.name = pname;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
         myData.alarmStatus = status;
@@ -564,6 +571,7 @@ void eventCallbackFloat( evargs eha) {
             [myData.value addObject:[[NSNumber numberWithFloat:pValue[i]] stringValue]];
         }
         
+        myData.name = pname;
         //myData.value = pvalue;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
@@ -608,6 +616,7 @@ void eventCallbackEnum( evargs eha) {
             [myData.value addObject:[[NSNumber numberWithInt:pValue[i]] stringValue]];
         }
         
+        myData.name = pname;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
         myData.alarmStatus = status;
@@ -651,6 +660,7 @@ void eventCallbackLong( evargs eha) {
             [myData.value addObject:[[NSNumber numberWithLong:pValue[i]] stringValue]];
         }
         
+        myData.name = pname;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
         myData.alarmStatus = status;
@@ -694,6 +704,7 @@ void eventCallbackDouble( evargs eha) {
             [myData.value addObject:[[NSNumber numberWithDouble:pValue[i]] stringValue]];
         }
         
+        myData.name = pname;
         myData.timeStamp = ptimestamp;
         myData.alarmSeverity = severity;
         myData.alarmStatus = status;

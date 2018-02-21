@@ -16,14 +16,16 @@ class ArrayTableViewController: UITableViewController {
     let caObject = ChannelAccessClient.sharedObject()!
     
     @IBAction func refreshControlTableView(_ sender: UIRefreshControl) {
-        self.tableView.reloadData()
-
+        pvDataArray = caObject.channelAccessGetArray()
+        tableView.reloadData()
+        
+        self.refreshControl?.endRefreshing()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
 //        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurEffectView.frame = view.bounds
@@ -36,6 +38,10 @@ class ArrayTableViewController: UITableViewController {
         
         self.title = pvName
 //        tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
+        
+        if let refreshNname = pvName {
+            caObject.channelAccessCreateChannel(refreshNname)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,5 +71,13 @@ class ArrayTableViewController: UITableViewController {
         }
         
         return UITableViewCell()
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait]
     }
 }

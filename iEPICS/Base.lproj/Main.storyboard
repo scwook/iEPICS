@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -586,10 +587,10 @@
             </objects>
             <point key="canvasLocation" x="1842" y="439"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Navigation Controller-->
         <scene sceneID="rTR-is-3xn">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ggg-Tt-q5i" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ggg-Tt-q5i" customClass="MainNavigationController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="df5-vq-LuZ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -618,7 +619,7 @@
         <image name="iEPICS" width="100" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dck-XA-d2z"/>
+        <segue reference="fYh-vg-6fm"/>
         <segue reference="APA-hH-wj0"/>
     </inferredMetricsTieBreakers>
 </document>

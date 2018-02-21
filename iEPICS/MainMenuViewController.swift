@@ -17,15 +17,12 @@ class MainMenuViewController: UIViewController {
 //    @IBOutlet weak var manuView: UIView!
 //    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var currentIPAddress: UILabel!
-    let blurFilter = CIFilter(name: "CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 10])
+//    let blurFilter = CIFilter(name: "CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 10])
     
     let caObject = ChannelAccessClient.sharedObject()!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.shouldRotate = false
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -120,6 +117,14 @@ class MainMenuViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait]
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

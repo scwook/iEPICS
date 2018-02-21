@@ -26,6 +26,7 @@
 		4D6B004B1FD6541E004B5A7E /* libCom.3.16.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4D6B004E1FD6543B004B5A7E /* libca.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */; };
 		4D6B004F1FD6543B004B5A7E /* libCom.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */; };
+		4DA9620B203DA8EA0021A11A /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */; };
 		4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */; };
 		4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906820386CF100B5E01B /* SecondCPViewController.swift */; };
 		4DCA906B20386D0A00B5E01B /* FirstCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */; };
@@ -75,6 +76,7 @@
 		4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libCom.3.16.1.dylib; sourceTree = "<group>"; };
 		4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libca.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libca.3.16.1.dylib"; sourceTree = "<group>"; };
 		4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libCom.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libCom.3.16.1.dylib"; sourceTree = "<group>"; };
+		4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CableInfoPageViewController.swift; sourceTree = "<group>"; };
 		4DCA906820386CF100B5E01B /* SecondCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCPViewController.swift; sourceTree = "<group>"; };
 		4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCPViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				4D4D76AA1FA97D51000BCAD1 /* LaunchScreen.storyboard */,
 				4D4D76AD1FA97D51000BCAD1 /* Info.plist */,
 				4D4D76BE1FA97F04000BCAD1 /* MainMenuViewController.swift */,
+				4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */,
 				4D4D77131FA9942E000BCAD1 /* ChannelAccessNotification.swift */,
 			);
 			path = iEPICS;
@@ -298,6 +301,7 @@
 				4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */,
 				4D4D76C71FA97F83000BCAD1 /* MonitoringViewController.swift in Sources */,
 				4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */,
+				4DA9620B203DA8EA0021A11A /* MainNavigationController.swift in Sources */,
 				4D4D76BF1FA97F04000BCAD1 /* MainMenuViewController.swift in Sources */,
 				4D4D771A1FA9A65C000BCAD1 /* NewElementViewController.swift in Sources */,
 				4D4D76C51FA97F6F000BCAD1 /* ChildMonitoringTableViewCell.swift in Sources */,
@@ -455,6 +459,7 @@
 					/Users/ctrluser/epics/R3.16.1/base/include/compiler/clang,
 				);
 				INFOPLIST_FILE = iEPICS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.2]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
@@ -484,6 +489,7 @@
 					/Users/ctrluser/epics/R3.16.1/base/include/compiler/clang,
 				);
 				INFOPLIST_FILE = iEPICS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
