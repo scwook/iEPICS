@@ -46,6 +46,14 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         CAAddressListTextField.text = autoAddressList
             
     }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait]
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

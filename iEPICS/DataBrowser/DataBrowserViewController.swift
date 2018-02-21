@@ -29,8 +29,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 
         caObject.channelAccessContextCreate()
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.shouldRotate = true
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        appDelegate.shouldRotate = true
         
         NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
         
@@ -259,5 +259,13 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             let newElementView: NewElementViewController = segue.destination as! NewElementViewController
             newElementView.delegate = self
         }
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait, .landscape]
     }
 }

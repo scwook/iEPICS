@@ -91,7 +91,7 @@ typedef struct {
 - (NSMutableArray *)ChannelAccessGetArray;
 - (unsigned long)ChannelAccessGetAvailableIndex;
 - (NSString *)ChannelAccessGetHostName:(chid)chan;
-- (long)ChannelAccessGetType:(chid)chan;
+//- (long)ChannelAccessGetType:(chid)chan;
 - (NSMutableArray *)ChannelAccessGetArrayData;
 - (void)ChannelAccessStatusCheck:(int)status;
 - (ChannelAccessData *)ChannelAccessGetCAData:(NSString *)pvName;
@@ -100,7 +100,7 @@ typedef struct {
 - (void)ChannelAccessArrayDataAddObject:(double)value;
 - (void)ChannelAccessAllClear;
 - (NSString *)ChannelAccessGetIPAddress;
-
+- (void)ChannelAccessSetEnvironment:(NSString *)envName key:(NSString *)value;
 
 @end
 
