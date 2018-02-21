@@ -14,14 +14,12 @@ class ArrayTableViewController: UITableViewController {
     var pvName: String? = "Array Data Element"
     
     let caObject = ChannelAccessClient.sharedObject()!
-
-    @IBOutlet weak var arrayTableView: UITableView!
     
-    @IBAction func refreshTable(_ sender: UIRefreshControl) {
-        
-        print("refreshed")
-        arrayTableView.reloadData()
+    @IBAction func refreshControlTableView(_ sender: UIRefreshControl) {
+        self.tableView.reloadData()
+
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +35,7 @@ class ArrayTableViewController: UITableViewController {
 //        tableView.backgroundView = imageView
         
         self.title = pvName
+//        tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
     }
 
     override func didReceiveMemoryWarning() {

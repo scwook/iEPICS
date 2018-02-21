@@ -210,8 +210,8 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                             let elementNumber = myData.elementCount
                             if( elementNumber > 1 ) {
                                 //pvDataArray = caObject.channelAccessGetArrayData()
-                                pvDataArray = myData.value as NSMutableArray
-                                self.performSegue(withIdentifier: "arrayTableViewController", sender: pvDataArray)
+//                                pvDataArray = myData.value as NSMutableArray
+                                self.performSegue(withIdentifier: "arrayTableViewController", sender: myData)
                             }
                         case 3:
                             break;
@@ -400,9 +400,13 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if segue.identifier == "arrayTableViewController" {
             let arrayTableView: ArrayTableViewController = segue.destination as! ArrayTableViewController
-            let array = sender as! NSMutableArray
+            //                                pvDataArray = myData.value as NSMutableArray
+            let myData = sender as! ChannelAccessData
+            let array = myData.value as NSMutableArray
+            let processVariableName = myData.name as String
             
             arrayTableView.pvDataArray = array
+            arrayTableView.pvName = processVariableName
         }
     }
 }

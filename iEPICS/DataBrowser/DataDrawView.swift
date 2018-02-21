@@ -76,7 +76,7 @@ class DataDrawView: UIView {
                     let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
                     let circle = UIBezierPath(arcCenter: probeLocation, radius: 5, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
-                    UIColor.green.setFill()
+                    UIColor.red.setFill()
                     circle.fill()
                     
                     let valueString = String(describing: data[probe])
@@ -111,14 +111,14 @@ class DataDrawView: UIView {
             plot.addLine(to: nextPoint)
         }
         
-        UIColor.white.set()
+        UIColor.black.set()
         plot.lineJoinStyle = .round
         plot.lineWidth = 2
         plot.stroke()
     }
     
     public func DrawNavigationLine(_ location: CGPoint) -> Void {
-        let pattern: Array<CGFloat> = [2, 5]
+        let pattern: Array<CGFloat> = [5, 5]
         let probeLine = UIBezierPath()
         probeLine.move(to: CGPoint(x: location.x, y: 0))
         probeLine.addLine(to: CGPoint(x: location.x, y: self.bounds.height))

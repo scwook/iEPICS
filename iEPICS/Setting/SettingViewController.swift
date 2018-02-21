@@ -8,14 +8,21 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var CAEnvironmentView: UIView!
     @IBOutlet weak var CAAddressListTextField: UITextField! {
         didSet {
-            print(CAAddressListTextField.text)
-            UserDefaults.standard.set(CAAddressListTextField.text, forKey: "CAEnvAddressList")
+            CAAddressListTextField.delegate = self
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print(CAAddressListTextField.text)
+        UserDefaults.standard.set(CAAddressListTextField.text, forKey: "CAEnvAddressList")
+        
+        self.view.endEditing(true)
+        return true
     }
     
     @IBAction func CAAutoListSwitchAction(_ sender: UISwitch) {
@@ -32,6 +39,12 @@ class SettingViewController: UIViewController {
         CAEnvironmentView.layer.cornerRadius = 5
         CAEnvironmentView.layer.borderWidth = 1
         CAEnvironmentView.layer.borderColor = UIColor.black.cgColor
+        
+        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnalbe")
+        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
+        
+        CAAddressListTextField.text = autoAddressList
+            
     }
 
     override func didReceiveMemoryWarning() {
