@@ -54,6 +54,11 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
        // DispatchQueue.global().async {
 
             let elementCount = self.caObject.channelAccessCreateChannel(pvName)
+        
+        if(elementCount < 1) {
+            return
+        }
+                
             dataBrowserModel.elementCount = elementCount
             
             if( elementCount > 1 ) {
@@ -243,6 +248,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         if let drawView = dataDrawView {
             drawView.data.removeAll()
             drawView.time.removeAll()
+            drawView.arrayData.removeAll()
         }
         
         pvValueArray.removeAllObjects()

@@ -10,6 +10,8 @@ import UIKit
 
 class SettingViewController: UIViewController, UITextFieldDelegate {
 
+    let caObject = ChannelAccessClient.sharedObject()!
+
     @IBOutlet weak var CAEnvironmentView: UIView!
     @IBOutlet weak var CAAddressListTextField: UITextField! {
         didSet {
@@ -18,15 +20,13 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(CAAddressListTextField.text)
         UserDefaults.standard.set(CAAddressListTextField.text, forKey: "CAEnvAddressList")
-        
         self.view.endEditing(true)
         return true
     }
     
     @IBAction func CAAutoListSwitchAction(_ sender: UISwitch) {
-        print(sender.isOn)
+//        print(sender.isOn)
 
         UserDefaults.standard.set(sender.isOn, forKey: "CAEnvAutoAddressEnable")
     }
@@ -44,6 +44,9 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         
         CAAddressListTextField.text = autoAddressList
+        
+        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: "false")
+        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: "10.1.4.63")
             
     }
     

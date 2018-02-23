@@ -382,7 +382,10 @@ static ChannelAccessNotification *notification;
 }
 
 - (void)ChannelAccessSetEnvironment:(NSString *)envName key:(NSString *)value {
-    setenv("EPICS_CA_ADDRLLIST", "192.168.0.6", 1);
+    const char *environmentName = [envName UTF8String];
+    const char *environmentValue = [value UTF8String];
+    setenv("EPICS_CA_ADDR_LIST", "10.1.4.63", 1);
+
 }
 
 

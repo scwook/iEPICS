@@ -11,11 +11,15 @@ protocol NewElementDataDelegate {
     func addNewProcessVariable(pvName:String)
 }
 
-class NewElementViewController: UIViewController {
+class NewElementViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var addNewPVLabel: UITextField!
-    @IBOutlet weak var newPVTextField: UITextField!
+    @IBOutlet weak var newPVTextField: UITextField! {
+        didSet {
+            newPVTextField.delegate = self
+        }
+    }
     
     let caErrorNotification = Notification.Name("NewElementCallbackNotification")
 
@@ -40,6 +44,11 @@ class NewElementViewController: UIViewController {
     
     @IBAction func cancleButton(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
     
     override func viewDidLoad() {
