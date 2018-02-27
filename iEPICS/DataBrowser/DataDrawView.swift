@@ -16,6 +16,8 @@ class DataDrawView: UIView {
     var probeIndex: Int? = nil
     var arrayData = [Double]()
     
+    let attributes = [NSAttributedStringKey.foregroundColor: UIColor.red, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
+
     //var xAxisScale: CGFloat = 100
     //var originPixel: CGPoint = CGPoint(x: 0, y: 0)
     //var pixelPerDeltaT = 10
@@ -74,13 +76,15 @@ class DataDrawView: UIView {
                 position.insert(Int(dataLocation.x), at: 0)
                 if let probe = probeIndex, i == probeIndex {
                     let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
-                    let circle = UIBezierPath(arcCenter: probeLocation, radius: 5, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
+                    let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
-                    UIColor.red.setFill()
+                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).setFill()
                     circle.fill()
                     
+                    
+                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
                     let valueString = String(describing: data[probe])
-                    valueString.draw(at: probeLocation, withAttributes: nil)
+                    valueString.draw(at: CGPoint(x: probeLocation.x + 12, y: probeLocation.y - 12), withAttributes: attributes)
                     
                 }
                 
@@ -91,7 +95,7 @@ class DataDrawView: UIView {
             
             UIColor.black.set()
             plot.lineJoinStyle = .round
-            plot.lineWidth = 2
+            plot.lineWidth = 2.5
             plot.stroke()
         }
         
@@ -123,7 +127,7 @@ class DataDrawView: UIView {
         probeLine.move(to: CGPoint(x: location.x, y: 0))
         probeLine.addLine(to: CGPoint(x: location.x, y: self.bounds.height))
         probeLine.setLineDash(pattern, count: 2, phase: 0)
-        UIColor.red.set()
+        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
         probeLine.lineWidth = 2.0
         probeLine.stroke()
         

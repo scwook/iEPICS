@@ -10,10 +10,19 @@ import UIKit
 
 class MainNavigationController: UINavigationController {
 
+    let caObject = ChannelAccessClient.sharedObject()!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         // Do any additional setup after loading the view.
+        
+        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAutoAddressEnable")
+        let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
+        
+        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
+        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: addressList)
     }
 
     override func didReceiveMemoryWarning() {

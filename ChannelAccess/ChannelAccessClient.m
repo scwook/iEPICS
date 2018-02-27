@@ -103,6 +103,8 @@ static ChannelAccessNotification *notification;
 
 - (void)ChannelAccessContextCreate {
     int status = ECA_NORMAL;
+    
+    [self ChannelAccessContexDestroy];
 
     if( ca_current_context() == NULL ) {
         status = ca_context_create(ca_enable_preemptive_callback);
@@ -384,10 +386,14 @@ static ChannelAccessNotification *notification;
 - (void)ChannelAccessSetEnvironment:(NSString *)envName key:(NSString *)value {
     const char *environmentName = [envName UTF8String];
     const char *environmentValue = [value UTF8String];
-    setenv("EPICS_CA_ADDR_LIST", "10.1.4.63", 1);
-
+    
+    setenv(environmentName, environmentValue, 1);
+//    setenv("EPICS_CA_ADDR_LIST", "10.1.4.63", 1);
+    
+//    NSLog(@"addrlist %s", getenv("EPICS_CA_ADDR_LIST"));
+//    NSLog(@"auto %s", getenv("EPICS_CA_AUTO_ADDR_LIST"));
+    
 }
-
 
 @end
 

@@ -35,8 +35,8 @@ class CableInfoPageViewController: UIPageViewController, UIPageViewControllerDel
         pageControl.numberOfPages = orderedViewControllers.count
         pageControl.currentPage = 0
         pageControl.tintColor = UIColor.black
-        pageControl.pageIndicatorTintColor = UIColor.white
-        pageControl.currentPageIndicatorTintColor = UIColor.black
+        pageControl.pageIndicatorTintColor = UIColor.black
+        pageControl.currentPageIndicatorTintColor = UIColor(red: 0.59, green: 0.0, blue: 0.0, alpha: 1.0)
         
         self.view.addSubview(pageControl)
         

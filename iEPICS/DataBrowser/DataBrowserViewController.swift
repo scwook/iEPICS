@@ -32,18 +32,31 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        appDelegate.shouldRotate = true
         
-        NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
-        
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         
-        dataBrowserModel.drawViewSize = dataDrawView.frame
         dataBrowserModel.axisViewSize = axisDrawView.frame
+        dataBrowserModel.drawViewSize = dataDrawView.frame
         
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
+
         self.title = pv
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+        
+        dataBrowserModel.axisViewSize = axisDrawView.frame
+        
+        //dataDrawView.frame.size.width = axisDrawView.frame.size.width
+        dataDrawView.frame.size.height = axisDrawView.frame.size.height - 26
+        dataBrowserModel.drawViewSize = dataDrawView.frame
+        
+    }
+
     private func startDataBrowser(pvName: String) -> Void {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         
@@ -114,7 +127,9 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         dataBrowserModel.axisViewSize = axisDrawView.frame
         
         dataDrawView.setNeedsDisplay()
-        axisDrawView.setNeedsDisplay()    }
+        axisDrawView.setNeedsDisplay()
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

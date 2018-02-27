@@ -13,22 +13,32 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     let caObject = ChannelAccessClient.sharedObject()!
 
     @IBOutlet weak var CAEnvironmentView: UIView!
+    @IBOutlet weak var autoAddrListSwitch: UISwitch! {
+        didSet{
+            autoAddrListSwitch.setOn(UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable"), animated: false)
+        }
+    }
+    
     @IBOutlet weak var CAAddressListTextField: UITextField! {
         didSet {
             CAAddressListTextField.delegate = self
+            CAAddressListTextField.text = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        UserDefaults.standard.set(CAAddressListTextField.text, forKey: "CAEnvAddressList")
+        
+        let caAddressList = textField.text
+        UserDefaults.standard.set(caAddressList, forKey: "CAEnvAddressList")
+        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: caAddressList)
+        
         self.view.endEditing(true)
         return true
     }
     
     @IBAction func CAAutoListSwitchAction(_ sender: UISwitch) {
-//        print(sender.isOn)
-
-        UserDefaults.standard.set(sender.isOn, forKey: "CAEnvAutoAddressEnable")
+        UserDefaults.standard.set(autoAddrListSwitch.isOn, forKey: "CAEnvAutoAddressEnable")
+        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: String(autoAddrListSwitch.isOn))
     }
     
     override func viewDidLoad() {
@@ -40,14 +50,15 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         CAEnvironmentView.layer.borderWidth = 1
         CAEnvironmentView.layer.borderColor = UIColor.black.cgColor
         
-        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnalbe")
-        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
+//        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable")
+//        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         
-        CAAddressListTextField.text = autoAddressList
+//        autoAddrListSwitch.setOn(autoAddressEnalbeState, animated: false)
+//        CAAddressListTextField.text = autoAddressList
         
-        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: "false")
-        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: "10.1.4.63")
-            
+//        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: "false")
+//        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: "10.1.4.63")
+        
     }
     
     override var shouldAutorotate: Bool {
