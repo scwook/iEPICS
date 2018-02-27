@@ -27,7 +27,7 @@ class MainMenuViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-       
+        
         monitoringButton.setTitle(nil, for: .normal)
         monitoringButton.setImage(UIImage(named: "Monitoring"), for: .normal)
         
@@ -39,11 +39,6 @@ class MainMenuViewController: UIViewController {
         
         settingButton.setTitle(nil, for: .normal)
         settingButton.setImage(UIImage(named: "Setting"), for: .normal)
-        
-        var ipAddress: String?
-        ipAddress = caObject.channelAccessGetIPAddress()
-        
-        currentIPAddress.text = ipAddress
         
 //        let backgroundImage = UIImage(named: "background3")!
 //        
@@ -116,7 +111,14 @@ class MainMenuViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        var ipAddress: String?
+        ipAddress = caObject.channelAccessGetIPAddress()
+        
+        currentIPAddress.text = ipAddress
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }

@@ -42,11 +42,11 @@ static ChannelAccessNotification *notification;
         pvArrayData = [[NSMutableArray alloc] init];
         
         notification = [[ChannelAccessNotification alloc] init];
-        NSLog(@"Create ChannelAccess");
-        
-        NSString *ipaddr = [self ChannelAccessGetIPAddress];
-        
-        NSLog(@"%@", ipaddr);
+//        NSLog(@"Create ChannelAccess");
+//
+//        NSString *ipaddr = [self ChannelAccessGetIPAddress];
+//
+//        NSLog(@"%@", ipaddr);
     }
     return self;
 }
@@ -104,7 +104,7 @@ static ChannelAccessNotification *notification;
 - (void)ChannelAccessContextCreate {
     int status = ECA_NORMAL;
     
-    [self ChannelAccessContexDestroy];
+//    [self ChannelAccessContexDestroy];
 
     if( ca_current_context() == NULL ) {
         status = ca_context_create(ca_enable_preemptive_callback);
@@ -355,7 +355,8 @@ static ChannelAccessNotification *notification;
 
 - (NSString *)ChannelAccessGetIPAddress {
     
-    NSString *address = @"error";
+    NSString *address = @"WIFI ERROR";
+
     struct ifaddrs *interfaces = NULL;
     struct ifaddrs *temp_addr = NULL;
     int success = 0;

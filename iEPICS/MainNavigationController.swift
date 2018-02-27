@@ -14,11 +14,15 @@ class MainNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+     
         // Do any additional setup after loading the view.
         
-        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAutoAddressEnable")
+        var autoAddressList = "NO"
+        
+        if UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
+            autoAddressList = "YES"
+        }
+        
         let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         
         caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)

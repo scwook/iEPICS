@@ -27,8 +27,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        caObject.channelAccessContextCreate()
-
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        appDelegate.shouldRotate = true
         
@@ -66,14 +64,14 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         
        // DispatchQueue.global().async {
 
-            let elementCount = self.caObject.channelAccessCreateChannel(pvName)
+        let elementCount = self.caObject.channelAccessCreateChannel(pvName)
         
         if(elementCount < 1) {
             return
         }
                 
             dataBrowserModel.elementCount = elementCount
-            
+        
             if( elementCount > 1 ) {
 //                while true {
                 drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -259,6 +257,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     }
     
     func addNewProcessVariable(pvName: String) {
+
+        caObject.channelAccessContextCreate()
 
         if let drawView = dataDrawView {
             drawView.data.removeAll()

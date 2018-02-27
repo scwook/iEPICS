@@ -52,14 +52,14 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         //caObject.channelAccessSetDictionary(pvNameDictionary)
         //caObject.channelAccessSetDictionaryIndex(pvNameDictionaryIndex)
     
-        //loadPVListFromFile()
+        loadPVListFromFile()
         
-        for i in 1 ... 100 {
-            let name = "PI1:ai" + String(i)
-            addNewProcessVariable(pvName: name)
-        }
-
-        monitoringTableView.reloadData()
+//        for i in 1 ... 100 {
+//            let name = "PI1:ai" + String(i)
+//            addNewProcessVariable(pvName: name)
+//        }
+//
+//        monitoringTableView.reloadData()
     }
     
     

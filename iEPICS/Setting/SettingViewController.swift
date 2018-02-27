@@ -37,8 +37,14 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func CAAutoListSwitchAction(_ sender: UISwitch) {
+        var autoAddressList = "NO"
+        
+        if autoAddrListSwitch.isOn {
+            autoAddressList = "YES"
+        }
+        
         UserDefaults.standard.set(autoAddrListSwitch.isOn, forKey: "CAEnvAutoAddressEnable")
-        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: String(autoAddrListSwitch.isOn))
+        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
     }
     
     override func viewDidLoad() {
