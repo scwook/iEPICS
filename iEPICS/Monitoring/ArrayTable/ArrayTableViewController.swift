@@ -41,6 +41,8 @@ class ArrayTableViewController: UITableViewController {
         
         if let refreshNname = pvName {
             caObject.channelAccessCreateChannel(refreshNname)
+            pvDataArray = caObject.channelAccessGetArray()
+            tableView.reloadData()
         }
     }
 

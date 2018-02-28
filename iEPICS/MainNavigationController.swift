@@ -17,16 +17,17 @@ class MainNavigationController: UINavigationController {
      
         // Do any additional setup after loading the view.
         
-        var autoAddressList = "NO"
+        var autoAddressList = "YES"
         
-        if UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
-            autoAddressList = "YES"
+        if !UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
+            autoAddressList = "NO"
         }
         
-        let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
-        
         caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
-        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: addressList)
+
+        if let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList") {
+            caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: addressList)
+        }
     }
 
     override func didReceiveMemoryWarning() {

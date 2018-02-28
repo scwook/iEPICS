@@ -25,7 +25,7 @@ class DataBrowserModel {
     public var timeRange: CGFloat = 60
     public var timeOffset: TimeInterval = 0
     public var value1: CGFloat = 0
-    public var value2: CGFloat = 10
+    public var value2: CGFloat = 9
     public var drawViewSize: CGRect = CGRect.zero
     public var axisViewSize: CGRect = CGRect.zero
     

@@ -458,7 +458,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Process Variable Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elF-OH-FJk">
-                                                    <rect key="frame" x="33" y="11" width="177" height="21"/>
+                                                    <rect key="frame" x="24" y="11" width="177" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -467,10 +467,10 @@
                                                     <rect key="frame" x="352" y="13" width="16" height="16"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Array" translatesAutoresizingMaskIntoConstraints="NO" id="Hv6-dK-Pdp">
-                                                    <rect key="frame" x="329" y="14" width="14" height="14"/>
+                                                    <rect key="frame" x="331" y="14" width="14" height="14"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HP7-da-QWR">
-                                                    <rect key="frame" x="279" y="11" width="42" height="21"/>
+                                                    <rect key="frame" x="281" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -478,13 +478,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="6fe-Dm-iMy" secondAttribute="trailing" constant="7" id="2aK-dJ-3oM"/>
-                                                <constraint firstItem="elF-OH-FJk" firstAttribute="leading" secondItem="7gS-E3-J8D" secondAttribute="leading" constant="33" id="35s-aN-0oI"/>
+                                                <constraint firstItem="elF-OH-FJk" firstAttribute="leading" secondItem="7gS-E3-J8D" secondAttribute="leading" constant="24" id="35s-aN-0oI"/>
                                                 <constraint firstItem="elF-OH-FJk" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="3wf-Wc-h9T"/>
-                                                <constraint firstItem="6fe-Dm-iMy" firstAttribute="leading" secondItem="Hv6-dK-Pdp" secondAttribute="trailing" constant="9" id="NtK-Ni-HC6"/>
                                                 <constraint firstItem="HP7-da-QWR" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="YAo-E0-zrZ"/>
                                                 <constraint firstItem="6fe-Dm-iMy" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="dNi-BG-Xg1"/>
+                                                <constraint firstAttribute="trailing" secondItem="Hv6-dK-Pdp" secondAttribute="trailing" constant="30" id="elM-Hu-oco"/>
                                                 <constraint firstItem="Hv6-dK-Pdp" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="iWS-vc-FHb"/>
-                                                <constraint firstItem="Hv6-dK-Pdp" firstAttribute="leading" secondItem="HP7-da-QWR" secondAttribute="trailing" constant="8" id="yha-Ym-PN1"/>
+                                                <constraint firstAttribute="trailing" secondItem="HP7-da-QWR" secondAttribute="trailing" constant="52" id="w2P-j8-iJy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.81176470590000005" green="0.76862745099999996" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -509,7 +509,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Element" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="815-hW-LC5">
-                                                    <rect key="frame" x="40" y="5" width="99" height="18"/>
+                                                    <rect key="frame" x="34" y="5" width="99" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -517,7 +517,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="815-hW-LC5" firstAttribute="centerY" secondItem="5O9-6H-N2G" secondAttribute="centerY" id="2Dq-x3-SqH"/>
-                                                <constraint firstItem="815-hW-LC5" firstAttribute="leading" secondItem="5O9-6H-N2G" secondAttribute="leading" constant="40" id="2bg-Jh-Xch"/>
+                                                <constraint firstItem="815-hW-LC5" firstAttribute="leading" secondItem="5O9-6H-N2G" secondAttribute="leading" constant="34" id="2bg-Jh-Xch"/>
                                                 <constraint firstItem="GVf-Ck-bdE" firstAttribute="centerY" secondItem="5O9-6H-N2G" secondAttribute="centerY" id="4Op-DF-9YN"/>
                                                 <constraint firstAttribute="trailing" secondItem="GVf-Ck-bdE" secondAttribute="trailing" constant="15" id="c6V-VE-r1j"/>
                                             </constraints>

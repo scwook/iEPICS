@@ -402,10 +402,10 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
             let arrayTableView: ArrayTableViewController = segue.destination as! ArrayTableViewController
             //                                pvDataArray = myData.value as NSMutableArray
             let myData = sender as! ChannelAccessData
-            let array = myData.value as NSMutableArray
+//            let array = myData.value as NSMutableArray
             let processVariableName = myData.name as String
             
-            arrayTableView.pvDataArray = array
+//            arrayTableView.pvDataArray = array
             arrayTableView.pvName = processVariableName
         }
     }

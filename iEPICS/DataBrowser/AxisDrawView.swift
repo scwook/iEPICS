@@ -24,7 +24,8 @@ class AxisDrawView: UIView {
 
         if( dataBrowserModel.elementCount > 1 ) {
             DrawArrayXAxisTick()
-            DrawArrayYAxisTick()
+//            DrawArrayYAxisTick()
+            testDrawY()
         }
         else {
             DrawXAxisTick()
