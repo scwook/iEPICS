@@ -25,7 +25,7 @@ class DataBrowserModel {
     public var timeRange: CGFloat = 60
     public var timeOffset: TimeInterval = 0
     public var value1: CGFloat = 0
-    public var value2: CGFloat = 100
+    public var value2: CGFloat = 10
     public var drawViewSize: CGRect = CGRect.zero
     public var axisViewSize: CGRect = CGRect.zero
     
@@ -63,7 +63,7 @@ class DataBrowserModel {
         
         var rescaleRange = valueRange
         var count = 0;
-        var tickRange = 1
+        var tickRange: CGFloat = 1.0
         var numberOfTick: CGFloat = 1
         
         if (valueRange >= 1) {
@@ -72,11 +72,11 @@ class DataBrowserModel {
                 count += 1
             }
             
-            let tickScale = 10 * (count - 1)
+            let tickScale = pow(10.0, CGFloat(count - 1))
 
             for i in tickReference {
-                tickRange = i * tickScale
-                numberOfTick = valueRange / CGFloat(tickRange)
+                tickRange = CGFloat(i) * tickScale
+                numberOfTick = valueRange / tickRange
                 
                 if( numberOfTick <= dyNumberOfMaxTick ) {
                     break
@@ -84,10 +84,24 @@ class DataBrowserModel {
             }
         }
         else {
+            while(rescaleRange <= 1) {
+                rescaleRange *= 10
+                count -= 1
+            }
             
+            let tickScale = pow(10.0, CGFloat(count))
+            
+            for i in tickReference {
+                tickRange = CGFloat(i) * tickScale
+                numberOfTick = valueRange / tickRange
+                
+                if( numberOfTick <= dyNumberOfMaxTick ) {
+                    break
+                }
+            }
         }
         
-        return (dy: pixelPerValue, scale: CGFloat(tickRange), exp: count - 1)
+        return (dy: pixelPerValue, scale: CGFloat(tickRange) / 5.0, exp: count - 1)
         
     }
     

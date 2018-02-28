@@ -138,6 +138,40 @@ class AxisDrawView: UIView {
         let value1 = dataBrowserModel.value1
         
         var legendLabelScale = tickInfo.scale
+        // Exponential Express
+        let baseLabel = "10"
+        let exponentialLabel = String(tickInfo.exp)
+        let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+//        baseLabel.draw(at: CGPoint(x: 5, y: 10), withAttributes: nil)
+
+        if( tickInfo.exp > 3 ) {
+            for _ in 0 ..< tickInfo.exp {
+                legendLabelScale /= 10
+            }
+            
+            legendLabelScale = floor(legendLabelScale * 100) / 100
+            
+//            let baseLabel = "10"
+//            let exponentialLabel = String(tickInfo.exp)
+//            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+            
+            baseLabel.draw(at: CGPoint(x: 5, y: 12), withAttributes: nil)
+            exponentialLabel.draw(at: CGPoint(x: 10, y: 5), withAttributes: attributes)
+        }
+        else if( tickInfo.exp < -3 ) {
+            for _ in tickInfo.exp ..< -1  {
+                legendLabelScale *= 10
+            }
+            
+            legendLabelScale = floor(legendLabelScale * 100) / 100
+            
+//            let baseLabel = "10"
+//            let exponentialLabel = String(tickInfo.exp)
+//            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+            
+            baseLabel.draw(at: CGPoint(x: 5, y: 12), withAttributes: nil)
+            exponentialLabel.draw(at: CGPoint(x: 10, y: 5), withAttributes: attributes)
+        }
         
         // Gesture Moving Value
         let offset = value1 * tickInfo.dy
@@ -489,10 +523,11 @@ class AxisDrawView: UIView {
         return pixel
     }
 }
+//
+//extension CGFloat {
+//    func roundTo(places:Int) -> CGFloat {
+//        let divisor = pow(10.0, CGFloat(places))
+//        return (self * divisor).rounded() / divisor
+//    }
+//}
 
-extension CGFloat {
-    func roundTo(places:Int) -> CGFloat {
-        let divisor = pow(10.0, CGFloat(places))
-        return (self * divisor).rounded() / divisor
-    }
-}
