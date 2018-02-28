@@ -1,4 +1,4 @@
-//
+    //
 //  AxisDrawView.swift
 //  iEPICS
 //
@@ -28,7 +28,8 @@ class AxisDrawView: UIView {
         }
         else {
             DrawXAxisTick()
-            DrawYAxisTick()
+//            DrawYAxisTick()
+            testDrawY()
         }
     }
     
@@ -125,6 +126,94 @@ class AxisDrawView: UIView {
         let dayString = formatter.string(from: timeString)
         dayString.draw(at: CGPoint(x: 5, y: movePositionY + CGFloat(10)), withAttributes: legendColorAttributes)
     }
+    
+    private func testDrawY() {
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+        let tickPath = UIBezierPath()
+        let tickInfo = dataBrowserModel.test()
+        
+        let viewSize = dataBrowserModel.drawViewSize
+        let movePositionX = viewSize.origin.x
+        var originY = viewSize.origin.y + viewSize.height
+        let value1 = dataBrowserModel.value1
+        
+        var legendLabelScale = tickInfo.scale
+        
+        // Gesture Moving Value
+        let offset = value1 * tickInfo.dy
+        originY += offset
+        
+        let context = UIGraphicsGetCurrentContext()!
+        
+        //var idx = 0
+        var count = 0
+        while( originY > viewSize.origin.y ) {
+            
+            if( originY < viewSize.origin.y + viewSize.height ) {
+                if( count % 5 == 0) {
+                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+                    
+                    //                    let legendLabel = String(format: "%.2f", CGFloat(count) * legendLabelScale)
+                    let legendLabel = String(describing: CGFloat(count) * legendLabelScale)
+                    let size: CGSize = legendLabel.size(withAttributes: nil)
+                    
+                    context.saveGState()
+                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+                    context.rotate(by: CGFloat(-Double.pi / 2))
+                    context.setFillColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
+                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+                    context.restoreGState()
+                    //idx += 1
+                }
+                else {
+                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+                }
+            }
+            
+            originY -= tickInfo.dy * tickInfo.scale
+            count += 1
+        }
+        
+        originY = viewSize.origin.y + viewSize.height
+        originY += offset + tickInfo.dy * tickInfo.scale
+        
+        count = 1
+        //idx = 0
+        while( originY < viewSize.origin.y + viewSize.height) {
+            if( originY > viewSize.origin.y) {
+                if( count % 5 == 0) {
+                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+                    
+                    let legendLabel = String(describing: CGFloat(-count) * legendLabelScale)
+                    let size: CGSize = legendLabel.size(withAttributes: nil)
+                    
+                    context.saveGState()
+                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+                    context.rotate(by: CGFloat(-Double.pi / 2))
+                    
+                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+                    
+                    context.restoreGState()
+                    //idx += 1
+                }
+                else {
+                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+                }
+            }
+            
+            originY += tickInfo.dy * tickInfo.scale
+            count += 1
+        }
+        
+        tickPath.lineWidth = axisLineWidth
+        UIColor.black.set()
+        tickPath.stroke()
+    }
+    
     
     private func DrawYAxisTick() {
         

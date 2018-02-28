@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iEPICS/DataBrowser/AxisDrawView.swift"
-            timestampString = "541414151.361062"
+            timestampString = "541471914.499207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "DrawArrayXAxisTick()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChannelAccess/ChannelAccessClient.m"
-            timestampString = "541414151.3616329"
+            timestampString = "541471914.499737"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "445"
@@ -41,28 +41,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iEPICS/DataBrowser/AxisDrawView.swift"
-            timestampString = "541414151.3618031"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "DrawYAxisTick()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "iEPICS/DataBrowser/DataBrowserModel.swift"
-            timestampString = "541414151.3620141"
+            timestampString = "541471914.4999059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "getDyInfoValue()"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iEPICS/DataBrowser/AxisDrawView.swift"
-            timestampString = "541414151.362172"
+            timestampString = "541471914.5002559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "DrawYAxisTick()"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "testDrawY()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iEPICS/DataBrowser/AxisDrawView.swift"
-            timestampString = "541414151.362637"
+            timestampString = "541471914.500455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "DrawYAxisTick()"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "testDrawY()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,13 +89,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iEPICS/DataBrowser/AxisDrawView.swift"
-            timestampString = "541414235.767884"
+            filePath = "iEPICS/DataBrowser/DataBrowserModel.swift"
+            timestampString = "541471914.500632"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "DrawYAxisTick()"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "test()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

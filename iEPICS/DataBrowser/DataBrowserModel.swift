@@ -25,7 +25,7 @@ class DataBrowserModel {
     public var timeRange: CGFloat = 60
     public var timeOffset: TimeInterval = 0
     public var value1: CGFloat = 0
-    public var value2: CGFloat = 1
+    public var value2: CGFloat = 100
     public var drawViewSize: CGRect = CGRect.zero
     public var axisViewSize: CGRect = CGRect.zero
     
@@ -53,6 +53,42 @@ class DataBrowserModel {
        
         let returnValue = (dx: pixelPerSecond, dt: timePerTick)
         return returnValue
+    }
+    
+    public func test() -> (dy: CGFloat, scale: CGFloat, exp: Int){
+        let valueRange = abs(value2 - value1)
+        let pixelPerValue = drawViewSize.height / valueRange
+
+        let tickReference = [1, 2, 5]
+        
+        var rescaleRange = valueRange
+        var count = 0;
+        var tickRange = 1
+        var numberOfTick: CGFloat = 1
+        
+        if (valueRange >= 1) {
+            while(rescaleRange >= 1) {
+                rescaleRange /= 10
+                count += 1
+            }
+            
+            let tickScale = 10 * (count - 1)
+
+            for i in tickReference {
+                tickRange = i * tickScale
+                numberOfTick = valueRange / CGFloat(tickRange)
+                
+                if( numberOfTick <= dyNumberOfMaxTick ) {
+                    break
+                }
+            }
+        }
+        else {
+            
+        }
+        
+        return (dy: pixelPerValue, scale: CGFloat(tickRange), exp: count - 1)
+        
     }
     
     public func getDyInfoValue() -> (dy: CGFloat, scale: CGFloat, exp: Int) {
