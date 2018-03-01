@@ -44,14 +44,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scwook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93u-AR-8AG">
-                                <rect key="frame" x="169" y="636" width="37" height="12"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i9a-Vf-hsx">
-                                <rect key="frame" x="77.5" y="407" width="60" height="60"/>
+                                <rect key="frame" x="77.5" y="387" width="60" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="JlE-aB-bGQ"/>
@@ -65,7 +59,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofP-jd-DvC">
-                                <rect key="frame" x="237.5" y="407" width="60" height="60"/>
+                                <rect key="frame" x="237.5" y="387" width="60" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="T33-9J-4jR"/>
@@ -79,7 +73,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrb-Zz-8jI">
-                                <rect key="frame" x="77.5" y="547" width="60" height="60"/>
+                                <rect key="frame" x="77.5" y="527" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="Crp-Oe-4rZ"/>
                                     <constraint firstAttribute="height" constant="60" id="h7E-ZZ-Y0d"/>
@@ -91,7 +85,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zI-6e-ZjE">
-                                <rect key="frame" x="237.5" y="547" width="60" height="60"/>
+                                <rect key="frame" x="237.5" y="527" width="60" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="1uC-EO-MdT"/>
@@ -113,19 +107,30 @@
                                 <color key="textColor" red="0.59607843137254901" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Symbol" translatesAutoresizingMaskIntoConstraints="NO" id="i1Q-GB-AdT">
+                                <rect key="frame" x="172" y="613.5" width="30" height="30"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scwook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93u-AR-8AG">
+                                <rect key="frame" x="174" y="643.5" width="27" height="8.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.81176470588235294" green="0.76862745098039209" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lVn-Uk-iwI" firstAttribute="width" secondItem="S0P-37-esy" secondAttribute="width" multiplier="0.5" id="0fw-yA-S9k"/>
                             <constraint firstItem="I5E-UB-oIj" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="1oW-js-7PM"/>
-                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="1zI-6e-ZjE" secondAttribute="bottom" constant="60" id="23B-nV-sE3"/>
+                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="1zI-6e-ZjE" secondAttribute="bottom" constant="80" id="23B-nV-sE3"/>
+                            <constraint firstItem="93u-AR-8AG" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="3Gx-Xn-5YC"/>
+                            <constraint firstItem="93u-AR-8AG" firstAttribute="top" secondItem="i1Q-GB-AdT" secondAttribute="bottom" id="9f4-E9-ZzI"/>
                             <constraint firstItem="ofP-jd-DvC" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" constant="80" id="B2r-7k-bMR"/>
                             <constraint firstItem="2yj-FA-TkP" firstAttribute="width" secondItem="S0P-37-esy" secondAttribute="width" multiplier="0.5" id="IEY-Bm-eI9"/>
                             <constraint firstItem="2yj-FA-TkP" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="Nbv-4L-609"/>
                             <constraint firstItem="1zI-6e-ZjE" firstAttribute="top" secondItem="ofP-jd-DvC" secondAttribute="bottom" constant="80" id="SC5-Ot-x90"/>
                             <constraint firstItem="i9a-Vf-hsx" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" constant="-80" id="Sh9-7g-D0v"/>
                             <constraint firstItem="zrb-Zz-8jI" firstAttribute="top" secondItem="i9a-Vf-hsx" secondAttribute="bottom" constant="80" id="Ylo-Pv-g96"/>
-                            <constraint firstItem="93u-AR-8AG" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="Yqw-p6-bQZ"/>
+                            <constraint firstItem="i1Q-GB-AdT" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="a0M-RG-o99"/>
                             <constraint firstItem="I5E-UB-oIj" firstAttribute="top" secondItem="BYT-eZ-1K3" secondAttribute="top" constant="20" id="aI9-kb-1gR"/>
                             <constraint firstItem="lVn-Uk-iwI" firstAttribute="top" secondItem="2yj-FA-TkP" secondAttribute="bottom" constant="24.5" id="cIS-vy-3bh"/>
                             <constraint firstItem="H1v-UV-ECJ" firstAttribute="top" secondItem="I5E-UB-oIj" secondAttribute="bottom" constant="8" id="fdK-6f-g79"/>
@@ -134,9 +139,9 @@
                             <constraint firstItem="H1v-UV-ECJ" firstAttribute="width" secondItem="I5E-UB-oIj" secondAttribute="width" id="kxk-Nh-hYX"/>
                             <constraint firstItem="lVn-Uk-iwI" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="nyQ-0F-gF7"/>
                             <constraint firstItem="1zI-6e-ZjE" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" constant="80" id="oyp-MQ-h0g"/>
-                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="93u-AR-8AG" secondAttribute="bottom" constant="19" id="pes-tN-1Aw"/>
+                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="93u-AR-8AG" secondAttribute="bottom" constant="15" id="pes-tN-1Aw"/>
                             <constraint firstItem="2yj-FA-TkP" firstAttribute="top" secondItem="H1v-UV-ECJ" secondAttribute="bottom" constant="12" id="sF2-LP-Zjk"/>
-                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="zrb-Zz-8jI" secondAttribute="bottom" constant="60" id="veX-Sr-QMc"/>
+                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="zrb-Zz-8jI" secondAttribute="bottom" constant="80" id="veX-Sr-QMc"/>
                             <constraint firstItem="H1v-UV-ECJ" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="yrW-DV-mwe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BYT-eZ-1K3"/>
@@ -737,10 +742,11 @@
         <image name="RJ45_T568A_ST" width="104" height="187"/>
         <image name="RJ45_T568B_CR" width="104" height="187"/>
         <image name="RJ45_T568B_ST" width="104" height="187"/>
+        <image name="Symbol" width="30" height="30"/>
         <image name="iEPICS" width="100" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dck-XA-d2z"/>
-        <segue reference="APA-hH-wj0"/>
+        <segue reference="HPh-di-gIm"/>
     </inferredMetricsTieBreakers>
 </document>
