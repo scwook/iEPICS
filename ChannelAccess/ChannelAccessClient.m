@@ -579,8 +579,12 @@ void eventCallbackFloat( evargs eha) {
         
         for(int i = 0; i < nElement; i++) {
 //            [myData.value addObject:[[NSNumber numberWithFloat:pValue[i]] stringValue]];
-            [myData.value addObject:[NSString stringWithFormat:@"%.3f", pValue[i]]];
-
+            if(pValue[i] < 0.001) {
+                [myData.value addObject:[NSString stringWithFormat:@"%.2e", pValue[i]]];
+            }
+            else {
+                [myData.value addObject:[NSString stringWithFormat:@"%.2f", pValue[i]]];
+            }
         }
         
         myData.name = pname;
@@ -714,7 +718,12 @@ void eventCallbackDouble( evargs eha) {
         
         for(int i = 0; i < nElement; i++) {
 //            [myData.value addObject:[[NSNumber numberWithDouble:pValue[i]] stringValue]];
-            [myData.value addObject:[NSString stringWithFormat:@"%.3f", pValue[i]]];
+            if(fabs(pValue[i]) < 0.001) {
+                [myData.value addObject:[NSString stringWithFormat:@"%.2e", pValue[i]]];
+            }
+            else {
+                [myData.value addObject:[NSString stringWithFormat:@"%.2f", pValue[i]]];
+            }
         }
         
         myData.name = pname;

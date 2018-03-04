@@ -91,7 +91,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                         }
 
                         cell.pvNameLabel.text = title
-                        cell.pvValueLabel.text = "Empty"
+                        cell.pvValueLabel.text = "Not Connected"
                         
                         if( value.count != 0 ) {
                             cell.pvValueLabel.text = String(describing: value[0])
