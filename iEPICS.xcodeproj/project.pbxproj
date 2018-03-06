@@ -22,11 +22,9 @@
 		4D4D77121FA993B6000BCAD1 /* ChannelAccessData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D76B71FA97D67000BCAD1 /* ChannelAccessData.m */; };
 		4D4D77141FA9942E000BCAD1 /* ChannelAccessNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D77131FA9942E000BCAD1 /* ChannelAccessNotification.swift */; };
 		4D4D771A1FA9A65C000BCAD1 /* NewElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D77191FA9A65C000BCAD1 /* NewElementViewController.swift */; };
-		4D6B004A1FD6541E004B5A7E /* libca.3.16.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D6B00481FD6541E004B5A7E /* libca.3.16.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4D6B004B1FD6541E004B5A7E /* libCom.3.16.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4D6B004E1FD6543B004B5A7E /* libca.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */; };
-		4D6B004F1FD6543B004B5A7E /* libCom.3.16.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */; };
 		4DA9620B203DA8EA0021A11A /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */; };
+		4DC24F6A204E034900C1CD75 /* ChannelAccessFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDB0C35204D5AD2004AB825 /* ChannelAccessFramework.framework */; };
+		4DC24F6B204E034900C1CD75 /* ChannelAccessFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDB0C35204D5AD2004AB825 /* ChannelAccessFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */; };
 		4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906820386CF100B5E01B /* SecondCPViewController.swift */; };
 		4DCA906B20386D0A00B5E01B /* FirstCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */; };
@@ -36,17 +34,33 @@
 		4DF79C5E1FC697530003FC01 /* AxisDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C5D1FC697530003FC01 /* AxisDrawView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4DC24F6C204E034900C1CD75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DDB0C30204D5AD1004AB825 /* ChannelAccessFramework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DDB0C24204D5AD1004AB825;
+			remoteInfo = ChannelAccessFramework;
+		};
+		4DDB0C34204D5AD2004AB825 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DDB0C30204D5AD1004AB825 /* ChannelAccessFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DDB0C25204D5AD1004AB825;
+			remoteInfo = ChannelAccessFramework;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		4D4D770C1FA992A3000BCAD1 /* Embed Libraries */ = {
+		4DC24F6E204E034900C1CD75 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4D6B004B1FD6541E004B5A7E /* libCom.3.16.1.dylib in Embed Libraries */,
-				4D6B004A1FD6541E004B5A7E /* libca.3.16.1.dylib in Embed Libraries */,
+				4DC24F6B204E034900C1CD75 /* ChannelAccessFramework.framework in Embed Frameworks */,
 			);
-			name = "Embed Libraries";
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -72,14 +86,11 @@
 		4D4D76C81FA97F8D000BCAD1 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		4D4D77131FA9942E000BCAD1 /* ChannelAccessNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAccessNotification.swift; sourceTree = "<group>"; };
 		4D4D77191FA9A65C000BCAD1 /* NewElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewElementViewController.swift; sourceTree = "<group>"; };
-		4D6B00481FD6541E004B5A7E /* libca.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libca.3.16.1.dylib; sourceTree = "<group>"; };
-		4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libCom.3.16.1.dylib; sourceTree = "<group>"; };
-		4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libca.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libca.3.16.1.dylib"; sourceTree = "<group>"; };
-		4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libCom.3.16.1.dylib; path = "../../epics/R3.16.1/base/lib/ios-arm/libCom.3.16.1.dylib"; sourceTree = "<group>"; };
 		4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CableInfoPageViewController.swift; sourceTree = "<group>"; };
 		4DCA906820386CF100B5E01B /* SecondCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCPViewController.swift; sourceTree = "<group>"; };
 		4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCPViewController.swift; sourceTree = "<group>"; };
+		4DDB0C30204D5AD1004AB825 /* ChannelAccessFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ChannelAccessFramework.xcodeproj; path = ChannelAccessFramework/ChannelAccessFramework.xcodeproj; sourceTree = "<group>"; };
 		4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserViewController.swift; sourceTree = "<group>"; };
 		4DF79C571FC693E90003FC01 /* DataDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDrawView.swift; sourceTree = "<group>"; };
 		4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserModel.swift; sourceTree = "<group>"; };
@@ -91,8 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D6B004E1FD6543B004B5A7E /* libca.3.16.1.dylib in Frameworks */,
-				4D6B004F1FD6543B004B5A7E /* libCom.3.16.1.dylib in Frameworks */,
+				4DC24F6A204E034900C1CD75 /* ChannelAccessFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,8 +121,7 @@
 		4D4D76951FA97D51000BCAD1 = {
 			isa = PBXGroup;
 			children = (
-				4D6B00481FD6541E004B5A7E /* libca.3.16.1.dylib */,
-				4D6B00491FD6541E004B5A7E /* libCom.3.16.1.dylib */,
+				4DDB0C30204D5AD1004AB825 /* ChannelAccessFramework.xcodeproj */,
 				4D4D76B31FA97D5A000BCAD1 /* ChannelAccess */,
 				4D4D76A01FA97D51000BCAD1 /* iEPICS */,
 				4D4D769F1FA97D51000BCAD1 /* Products */,
@@ -163,8 +172,6 @@
 		4D4D76B91FA97DD1000BCAD1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4D6B004C1FD6543B004B5A7E /* libca.3.16.1.dylib */,
-				4D6B004D1FD6543B004B5A7E /* libCom.3.16.1.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,6 +205,14 @@
 			path = CableInformaion;
 			sourceTree = "<group>";
 		};
+		4DDB0C31204D5AD1004AB825 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DDB0C35204D5AD2004AB825 /* ChannelAccessFramework.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4DF79C541FC692A60003FC01 /* DataBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,11 +242,12 @@
 				4D4D769A1FA97D51000BCAD1 /* Sources */,
 				4D4D769B1FA97D51000BCAD1 /* Frameworks */,
 				4D4D769C1FA97D51000BCAD1 /* Resources */,
-				4D4D770C1FA992A3000BCAD1 /* Embed Libraries */,
+				4DC24F6E204E034900C1CD75 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4DC24F6D204E034900C1CD75 /* PBXTargetDependency */,
 			);
 			name = iEPICS;
 			productName = iEPICS;
@@ -266,12 +282,28 @@
 			mainGroup = 4D4D76951FA97D51000BCAD1;
 			productRefGroup = 4D4D769F1FA97D51000BCAD1 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4DDB0C31204D5AD1004AB825 /* Products */;
+					ProjectRef = 4DDB0C30204D5AD1004AB825 /* ChannelAccessFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4D4D769D1FA97D51000BCAD1 /* iEPICS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4DDB0C35204D5AD2004AB825 /* ChannelAccessFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChannelAccessFramework.framework;
+			remoteRef = 4DDB0C34204D5AD2004AB825 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4D4D769C1FA97D51000BCAD1 /* Resources */ = {
@@ -315,6 +347,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4DC24F6D204E034900C1CD75 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelAccessFramework;
+			targetProxy = 4DC24F6C204E034900C1CD75 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4D4D76A51FA97D51000BCAD1 /* Main.storyboard */ = {
@@ -365,7 +405,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -422,7 +462,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -446,9 +486,10 @@
 		4D4D76B11FA97D51000BCAD1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9E7HTCE9RL;
@@ -462,23 +503,25 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.2]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
-				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		4D4D76B21FA97D51000BCAD1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9E7HTCE9RL;
@@ -492,13 +535,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				"LIBRARY_SEARCH_PATHS[sdk=iphoneos11.2]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-arm";
-				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = "/Users/ctrluser/epics/R3.16.1/base/lib/ios-x86";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

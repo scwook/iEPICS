@@ -76,16 +76,19 @@ static ChannelAccessNotification *notification;
     
     struct dbr_time_double *pTD;
     unsigned nBytes;
-    unsigned long elementCount = ca_element_count(instantCAnode->chid);
+//    unsigned long elementCount = ca_element_count(instantCAnode->chid);
+    unsigned long elementCount = ca_element_count_w(instantCAnode->chid);
     
-    nBytes = dbr_size_n(DBR_TIME_DOUBLE, elementCount);
+    nBytes = dbr_size_n_w(DBR_TIME_DOUBLE, elementCount);
     pTD = ( struct dbr_time_double *)malloc(nBytes);
     
-    int status = ca_array_get(DBR_TIME_DOUBLE, elementCount, instantCAnode->chid, pTD);
-    
+//    int status = ca_array_get(DBR_TIME_DOUBLE, elementCount, instantCAnode->chid, pTD);
+    int status = ca_array_get_w(DBR_TIME_DOUBLE, elementCount, instantCAnode->chid, pTD);
+
     [self ChannelAccessStatusCheck:status];
     
-    ca_pend_io(5.0);
+//    ca_pend_io(5.0);
+    ca_pend_io_w(5.0);
     
     const dbr_double_t * pValue;
     pValue = & pTD->value;
@@ -106,21 +109,30 @@ static ChannelAccessNotification *notification;
     
 //    [self ChannelAccessContexDestroy];
 
-    if( ca_current_context() == NULL ) {
-        status = ca_context_create(ca_enable_preemptive_callback);
+//    if( ca_current_context() == NULL ) {
+//        status = ca_context_create(ca_enable_preemptive_callback);
+//    }
+    
+    if( ca_current_context_w() == NULL ) {
+        status = ca_context_create_w(ca_enable_preemptive_callback);
     }
 
     [self ChannelAccessStatusCheck:status];
 }
 
 - (void)ChannelAccessContexDestroy {
-    if( ca_current_context() ) {
-        ca_context_destroy();
+//    if( ca_current_context() ) {
+//        ca_context_destroy();
+//    }
+    
+    if( ca_current_context_w() ) {
+        ca_context_destroy_w();
     }
 }
 
 - (void)ChannelAccessPendEvent:(double)timeOut {
-    ca_pend_io(timeOut);
+//    ca_pend_io(timeOut);
+    ca_pend_io_w(timeOut);
 }
 
 - (unsigned long)ChannelAccessGetAvailableIndex {
@@ -145,8 +157,9 @@ static ChannelAccessNotification *notification;
     unsigned long index = pvNameIndex;
     
     myCAnode[index] = calloc(1, sizeof(CANODE));
-    int status = ca_create_channel(pname, connectionCallback, myCAnode[index], 20, &myCAnode[index]->chid);
-    
+//    int status = ca_create_channel(pname, connectionCallback, myCAnode[index], 20, &myCAnode[index]->chid);
+    int status = ca_create_channel_w(pname, connectionCallback, myCAnode[index], 20, &myCAnode[index]->chid);
+
     [self ChannelAccessStatusCheck:status];
 }
 
@@ -154,16 +167,19 @@ static ChannelAccessNotification *notification;
     const char *pname = [pvName UTF8String];
     
     if( instantCAnode != NULL) {
-        ca_clear_channel(instantCAnode->chid);
+        ca_clear_channel_w(instantCAnode->chid);
         free(instantCAnode);
     }
     
     instantCAnode = calloc(1, sizeof(CANODE));
-    ca_create_channel(pname, NULL, NULL, 20, &instantCAnode->chid);
-    
-    ca_pend_io(1.0);
-    
-    long elementCount = ca_element_count(instantCAnode->chid);
+//    ca_create_channel(pname, NULL, NULL, 20, &instantCAnode->chid);
+    ca_create_channel_w(pname, NULL, NULL, 20, &instantCAnode->chid);
+
+//    ca_pend_io(1.0);
+    ca_pend_io_w(1.0);
+
+//    long elementCount = ca_element_count(instantCAnode->chid);
+    long elementCount = ca_element_count_w(instantCAnode->chid);
 
     return elementCount;
 }
@@ -173,13 +189,15 @@ static ChannelAccessNotification *notification;
     struct dbr_time_double *pTD;
     unsigned nBytes;
     
-    nBytes = dbr_size_n(DBR_TIME_DOUBLE, 1);
+    nBytes = dbr_size_n_w(DBR_TIME_DOUBLE, 1);
 //    NSLog(@"%d, %d", nBytes, sizeof(DBR_TIME_DOUBLE));
     pTD = ( struct dbr_time_double * )malloc(nBytes);
 
-    ca_get(DBR_TIME_DOUBLE, instantCAnode->chid, pTD);
+//    ca_get(DBR_TIME_DOUBLE, instantCAnode->chid, pTD);
+    ca_get_w(DBR_TIME_DOUBLE, instantCAnode->chid, pTD);
 
-    ca_pend_io(0.0);
+//    ca_pend_io(0.0);
+    ca_pend_io_w(0.0);
 
     double value = pTD->value;
     epicsUInt32 timestamp = pTD->stamp.secPastEpoch;
@@ -195,7 +213,9 @@ static ChannelAccessNotification *notification;
 - (void)ChannelAccessClearChannel:(unsigned long)index {
 
     //ca_clear_subscription(myCAnode[index]->evid);
-    ca_clear_channel(myCAnode[index]->chid);
+//    ca_clear_channel(myCAnode[index]->chid);
+    ca_clear_channel_w(myCAnode[index]->chid);
+
 }
 
 - (BOOL)ChannelAccessRemoveProcessVariable:(NSString *)pvName {
@@ -225,7 +245,9 @@ static ChannelAccessNotification *notification;
 - (void)ChannelAccessRemoveProcessVariable {
 
     if( instantCAnode != NULL) {
-        ca_clear_channel(instantCAnode->chid);
+//        ca_clear_channel(instantCAnode->chid);
+        ca_clear_channel_w(instantCAnode->chid);
+
         free(instantCAnode);
     }
     
@@ -278,7 +300,9 @@ static ChannelAccessNotification *notification;
 }
 
 - (NSString *)ChannelAccessGetHostName:(chid)chan {
-    NSString *hostName = [NSString stringWithUTF8String:ca_host_name(chan)];
+//    NSString *hostName = [NSString stringWithUTF8String:ca_host_name(chan)];
+    NSString *hostName = [NSString stringWithUTF8String:ca_host_name_w(chan)];
+
     return hostName;
 }
 
@@ -403,9 +427,13 @@ void connectionCallback( struct connection_handler_args cha) {
     
     if( cha.op == CA_OP_CONN_UP ) {
         
-        long elementCount = ca_element_count(cha.chid);
-        long fieldType = ca_field_type(cha.chid);
-        long nativeType = dbf_type_to_DBR_TIME(fieldType);
+//        long elementCount = ca_element_count(cha.chid);
+        long elementCount = ca_element_count_w(cha.chid);
+
+//        long fieldType = ca_field_type(cha.chid);
+        long fieldType = ca_field_type_w(cha.chid);
+
+        long nativeType = dbf_type_to_DBR_TIME_w(fieldType);
         
         void *eventCallback = NULL;
         
@@ -440,12 +468,13 @@ void connectionCallback( struct connection_handler_args cha) {
 //            nativeType = DBR_TIME_STRING;
 //        }
         
-        CANODE *myCAnode = ca_puser(cha.chid);
+        CANODE *myCAnode = ca_puser_w(cha.chid);
         
-        ca_create_subscription(nativeType, elementCount, cha.chid, DBE_VALUE, eventCallback, myCAnode, &myCAnode->evid);
+//        ca_create_subscription(nativeType, elementCount, cha.chid, DBE_VALUE, eventCallback, myCAnode, &myCAnode->evid);
+        ca_create_subscription_w(nativeType, elementCount, cha.chid, DBE_VALUE, eventCallback, myCAnode, &myCAnode->evid);
     }
     else if( cha.op == CA_OP_CONN_DOWN ) {
-        NSString *pname = [NSString stringWithUTF8String:ca_name(cha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(cha.chid)];
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
         //ChannelAccessData *myData = [pvDictionary objectForKey:pname];
@@ -473,7 +502,7 @@ void eventCallbackString( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -481,9 +510,9 @@ void eventCallbackString( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
         
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
@@ -517,7 +546,7 @@ void eventCallbackShort( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -525,9 +554,9 @@ void eventCallbackShort( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
         
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
@@ -561,7 +590,7 @@ void eventCallbackFloat( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -569,9 +598,9 @@ void eventCallbackFloat( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
         
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
@@ -612,7 +641,7 @@ void eventCallbackEnum( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -620,9 +649,9 @@ void eventCallbackEnum( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
         
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
@@ -656,7 +685,7 @@ void eventCallbackLong( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -664,9 +693,9 @@ void eventCallbackLong( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
         
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
@@ -700,7 +729,7 @@ void eventCallbackDouble( evargs eha) {
         char timeStampData[32];
         epicsTimeStamp timeStampPosix = pTD->stamp;
         
-        epicsTimeToStrftime(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
+        epicsTimeToStrftime_w(timeStampData, sizeof(timeStampData), "%Y-%m-%d %H:%M:%S", &timeStampPosix);
         NSString *ptimestamp = [NSString stringWithUTF8String:timeStampData];
         
         unsigned long nElement = eha.count;
@@ -708,9 +737,9 @@ void eventCallbackDouble( evargs eha) {
 
         NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
         NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
+        NSString *host = [NSString stringWithUTF8String:ca_host_name_w(eha.chid)];
         
-        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
+        NSString *pname = [NSString stringWithUTF8String:ca_name_w(eha.chid)];
 
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
