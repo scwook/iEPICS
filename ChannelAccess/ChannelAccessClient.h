@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ChannelAccessData.h"
-//#import "cadef.h"
-#import "ChannelAccessFramework/ChannelAccessWrapper.h"
+#import "cadef.h"
 
 static const unsigned short max_pv = 100;
 //static void eventCallback( struct event_handler_args eha );

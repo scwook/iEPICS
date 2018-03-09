@@ -180,7 +180,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let data = pvNameDicKeyCopyArray[indexPath.row] {
+        if pvNameDicKeyCopyArray[indexPath.row] != nil {
             if(indexPath.row + 1 >= pvNameDicKeyCopyArray.count) {
                 expandCell(tableView: tableView, index: indexPath.row)
             }
@@ -196,7 +196,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         else {
             let parentCellIndex = getParentCellIndex(expansionIndex: indexPath.row)
             if let rowData = pvNameDicKeyCopyArray[parentCellIndex] {
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "ChildCell", for: indexPath) as? ChildMonitoringTableViewCell
+                if tableView.dequeueReusableCell(withIdentifier: "ChildCell", for: indexPath) is ChildMonitoringTableViewCell
                 {
                     if let pvNameDictionary = caObject.channelAccessGetDictionary() {
                         let title = rowData
@@ -231,7 +231,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .normal, title: "Delete", handler: { (action: UIContextualAction, view: UIView, success:(Bool) -> Void) in
             
-            if let rowData = self.pvNameDicKeyCopyArray[indexPath.row] {
+            if self.pvNameDicKeyCopyArray[indexPath.row] != nil {
                 
                 // Delete the row from the data source
                 if let cell = tableView.cellForRow(at: indexPath) as? ParentMonitoringTableViewCell {
@@ -283,7 +283,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func contractCell(tableView: UITableView, index:Int) {
-        for i in 1...5 {
+        for _ in 1...5 {
             pvNameDicKeyCopyArray.remove(at: index + 1)
             tableView.deleteRows(at: [NSIndexPath(row: index + 1, section: 0) as IndexPath], with: .top)
         }

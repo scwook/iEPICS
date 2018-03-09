@@ -16,7 +16,7 @@ class DataDrawView: UIView {
     var probeIndex: Int? = nil
     var arrayData = [Double]()
     
-    let attributes = [NSAttributedStringKey.foregroundColor: UIColor.red, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
+    let attributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
 
     //var xAxisScale: CGFloat = 100
     //var originPixel: CGPoint = CGPoint(x: 0, y: 0)
@@ -78,13 +78,13 @@ class DataDrawView: UIView {
                     let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
                     let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
-                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).setFill()
+//                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).setFill()
+                    UIColor.black.setFill()
                     circle.fill()
                     
-                    
-                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+//                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
                     let valueString = String(describing: data[probe])
-                    valueString.draw(at: CGPoint(x: probeLocation.x + 12, y: probeLocation.y - 12), withAttributes: attributes)
+                    valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
                     
                 }
                 
@@ -93,7 +93,8 @@ class DataDrawView: UIView {
             
             //position = position.reversed()
             
-            UIColor.black.set()
+//            UIColor.black.set()
+            UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
             plot.lineJoinStyle = .round
             plot.lineWidth = 2.5
             plot.stroke()
@@ -115,7 +116,8 @@ class DataDrawView: UIView {
             plot.addLine(to: nextPoint)
         }
         
-        UIColor.black.set()
+//        UIColor.black.set()
+        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
         plot.lineJoinStyle = .round
         plot.lineWidth = 2
         plot.stroke()
@@ -127,7 +129,8 @@ class DataDrawView: UIView {
         probeLine.move(to: CGPoint(x: location.x, y: 0))
         probeLine.addLine(to: CGPoint(x: location.x, y: self.bounds.height))
         probeLine.setLineDash(pattern, count: 2, phase: 0)
-        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+//        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+        UIColor.black.set()
         probeLine.lineWidth = 2.0
         probeLine.stroke()
         
@@ -144,7 +147,7 @@ class DataDrawView: UIView {
         dashLine.addLine(to: CGPoint(x: 200, y: 200))
         dashLine.setLineDash(pattern, count: 2, phase: 0)
         dashLine.lineWidth = 1.5
-        UIColor.gray.set()
+        UIColor.black.set()
         dashLine.stroke()
     }
     

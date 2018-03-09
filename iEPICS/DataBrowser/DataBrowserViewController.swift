@@ -141,7 +141,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             
         }
         else {
-            if let pinch = sender.view {
+            if sender.view != nil {
                 let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
                 let deltaY = abs(dataBrowserModel.value2 - dataBrowserModel.value1)
                 let const = deltaY / dataBrowserModel.timeRange

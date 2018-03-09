@@ -425,7 +425,7 @@ class AxisDrawView: UIView {
         
         // Exponential Express
         if( tickInfo.exp > 3 ) {
-            for i in 0 ..< tickInfo.exp {
+            for _ in 0 ..< tickInfo.exp {
                 legendLabelScale /= 10
             }
             
