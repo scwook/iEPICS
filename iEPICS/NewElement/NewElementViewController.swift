@@ -42,7 +42,7 @@ class NewElementViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func cancleButton(_ sender: UIButton) {
+    @IBAction func cancelButton(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     

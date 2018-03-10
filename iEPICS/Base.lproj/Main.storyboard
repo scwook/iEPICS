@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -108,7 +107,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Symbol" translatesAutoresizingMaskIntoConstraints="NO" id="i1Q-GB-AdT">
-                                <rect key="frame" x="172" y="613.5" width="30" height="30"/>
+                                <rect key="frame" x="172.5" y="613.5" width="30" height="30"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scwook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93u-AR-8AG">
                                 <rect key="frame" x="174" y="643.5" width="27" height="8.5"/>
@@ -335,7 +334,7 @@
                                 <rect key="frame" x="92" y="408" width="191" height="91"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Female" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="csa-CB-cxd">
-                                <rect key="frame" x="155" y="507" width="64" height="24"/>
+                                <rect key="frame" x="155.5" y="507" width="64" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -455,7 +454,7 @@
                                 <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ParentCell" id="B5W-24-Zdo" customClass="ParentMonitoringTableViewCell" customModule="iEPICS" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ParentCell" id="B5W-24-Zdo" customClass="ParentMonitoringTableViewCell" customModule="iEPICS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B5W-24-Zdo" id="7gS-E3-J8D">
@@ -500,7 +499,7 @@
                                             <outlet property="pvValueLabel" destination="HP7-da-QWR" id="Yl8-rD-ZfH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChildCell" rowHeight="28" id="WIV-Do-BvU" customClass="ChildMonitoringTableViewCell" customModule="iEPICS" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChildCell" rowHeight="28" id="WIV-Do-BvU" customClass="ChildMonitoringTableViewCell" customModule="iEPICS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WIV-Do-BvU" id="5O9-6H-N2G">
@@ -652,7 +651,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oY9-FJ-Dh7">
-                                <rect key="frame" x="47.5" y="269" width="280" height="128"/>
+                                <rect key="frame" x="47.5" y="269.5" width="280" height="128"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbD-zX-V1u">
                                         <rect key="frame" x="49" y="75" width="30" height="30"/>
@@ -667,11 +666,11 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aua-x7-OQe">
                                         <rect key="frame" x="180" y="75" width="48" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Cancle">
+                                        <state key="normal" title="Cancel">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="cancleButton:" destination="2gg-MI-gK1" eventType="touchUpInside" id="qNU-6Q-4Oh"/>
+                                            <action selector="cancelButton:" destination="2gg-MI-gK1" eventType="touchUpInside" id="qNU-6Q-4Oh"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SKy-3D-0hp">
@@ -747,6 +746,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dck-XA-d2z"/>
-        <segue reference="HPh-di-gIm"/>
+        <segue reference="APA-hH-wj0"/>
     </inferredMetricsTieBreakers>
 </document>

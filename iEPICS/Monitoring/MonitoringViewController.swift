@@ -107,7 +107,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                     
                         let currentDate = Date()
                         let currentTimeOffset = Int32(currentDate.timeIntervalSince1970) - myData.timeStampSince1990 - 631152000
-                        if( currentTimeOffset > 1 ) {
+                        if( abs(currentTimeOffset) > 5 ) {
                             cell.clockImageView.image = UIImage(named: "Clock")
                         }
                         else {
