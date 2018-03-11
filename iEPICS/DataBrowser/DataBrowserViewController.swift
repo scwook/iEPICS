@@ -58,38 +58,33 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     private func startDataBrowser(pvName: String) -> Void {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         
-        if let timer = drawTimer {
-            timer.invalidate()
-        }
+//      Thread Method
         
-       // DispatchQueue.global().async {
-
-        let elementCount = self.caObject.channelAccessCreateChannel(pvName)
-        
-        if(elementCount < 1) {
-            return
-        }
-                
+        DispatchQueue.global().async {
+            
+            let elementCount = self.caObject.channelAccessCreateChannel(pvName)
+            
+            if(elementCount < 1) {
+                return
+            }
+            
             dataBrowserModel.elementCount = elementCount
-        
+            
             if( elementCount > 1 ) {
-//                while true {
-                drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                while true {
                     self.dataDrawView.arrayData = self.caObject.channelAccessGetArray() as! [Double]
                     
-//                    DispatchQueue.main.async {
+                    DispatchQueue.main.async {
                         self.dataDrawView.setNeedsDisplay()
                         self.axisDrawView.setNeedsDisplay()
-//                    }
+                    }
+                    sleep(dataBrowserModel.refreshRate)
                 }
-//                    sleep(dataBrowserModel.refreshRate)
-//                }
             }
             else {
-//                while true {
-                drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-
-                self.caObject.channelAccessGet()
+                while true {
+                    
+                    self.caObject.channelAccessGet()
                     //                let value = Int(arc4random_uniform(100000))
                     //                let timeStamp = Date()
                     
@@ -107,15 +102,62 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                         dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
                     }
                     
-                    //DispatchQueue.main.async {
+                    DispatchQueue.main.async {
                         self.dataDrawView.setNeedsDisplay()
                         self.axisDrawView.setNeedsDisplay()
-                    //}
+                    }
+                    sleep(dataBrowserModel.refreshRate)
                 }
-//                    sleep(dataBrowserModel.refreshRate)
-//                }
             }
-       // }
+        }
+    
+        
+//        Timer Method
+//        if let timer = drawTimer {
+//            timer.invalidate()
+//        }
+//
+//        let elementCount = self.caObject.channelAccessCreateChannel(pvName)
+//
+//        if(elementCount < 1) {
+//            return
+//        }
+//
+//        dataBrowserModel.elementCount = elementCount
+//
+//        if( elementCount > 1 ) {
+//            drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+//                self.dataDrawView.arrayData = self.caObject.channelAccessGetArray() as! [Double]
+//
+//                self.dataDrawView.setNeedsDisplay()
+//                self.axisDrawView.setNeedsDisplay()
+//            }
+//
+//        }
+//        else {
+//            drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+//
+//                self.caObject.channelAccessGet()
+//
+//
+//                if(self.dataDrawView.data.count > self.maxArraySize) {
+//                    self.dataDrawView.data.remove(at: 0)
+//                    self.dataDrawView.time.remove(at: 0)
+//
+//                }
+//
+//                self.dataDrawView.data.append(self.pvValueArray[0] as! Double)
+//                self.dataDrawView.time.append(self.pvValueArray[1] as! Int + 631152000)
+//
+//                if( self.dataDrawView.data.count == 2) {
+//                    dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
+//                }
+//
+//                self.dataDrawView.setNeedsDisplay()
+//                self.axisDrawView.setNeedsDisplay()
+//            }
+//
+//        }
     }
     
     private func rotated(notification:Notification) -> Void {
