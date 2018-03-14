@@ -101,7 +101,7 @@ class DataBrowserModel {
             }
         }
         
-        return (dy: pixelPerValue, scale: CGFloat(tickRange) / 5.0, exp: count - 1)
+        return (dy: pixelPerValue, scale: CGFloat(tickRange) / 5.0, exp: count)
         
     }
     

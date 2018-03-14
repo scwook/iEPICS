@@ -154,7 +154,8 @@ class DataDrawView: UIView {
     private func ValueToPixel(value: CGFloat) -> CGFloat {
         
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        let dtInfo = dataBrowserModel.getDyInfoValue()
+//        let dtInfo = dataBrowserModel.getDyInfoValue()
+        let dtInfo = dataBrowserModel.test()
         let offsetValue = dataBrowserModel.value1
         let pixel = (value - offsetValue) * dtInfo.dy
         
@@ -163,6 +164,7 @@ class DataDrawView: UIView {
     
     private func ValueToPixelArray(value: CGFloat) -> CGFloat {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//        let dyInfo = dataBrowserModel.getArrayDyInfoValue()
         let dyInfo = dataBrowserModel.getArrayDyInfoValue()
         let offsetValue = dataBrowserModel.value1
 

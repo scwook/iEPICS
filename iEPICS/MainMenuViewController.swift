@@ -40,6 +40,8 @@ class MainMenuViewController: UIViewController {
         settingButton.setTitle(nil, for: .normal)
         settingButton.setImage(UIImage(named: "Setting"), for: .normal)
         
+
+        
 //        let backgroundImage = UIImage(named: "background3")!
 //        
 //        if let ciImage = CIImage.init(image: backgroundImage) {

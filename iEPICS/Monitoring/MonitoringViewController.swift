@@ -68,6 +68,14 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         return pvNameDicKeyCopyArray.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let rowData = pvNameDicKeyCopyArray[indexPath.row] {
+            return 35.0
+        }
+        else {
+            return 30.0
+        }
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let rowData = pvNameDicKeyCopyArray[indexPath.row] {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "ParentCell", for: indexPath) as? ParentMonitoringTableViewCell
@@ -135,6 +143,9 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                         let cellIndex = indexPath.row - parentCellIndex
                         var valueString: String?
                         var nameString: String?
+                        
+                        cell.detailElementValueLabel.textColor = UIColor.black
+
                         switch cellIndex {
                         case 1:
                             nameString = "Host Name"
@@ -150,9 +161,6 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                             }
                             else if(valueString == "HIGH" || valueString == "LOW") {
                                 cell.detailElementValueLabel.textColor = UIColor.orange
-                            }
-                            else {
-                                cell.detailElementValueLabel.textColor = UIColor.black
                             }
                         case 4:
                             nameString = "Alarm Severity"
@@ -274,7 +282,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         
         return UISwipeActionsConfiguration(actions: [addChartAction])
     }
-
+    
     private func expandCell(tableView: UITableView, index: Int) {
         for i in 1...5 {
             pvNameDicKeyCopyArray.insert(nil, at: index + i)

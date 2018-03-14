@@ -179,16 +179,25 @@ static ChannelAccessNotification *notification;
 
     ca_get(DBR_TIME_DOUBLE, instantCAnode->chid, pTD);
 
-    ca_pend_io(0.0);
+    if( ca_pend_io(0.1) == ECA_NORMAL ) {
+        double value = pTD->value;
+        epicsUInt32 timestamp = pTD->stamp.secPastEpoch;
+        
+        [pvGetArray removeAllObjects];
 
-    double value = pTD->value;
-    epicsUInt32 timestamp = pTD->stamp.secPastEpoch;
-
-    [pvGetArray removeAllObjects];
-
-    [pvGetArray addObject: [NSNumber numberWithDouble: value]];
-    [pvGetArray addObject: [NSNumber numberWithInt: timestamp]];
-
+        [pvGetArray addObject: [NSNumber numberWithDouble: value]];
+        [pvGetArray addObject: [NSNumber numberWithInt: timestamp]];
+    }
+    else {
+//        id preValue = [pvGetArray objectAtIndex: 0];
+//        epicsUInt32 preTimestamp = [[pvGetArray objectAtIndex: 1] unsignedIntValue];
+//        
+//        [pvGetArray removeAllObjects];
+//
+//        [pvGetArray addObject: preValue];
+//        [pvGetArray addObject: [NSNumber numberWithInt: preTimestamp + 1]];
+    }
+    
     free(pTD);
 }
 

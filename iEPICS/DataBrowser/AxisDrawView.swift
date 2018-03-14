@@ -17,6 +17,7 @@ class AxisDrawView: UIView {
     
     let axisLineWidth: CGFloat = 1.0
     let legendColorAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+    let exponentialAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 8)]
 
     override func draw(_ rect: CGRect) {
         // Drawing code
@@ -141,12 +142,11 @@ class AxisDrawView: UIView {
         var legendLabelScale = tickInfo.scale
         // Exponential Express
         let baseLabel = "10"
-        let exponentialLabel = String(tickInfo.exp)
-        let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+        var exponentialLabel = "0"
 //        baseLabel.draw(at: CGPoint(x: 5, y: 10), withAttributes: nil)
 
         if( tickInfo.exp > 3 ) {
-            for _ in 0 ..< tickInfo.exp {
+            for _ in 1 ..< tickInfo.exp {
                 legendLabelScale /= 10
             }
             
@@ -156,8 +156,9 @@ class AxisDrawView: UIView {
 //            let exponentialLabel = String(tickInfo.exp)
 //            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
             
-            baseLabel.draw(at: CGPoint(x: 5, y: 12), withAttributes: nil)
-            exponentialLabel.draw(at: CGPoint(x: 10, y: 5), withAttributes: attributes)
+            exponentialLabel = String(tickInfo.exp - 1)
+            baseLabel.draw(at: CGPoint(x: 3, y: 10), withAttributes: nil)
+            exponentialLabel.draw(at: CGPoint(x: 15, y: 3), withAttributes: exponentialAttributes)
         }
         else if( tickInfo.exp < -3 ) {
             for _ in tickInfo.exp ..< -1  {
@@ -169,9 +170,9 @@ class AxisDrawView: UIView {
 //            let baseLabel = "10"
 //            let exponentialLabel = String(tickInfo.exp)
 //            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
-            
-            baseLabel.draw(at: CGPoint(x: 5, y: 12), withAttributes: nil)
-            exponentialLabel.draw(at: CGPoint(x: 10, y: 5), withAttributes: attributes)
+            exponentialLabel = String(tickInfo.exp + 1)
+            baseLabel.draw(at: CGPoint(x: 3, y: 10), withAttributes: nil)
+            exponentialLabel.draw(at: CGPoint(x: 15, y: 3), withAttributes: exponentialAttributes)
         }
         
         // Gesture Moving Value
@@ -250,123 +251,123 @@ class AxisDrawView: UIView {
     }
     
     
-    private func DrawYAxisTick() {
-        
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        let tickPath = UIBezierPath()
-        let tickInfo = dataBrowserModel.getDyInfoValue()
-        
-        let viewSize = dataBrowserModel.drawViewSize
-        let movePositionX = viewSize.origin.x
-        var originY = viewSize.origin.y + viewSize.height
-        let value1 = dataBrowserModel.value1
-        
-        var legendLabelScale = tickInfo.scale
-        
-        // Exponential Express
-        if( tickInfo.exp > 3 ) {
-            for _ in 0 ..< tickInfo.exp {
-                legendLabelScale /= 10
-            }
-            
-            legendLabelScale = floor(legendLabelScale * 100) / 100
-            
-            let baseLabel = "10"
-            let exponentialLabel = String(tickInfo.exp)
-            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
-            
-            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: nil)
-            exponentialLabel.draw(at: CGPoint(x: 10, y: 16), withAttributes: attributes)
-        }
-        else if( tickInfo.exp < -3 ) {
-            for _ in tickInfo.exp ..< 0  {
-                legendLabelScale *= 10
-            }
-            
-            legendLabelScale = floor(legendLabelScale * 10000) / 10000
-            
-            let baseLabel = "10"
-            let exponentialLabel = String(tickInfo.exp)
-            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
-            
-            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: nil)
-            exponentialLabel.draw(at: CGPoint(x: 10, y: 16), withAttributes: attributes)
-        }
-        
-        // Gesture Moving Value
-        let offset = value1 * tickInfo.dy
-        originY += offset
-        
-        let context = UIGraphicsGetCurrentContext()!
-
-        //var idx = 0
-        var count = 0
-        while( originY > viewSize.origin.y ) {
-            
-            if( originY < viewSize.origin.y + viewSize.height ) {
-                if( count % 5 == 0) {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
-                    
-//                    let legendLabel = String(format: "%.2f", CGFloat(count) * legendLabelScale)
-                    let legendLabel = String(describing: CGFloat(count) * legendLabelScale)
-                    let size: CGSize = legendLabel.size(withAttributes: nil)
-                    
-                    context.saveGState()
-                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
-                    context.rotate(by: CGFloat(-Double.pi / 2))
-                    context.setFillColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
-                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
-                    context.restoreGState()
-                    //idx += 1
-                }
-                else {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
-                }
-            }
-            
-            originY -= tickInfo.dy * tickInfo.scale
-            count += 1
-        }
-        
-        originY = viewSize.origin.y + viewSize.height
-        originY += offset + tickInfo.dy * tickInfo.scale
-        
-        count = 1
-        //idx = 0
-        while( originY < viewSize.origin.y + viewSize.height) {
-            if( originY > viewSize.origin.y) {
-                if( count % 5 == 0) {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
-                    
-                    let legendLabel = String(describing: CGFloat(-count) * legendLabelScale)
-                    let size: CGSize = legendLabel.size(withAttributes: nil)
-                    
-                    context.saveGState()
-                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
-                    context.rotate(by: CGFloat(-Double.pi / 2))
-                    
-                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
-                    
-                    context.restoreGState()
-                    //idx += 1
-                }
-                else {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
-                }
-            }
-            
-            originY += tickInfo.dy * tickInfo.scale
-            count += 1
-        }
-        
-        tickPath.lineWidth = axisLineWidth
-        UIColor.black.set()
-        tickPath.stroke()
-    }
+//    private func DrawYAxisTick() {
+//
+//        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//        let tickPath = UIBezierPath()
+//        let tickInfo = dataBrowserModel.getDyInfoValue()
+//
+//        let viewSize = dataBrowserModel.drawViewSize
+//        let movePositionX = viewSize.origin.x
+//        var originY = viewSize.origin.y + viewSize.height
+//        let value1 = dataBrowserModel.value1
+//
+//        var legendLabelScale = tickInfo.scale
+//
+//        // Exponential Express
+//        if( tickInfo.exp > 3 ) {
+//            for _ in 0 ..< tickInfo.exp {
+//                legendLabelScale /= 10
+//            }
+//
+//            legendLabelScale = floor(legendLabelScale * 100) / 100
+//
+//            let baseLabel = "10"
+//            let exponentialLabel = String(tickInfo.exp)
+//            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+//
+//            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: nil)
+//            exponentialLabel.draw(at: CGPoint(x: 10, y: 16), withAttributes: attributes)
+//        }
+//        else if( tickInfo.exp < -3 ) {
+//            for _ in tickInfo.exp ..< 0  {
+//                legendLabelScale *= 10
+//            }
+//
+//            legendLabelScale = floor(legendLabelScale * 10000) / 10000
+//
+//            let baseLabel = "10"
+//            let exponentialLabel = String(tickInfo.exp)
+//            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+//
+//            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: nil)
+//            exponentialLabel.draw(at: CGPoint(x: 10, y: 16), withAttributes: attributes)
+//        }
+//
+//        // Gesture Moving Value
+//        let offset = value1 * tickInfo.dy
+//        originY += offset
+//
+//        let context = UIGraphicsGetCurrentContext()!
+//
+//        //var idx = 0
+//        var count = 0
+//        while( originY > viewSize.origin.y ) {
+//
+//            if( originY < viewSize.origin.y + viewSize.height ) {
+//                if( count % 5 == 0) {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+//
+////                    let legendLabel = String(format: "%.2f", CGFloat(count) * legendLabelScale)
+//                    let legendLabel = String(describing: CGFloat(count) * legendLabelScale)
+//                    let size: CGSize = legendLabel.size(withAttributes: nil)
+//
+//                    context.saveGState()
+//                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+//                    context.rotate(by: CGFloat(-Double.pi / 2))
+//                    context.setFillColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 1.0)
+//                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+//                    context.restoreGState()
+//                    //idx += 1
+//                }
+//                else {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+//                }
+//            }
+//
+//            originY -= tickInfo.dy * tickInfo.scale
+//            count += 1
+//        }
+//
+//        originY = viewSize.origin.y + viewSize.height
+//        originY += offset + tickInfo.dy * tickInfo.scale
+//
+//        count = 1
+//        //idx = 0
+//        while( originY < viewSize.origin.y + viewSize.height) {
+//            if( originY > viewSize.origin.y) {
+//                if( count % 5 == 0) {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+//
+//                    let legendLabel = String(describing: CGFloat(-count) * legendLabelScale)
+//                    let size: CGSize = legendLabel.size(withAttributes: nil)
+//
+//                    context.saveGState()
+//                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+//                    context.rotate(by: CGFloat(-Double.pi / 2))
+//
+//                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+//
+//                    context.restoreGState()
+//                    //idx += 1
+//                }
+//                else {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+//                }
+//            }
+//
+//            originY += tickInfo.dy * tickInfo.scale
+//            count += 1
+//        }
+//
+//        tickPath.lineWidth = axisLineWidth
+//        UIColor.black.set()
+//        tickPath.stroke()
+//    }
     
     private func DrawArrayXAxisTick() {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
@@ -411,108 +412,108 @@ class AxisDrawView: UIView {
         tickPath.stroke()
     }
     
-    private func DrawArrayYAxisTick() {
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        let tickPath = UIBezierPath()
-        let tickInfo = dataBrowserModel.getDyInfoValue()
-        
-        let viewSize = dataBrowserModel.drawViewSize
-        let movePositionX = viewSize.origin.x
-        var originY = viewSize.origin.y + viewSize.height
-        let value1 = dataBrowserModel.value1
-        
-        var legendLabelScale = tickInfo.scale
-        
-        // Exponential Express
-        if( tickInfo.exp > 3 ) {
-            for _ in 0 ..< tickInfo.exp {
-                legendLabelScale /= 10
-            }
-            
-            legendLabelScale = floor(legendLabelScale * 100) / 100
-            
-            let baseLabel = "10"
-            let exponentialLabel = String(tickInfo.exp)
-            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
-            
-            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: legendColorAttributes)
-            exponentialLabel.draw(at: CGPoint(x: 18, y: 26), withAttributes: attributes)
-        }
-        
-        // Gesture Moving Value
-        let offset = value1 * tickInfo.dy
-        originY += offset
-        
-        let context = UIGraphicsGetCurrentContext()!
-        
-        //var idx = 0
-        var count = 0
-        while( originY > viewSize.origin.y ) {
-            
-            if( originY < viewSize.origin.y + viewSize.height ) {
-                if( count % 5 == 0) {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
-                    
-                    let legendLabel = String(describing: CGFloat(count) * legendLabelScale)
-                    let size: CGSize = legendLabel.size(withAttributes: nil)
-                    
-                    context.saveGState()
-                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
-                    context.rotate(by: CGFloat(-Double.pi / 2))
-                    
-                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
-                    
-                    context.restoreGState()
-                    //idx += 1
-                }
-                else {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
-                }
-            }
-            
-            originY -= tickInfo.dy * tickInfo.scale
-            count += 1
-        }
-        
-        originY = viewSize.origin.y + viewSize.height
-        originY += offset + tickInfo.dy * tickInfo.scale
-        
-        count = 1
-        //idx = 0
-        while( originY < viewSize.origin.y + viewSize.height) {
-            if( originY > viewSize.origin.y) {
-                if( count % 5 == 0) {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
-                    
-                    let legendLabel = String(describing: CGFloat(-count) * legendLabelScale)
-                    let size: CGSize = legendLabel.size(withAttributes: nil)
-                    
-                    context.saveGState()
-                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
-                    context.rotate(by: CGFloat(-Double.pi / 2))
-                    
-                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
-                    
-                    context.restoreGState()
-                    //idx += 1
-                }
-                else {
-                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
-                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
-                }
-            }
-            
-            originY += tickInfo.dy * tickInfo.scale
-            count += 1
-        }
-        
-        tickPath.lineWidth = axisLineWidth
-        UIColor.black.set()
-        tickPath.stroke()
-    }
+//    private func DrawArrayYAxisTick() {
+//        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//        let tickPath = UIBezierPath()
+//        let tickInfo = dataBrowserModel.getDyInfoValue()
+//
+//        let viewSize = dataBrowserModel.drawViewSize
+//        let movePositionX = viewSize.origin.x
+//        var originY = viewSize.origin.y + viewSize.height
+//        let value1 = dataBrowserModel.value1
+//
+//        var legendLabelScale = tickInfo.scale
+//
+//        // Exponential Express
+//        if( tickInfo.exp > 3 ) {
+//            for _ in 0 ..< tickInfo.exp {
+//                legendLabelScale /= 10
+//            }
+//
+//            legendLabelScale = floor(legendLabelScale * 100) / 100
+//
+//            let baseLabel = "10"
+//            let exponentialLabel = String(tickInfo.exp)
+//            let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10)]
+//
+//            baseLabel.draw(at: CGPoint(x: 5, y: 30), withAttributes: legendColorAttributes)
+//            exponentialLabel.draw(at: CGPoint(x: 18, y: 26), withAttributes: attributes)
+//        }
+//
+//        // Gesture Moving Value
+//        let offset = value1 * tickInfo.dy
+//        originY += offset
+//
+//        let context = UIGraphicsGetCurrentContext()!
+//
+//        //var idx = 0
+//        var count = 0
+//        while( originY > viewSize.origin.y ) {
+//
+//            if( originY < viewSize.origin.y + viewSize.height ) {
+//                if( count % 5 == 0) {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+//
+//                    let legendLabel = String(describing: CGFloat(count) * legendLabelScale)
+//                    let size: CGSize = legendLabel.size(withAttributes: nil)
+//
+//                    context.saveGState()
+//                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+//                    context.rotate(by: CGFloat(-Double.pi / 2))
+//
+//                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+//
+//                    context.restoreGState()
+//                    //idx += 1
+//                }
+//                else {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+//                }
+//            }
+//
+//            originY -= tickInfo.dy * tickInfo.scale
+//            count += 1
+//        }
+//
+//        originY = viewSize.origin.y + viewSize.height
+//        originY += offset + tickInfo.dy * tickInfo.scale
+//
+//        count = 1
+//        //idx = 0
+//        while( originY < viewSize.origin.y + viewSize.height) {
+//            if( originY > viewSize.origin.y) {
+//                if( count % 5 == 0) {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(10), y: originY))
+//
+//                    let legendLabel = String(describing: CGFloat(-count) * legendLabelScale)
+//                    let size: CGSize = legendLabel.size(withAttributes: nil)
+//
+//                    context.saveGState()
+//                    context.translateBy(x: movePositionX - 25, y: originY + size.width / 2)
+//                    context.rotate(by: CGFloat(-Double.pi / 2))
+//
+//                    legendLabel.draw(at: CGPoint.zero, withAttributes: legendColorAttributes)
+//
+//                    context.restoreGState()
+//                    //idx += 1
+//                }
+//                else {
+//                    tickPath.move(to: CGPoint(x: movePositionX, y: originY))
+//                    tickPath.addLine(to: CGPoint(x: movePositionX - CGFloat(5.0), y: originY))
+//                }
+//            }
+//
+//            originY += tickInfo.dy * tickInfo.scale
+//            count += 1
+//        }
+//
+//        tickPath.lineWidth = axisLineWidth
+//        UIColor.black.set()
+//        tickPath.stroke()
+//    }
     
     private func ValueToPixel(value: CGFloat) -> Int {
         

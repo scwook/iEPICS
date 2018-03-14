@@ -239,8 +239,10 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             
             switch sender.state {
             case .began, .changed:
-                dataBrowserModel.value1 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
-                dataBrowserModel.value2 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
+//                dataBrowserModel.value1 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
+//                dataBrowserModel.value2 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
+                dataBrowserModel.value1 += (translation.y / dataBrowserModel.test().dy)
+                dataBrowserModel.value2 += (translation.y / dataBrowserModel.test().dy)
                 
                 dataBrowserModel.timeOffset -= TimeInterval(translation.x / dataBrowserModel.getDxInfoValue().dx)
                 
