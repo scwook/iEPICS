@@ -26,7 +26,7 @@ class MainMenuViewController: UIViewController {
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         
         monitoringButton.setTitle(nil, for: .normal)
         monitoringButton.setImage(UIImage(named: "Monitoring"), for: .normal)

@@ -15,6 +15,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     let caObject = ChannelAccessClient.sharedObject()!
     
     let caEventNotification = Notification.Name("EventCallbackNotification")
+    let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
     let caErrorNotification = Notification.Name("ErrorCallbackNotification")
     
     var pvNameDictionary = NSMutableDictionary()
@@ -25,30 +26,38 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(forName: caEventNotification, object: nil, queue: nil, using: catchEventNotification)
+        NotificationCenter.default.addObserver(forName: caConnectionNotification, object: nil, queue: nil, using: catchConnectionNotification)
         NotificationCenter.default.addObserver(forName: caErrorNotification, object: nil, queue: nil, using: catchErrorNotification)
         NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillTerminate, object: nil, queue: OperationQueue.main, using: savePVListToFile)
         
-        caObject.channelAccessContextCreate()
+        print("Monitoring ViewdidLoad")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         //UserDefaults.standard.set(pvNameDicKeyCopyArray.flatMap({ $0 }), forKey: "PVNameList")
         //NotificationCenter.default.post(name: Notification.Name.UIApplicationWillTerminate, object: nil)
-        savePVListFromTable()
         //viewWillSwitch()
         
 //        for i in 0 ..< pvNameDicKeyCopyArray.count {
 //            removeProcessVariable(pvName: pvNameDicKeyCopyArray[i]!)
 //        }
 //
+        print("Monitoring ViewDidDisappear")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        savePVListFromTable()
+
         caObject.channelAccessAllClear()
         pvNameDicKeyCopyArray.removeAll()
+        print("Monitoring ViewWillDisappear")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        caObject.channelAccessContextCreate()
+
         //caObject.channelAccessSetDictionary(pvNameDictionary)
         //caObject.channelAccessSetDictionaryIndex(pvNameDictionaryIndex)
     
@@ -60,8 +69,12 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
 //        }
 //
 //        monitoringTableView.reloadData()
+        print("Monitoring ViewWillAppear")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        print("Monitoring ViewDidAppear")
+    }
     
     //******** Table View *************
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,12 +82,22 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let rowData = pvNameDicKeyCopyArray[indexPath.row] {
-            return 35.0
+        var rowHeight: CGFloat = 40.0
+        let height = UIScreen.main.bounds.height
+        switch height {
+        case 568.0:
+            rowHeight = 35.0
+        default:
+            rowHeight = 40.0
+            break
         }
-        else {
-            return 30.0
+        
+        if pvNameDicKeyCopyArray[indexPath.row] == nil {
+            rowHeight -= 5.0
         }
+        
+        return rowHeight
+
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let rowData = pvNameDicKeyCopyArray[indexPath.row] {
@@ -378,6 +401,15 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    private func catchConnectionNotification(notification:Notification) -> Void {
+        
+        DispatchQueue.main.async {
+            if(!self.monitoringTableView.isEditing && !self.monitoringTableView.isDragging) {
+                self.monitoringTableView.reloadData()
+            }
+        }
+    }
+    
     private func catchErrorNotification(notification:Notification) -> Void {
         
         if let caMessage = notification.object as? String {
@@ -404,6 +436,8 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
             let pvName = sender as! String
             
             dataBrowserView.pv = pvName
+            
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         }
         
         if segue.identifier == "arrayTableViewController" {
@@ -415,6 +449,8 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
             
 //            arrayTableView.pvDataArray = array
             arrayTableView.pvName = processVariableName
+            
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         }
     }
     

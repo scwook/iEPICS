@@ -10,7 +10,11 @@ import Foundation
 
 class ChannelAccessNotification: NSObject {
     @objc func EventCallbackToSwift(pvName: NSString) {
-        NotificationCenter.default.post(name: Notification.Name("EventCallbackNotification"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("EventCallbackNotification"), object: pvName)
+    }
+    
+    @objc func ConnectionCallbackToSwift(message: NSString) {
+        NotificationCenter.default.post(name: Notification.Name("ConnectionCallbackNotification"), object: message)
     }
     
     @objc func ErrorCallbackToSwift(message: NSString) {

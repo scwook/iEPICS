@@ -15,12 +15,11 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     var drawTimer: Timer?
     
     let maxArraySize = 100
-    var pv: String? = "Data Browser" {
-        didSet {
-            addNewProcessVariable(pvName: pv!)
-        }
-    }
+    var pv: String? = nil
+    var startDrawing = false
     
+    let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
+
     @IBOutlet weak var dataDrawView: DataDrawView!
     @IBOutlet weak var axisDrawView: AxisDrawView!
     
@@ -30,134 +29,237 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        appDelegate.shouldRotate = true
         
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        
-        dataBrowserModel.axisViewSize = axisDrawView.frame
-        dataBrowserModel.drawViewSize = dataDrawView.frame
-        
+        NotificationCenter.default.addObserver(forName: caConnectionNotification, object: nil, queue: nil, using: catchConnectionNotification)
         NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
-
-        self.title = pv
+        
+//        self.title = pv
         
         // Do any additional setup after loading the view, typically from a nib.
+        print("DataBrowser ViewDidLoad")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        caObject.channelAccessContextCreate()
+
+        if let pvName = pv {
+            self.title = pvName
+            addNewProcessVariable(pvName: pvName)
+        }
+        
+        print("DataBrowser ViewWillAppear")
+
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        print("DataBrowser ViewDidAppear")
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+//        NotificationCenter.default.removeObserver(self)
+        if let timer = drawTimer {
+            timer.invalidate()
+        }
+        
+        caObject.channelAccessAllClear()
+
+        print("DataBrowser ViewWillDisappear")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("DataBrowser ViewDidDisappear")
+
+    }
+    
+    //********* Notification *************
+    private func catchConnectionNotification(notification:Notification) -> Void {
+        if let caMessage = notification.object as? String {
+            if caMessage == "Connected" {
+                startDrawing = true
+                self.title = pv
+            }
+            else {
+                startDrawing = false
+                self.title = "Disconnected"
+            }
+        }
+    }
+    
+    func addNewProcessVariable(pvName: String) {
+        
+        if startDrawing {
+            startDrawing = false
+        }
+        
+        if let timer = drawTimer {
+            timer.invalidate()
+        }
+        
+        caObject.channelAccessAllClear()
+
+        if let drawView = dataDrawView {
+            drawView.data.removeAll()
+            drawView.time.removeAll()
+            drawView.arrayData.removeAll()
+        }
+        
+        pvValueArray.removeAllObjects()
+        
+        //        caObject.channelAccessSetGet(pvValueArray)
+        pv = pvName
+        caObject.channelAccessAddProcessVariable(pvName)
+        self.title = pvName
+        
+        //        self.title = pvName
+        startDataBrowser(pvName: pvName)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        
-        dataBrowserModel.axisViewSize = axisDrawView.frame
-        
+
         //dataDrawView.frame.size.width = axisDrawView.frame.size.width
         dataDrawView.frame.size.height = axisDrawView.frame.size.height - 26
         dataBrowserModel.drawViewSize = dataDrawView.frame
-        
     }
 
     private func startDataBrowser(pvName: String) -> Void {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        
-//      Thread Method
-        
-        DispatchQueue.global().async {
-            
-            let elementCount = self.caObject.channelAccessCreateChannel(pvName)
-            
-            if(elementCount < 1) {
-                return
-            }
-            
-            dataBrowserModel.elementCount = elementCount
-            
-            if( elementCount > 1 ) {
-                while true {
-                    self.dataDrawView.arrayData = self.caObject.channelAccessGetArray() as! [Double]
-                    
-                    DispatchQueue.main.async {
-                        self.dataDrawView.setNeedsDisplay()
-                        self.axisDrawView.setNeedsDisplay()
-                    }
-                    sleep(dataBrowserModel.refreshRate)
-                }
-            }
-            else {
-                while true {
-                    
-                    self.caObject.channelAccessGet()
-                    //                let value = Int(arc4random_uniform(100000))
-                    //                let timeStamp = Date()
-                    
-                    if(self.dataDrawView.data.count > self.maxArraySize) {
-                        self.dataDrawView.data.remove(at: 0)
-                        self.dataDrawView.time.remove(at: 0)
-                        
-                    }
-                    
-                    self.dataDrawView.data.append(self.pvValueArray[0] as! Double)
-                    //self.dataDrawView.time.append(Int(timeStamp.timeIntervalSince1970))
-                    self.dataDrawView.time.append(self.pvValueArray[1] as! Int + 631152000)
-                    
-                    if( self.dataDrawView.data.count == 2) {
-                        dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.dataDrawView.setNeedsDisplay()
-                        self.axisDrawView.setNeedsDisplay()
-                    }
-                    sleep(dataBrowserModel.refreshRate)
-                }
-            }
-        }
     
+//      Thread Method
+//
+//        DispatchQueue.global().async {
+//
+//            if let pvNameDictionary = self.caObject.channelAccessGetDictionary() {
+//                if pvNameDictionary.count != 0 {
+//                    let myData = pvNameDictionary[pvName] as! ChannelAccessData
+//                    let value = myData.value as NSMutableArray
+//
+//                    dataBrowserModel.elementCount = value.count
+//                    //
+//                    //            let elementCount = self.caObject.channelAccessCreateChannel(pvName)
+//                    //
+//                    //            if(elementCount < 1) {
+//                    //                return
+//                    //            }
+//                    //
+//                    //            dataBrowserModel.elementCount = elementCount
+//                    if( value.count > 1 ) {
+//                        while self.isDrawing {
+////                            self.dataDrawView.arrayData = self.caObject.channelAccessGetArray() as! [Double]
+//
+//                            DispatchQueue.main.async {
+//                                self.dataDrawView.setNeedsDisplay()
+//                                self.axisDrawView.setNeedsDisplay()
+//                            }
+//
+//                            sleep(dataBrowserModel.refreshRate)
+//                        }
+//                    }
+//                    else {
+//                        while self.isDrawing {
+//                            if( value.count == 0) {
+//                                continue
+//                            }
+//
+////                            self.caObject.channelAccessGet()
+//                            //                let value = Int(arc4random_uniform(100000))
+//                            //                let timeStamp = Date()
+//
+//                            if(self.dataDrawView.data.count > self.maxArraySize) {
+//                                self.dataDrawView.data.remove(at: 0)
+//                                self.dataDrawView.time.remove(at: 0)
+//
+//                            }
+//
+//
+//                            if let currentValue = (value[0] as? NSString)?.doubleValue {
+//                                self.dataDrawView.data.append(currentValue)
+//                                print(currentValue)
+//                                self.dataDrawView.time.append(Int(myData.timeStampSince1990 + 631152000))
+//                            }
+//
+//                            if( self.dataDrawView.data.count == 2) {
+//                                dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
+//                            }
+//
+//                            DispatchQueue.main.async {
+//                                self.dataDrawView.setNeedsDisplay()
+//                                self.axisDrawView.setNeedsDisplay()
+//                            }
+//
+//                            sleep(dataBrowserModel.refreshRate)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
         
 //        Timer Method
+        
 //        if let timer = drawTimer {
 //            timer.invalidate()
 //        }
-//
-//        let elementCount = self.caObject.channelAccessCreateChannel(pvName)
-//
-//        if(elementCount < 1) {
-//            return
-//        }
-//
-//        dataBrowserModel.elementCount = elementCount
-//
-//        if( elementCount > 1 ) {
-//            drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-//                self.dataDrawView.arrayData = self.caObject.channelAccessGetArray() as! [Double]
-//
-//                self.dataDrawView.setNeedsDisplay()
-//                self.axisDrawView.setNeedsDisplay()
-//            }
-//
-//        }
-//        else {
-//            drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-//
-//                self.caObject.channelAccessGet()
-//
-//
-//                if(self.dataDrawView.data.count > self.maxArraySize) {
-//                    self.dataDrawView.data.remove(at: 0)
-//                    self.dataDrawView.time.remove(at: 0)
-//
-//                }
-//
-//                self.dataDrawView.data.append(self.pvValueArray[0] as! Double)
-//                self.dataDrawView.time.append(self.pvValueArray[1] as! Int + 631152000)
-//
-//                if( self.dataDrawView.data.count == 2) {
-//                    dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
-//                }
-//
-//                self.dataDrawView.setNeedsDisplay()
-//                self.axisDrawView.setNeedsDisplay()
-//            }
-//
-//        }
+
+        if let pvNameDictionary = caObject.channelAccessGetDictionary() {
+            if pvNameDictionary.count != 0 {
+                let myData = pvNameDictionary[pvName] as! ChannelAccessData
+                let value = myData.value as NSMutableArray
+
+                dataBrowserModel.elementCount = value.count
+
+                if( value.count > 1 ) {
+                    drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                        if( self.startDrawing ) {
+                            self.dataDrawView.arrayData = myData.value as! [Double]
+                            
+                            self.dataDrawView.setNeedsDisplay()
+                            self.axisDrawView.setNeedsDisplay()
+                        }
+                    }
+                }
+                else {
+                    drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+
+//                        self.caObject.channelAccessGet()
+                        if( self.startDrawing ) {
+
+                            let currentValue = (value[0] as? NSString)?.doubleValue
+                            let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
+                            
+                            if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
+                                let timeDiff = currentTimestamp - lastTimestamp
+                                if( timeDiff > 1 ) {
+                                    for i in 1..<timeDiff {
+                                        self.dataDrawView.data.append(lastValue)
+                                        self.dataDrawView.time.append(lastTimestamp + i)
+                                    }
+                                }
+                            }
+                            
+                            if(self.dataDrawView.data.count > self.maxArraySize) {
+                                let overCount = self.dataDrawView.data.count - self.maxArraySize
+                                for _ in 0 ..< overCount {
+                                    self.dataDrawView.data.remove(at: 0)
+                                    self.dataDrawView.time.remove(at: 0)
+                                }
+                            }
+                            
+                            self.dataDrawView.data.append(currentValue!)
+                            self.dataDrawView.time.append(currentTimestamp)
+                            
+                            if( self.dataDrawView.data.count == 2) {
+                                dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
+                            }
+                            
+                            self.dataDrawView.setNeedsDisplay()
+                            self.axisDrawView.setNeedsDisplay()
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private func rotated(notification:Notification) -> Void {
@@ -298,25 +400,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         else {
             dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
         }
-    }
-    
-    func addNewProcessVariable(pvName: String) {
-
-        caObject.channelAccessContextCreate()
-
-        if let drawView = dataDrawView {
-            drawView.data.removeAll()
-            drawView.time.removeAll()
-            drawView.arrayData.removeAll()
-        }
-        
-        pvValueArray.removeAllObjects()
-        
-        caObject.channelAccessSetGet(pvValueArray)
-        
-        self.title = pvName
-        
-        startDataBrowser(pvName: pvName)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

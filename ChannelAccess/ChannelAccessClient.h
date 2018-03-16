@@ -13,6 +13,7 @@
 static const unsigned short max_pv = 100;
 //static void eventCallback( struct event_handler_args eha );
 static void connectionCallback( struct connection_handler_args cha );
+static void instantConnectionCallback( struct connection_handler_args cha);
 
 static void eventCallbackString( evargs eha );
 static void eventCallbackShort( evargs eha );
@@ -72,17 +73,23 @@ typedef struct {
 + (instancetype)sharedObject;
 - (instancetype)initPrivate;
 - (BOOL)ChannelAccessAddProcessVariable:(NSString *)pvName;
+//- (BOOL)ChannelAccessAddProcessVariableForDatabrowser:(NSString *)pvName;
+
 - (BOOL)ChannelAccessRemoveProcessVariable:(NSString *)pvName;
 - (void)ChannelAccessRemoveProcessVariable;
 - (void)ChannelAccessRemoveAll;
 - (void)ChannelAccessContextCreate;
 - (void)ChannelAccessContexDestroy;
 - (void)ChannelAccessCreateChannel:(unsigned long)pvNameIndex key:(NSString *)pvName;
+- (void)ChannelAccessCreateChannelForDatabrowser:(unsigned long)pvNameIndex key:(NSString *)pvName;
+
 - (long)ChannelAccessCreateChannel:(NSString *)pvName;
 - (void)ChannelAccessClearChannel:(unsigned long)index;
 - (void)ChannelAccessPendEvent:(double)timeOut;
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName;
 - (void)ChannelAccessGet;
+- (void)ChannelAccessGet:(NSString *)pvName;
+
 - (NSMutableDictionary *)ChannelAccessGetDictionary;
 - (NSMutableDictionary *)ChannelAccessGetIndexDictionary;
 - (void)ChannelAccessSetDictionary:(NSMutableDictionary *)refDictionary;

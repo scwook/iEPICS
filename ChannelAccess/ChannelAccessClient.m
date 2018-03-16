@@ -70,6 +70,8 @@ static ChannelAccessNotification *notification;
 
 - (void)ChannelAccessSetGetArray:(NSMutableArray *)pvValueArray {
     pvGetArray = pvValueArray;
+    [pvGetArray addObject: [NSNumber numberWithDouble: 0.0]];
+    [pvGetArray addObject: [NSNumber numberWithInt: 0]];
 }
 
 - (NSMutableArray *)ChannelAccessGetArray {
@@ -143,10 +145,20 @@ static ChannelAccessNotification *notification;
 - (void)ChannelAccessCreateChannel:(unsigned long)pvNameIndex key:(NSString *)pvName {
     const char *pname = [pvName UTF8String];
     unsigned long index = pvNameIndex;
-    
+
     myCAnode[index] = calloc(1, sizeof(CANODE));
     int status = ca_create_channel(pname, connectionCallback, myCAnode[index], 20, &myCAnode[index]->chid);
-    
+
+    [self ChannelAccessStatusCheck:status];
+}
+
+- (void)ChannelAccessCreateChannelForDatabrowser:(unsigned long)pvNameIndex key:(NSString *)pvName {
+    const char *pname = [pvName UTF8String];
+    unsigned long index = pvNameIndex;
+
+    myCAnode[index] = calloc(1, sizeof(CANODE));
+    int status = ca_create_channel(pname, instantConnectionCallback, myCAnode[index], 20, &myCAnode[index]->chid);
+
     [self ChannelAccessStatusCheck:status];
 }
 
@@ -159,8 +171,9 @@ static ChannelAccessNotification *notification;
     }
     
     instantCAnode = calloc(1, sizeof(CANODE));
+//    ca_create_channel(pname, instantConnectionCallback, instantCAnode, 20, &instantCAnode->chid);
     ca_create_channel(pname, NULL, NULL, 20, &instantCAnode->chid);
-    
+
     ca_pend_io(1.0);
     
     long elementCount = ca_element_count(instantCAnode->chid);
@@ -179,7 +192,10 @@ static ChannelAccessNotification *notification;
 
     ca_get(DBR_TIME_DOUBLE, instantCAnode->chid, pTD);
 
-    if( ca_pend_io(0.1) == ECA_NORMAL ) {
+    id preValue = [pvGetArray objectAtIndex: 0];
+    epicsUInt32 preTimestamp = [[pvGetArray objectAtIndex: 1] unsignedIntValue];
+    
+    if( ca_pend_io(0.01) == ECA_NORMAL ) {
         double value = pTD->value;
         epicsUInt32 timestamp = pTD->stamp.secPastEpoch;
         
@@ -189,16 +205,17 @@ static ChannelAccessNotification *notification;
         [pvGetArray addObject: [NSNumber numberWithInt: timestamp]];
     }
     else {
-//        id preValue = [pvGetArray objectAtIndex: 0];
-//        epicsUInt32 preTimestamp = [[pvGetArray objectAtIndex: 1] unsignedIntValue];
-//        
-//        [pvGetArray removeAllObjects];
-//
-//        [pvGetArray addObject: preValue];
-//        [pvGetArray addObject: [NSNumber numberWithInt: preTimestamp + 1]];
+        [pvGetArray removeAllObjects];
+
+        [pvGetArray addObject: preValue];
+        [pvGetArray addObject: [NSNumber numberWithInt: preTimestamp + 1]];
     }
     
     free(pTD);
+}
+
+- (void)ChannelAccessGet:(NSString *)pvName {
+
 }
 
 - (void)ChannelAccessClearChannel:(unsigned long)index {
@@ -281,6 +298,36 @@ static ChannelAccessNotification *notification;
         return FALSE;
     }
 }
+
+//- (BOOL)ChannelAccessAddProcessVariableForDatabrowser:(NSString *)pvName {
+//
+//    if( [pvDictionary count] >= max_pv ) {
+//        [notification ErrorCallbackToSwiftWithMessage:@"The Number of Maximun PVs are 100"];
+//        return FALSE;
+//    }
+//
+//    if( ![pvDictionary objectForKey:pvName] ) {
+//
+//        ChannelAccessData *myData = [[ChannelAccessData alloc] init];
+//
+//        [pvDictionary setObject:myData forKey:pvName];
+//
+//        unsigned long index = 0;
+//
+//        if ( pvDictionaryIndex.count != 0) {
+//            index = [self ChannelAccessGetAvailableIndex];
+//        }
+//
+//        //[pvDictionaryIndex setObject:[@(index) stringValue] forKey:pvName];
+//        [pvDictionaryIndex setObject:[NSNumber numberWithUnsignedLong:index] forKey:pvName];
+//        [self ChannelAccessCreateChannelForDatabrowser:index key:pvName];
+//
+//        return TRUE;
+//    }
+//    else {
+//        return FALSE;
+//    }
+//}
 
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName {
     return [pvDictionary objectForKey:pvName];
@@ -452,6 +499,8 @@ void connectionCallback( struct connection_handler_args cha) {
         CANODE *myCAnode = ca_puser(cha.chid);
         
         ca_create_subscription(nativeType, elementCount, cha.chid, DBE_VALUE, eventCallback, myCAnode, &myCAnode->evid);
+        
+        [notification ConnectionCallbackToSwiftWithMessage: @"Connected"];
     }
     else if( cha.op == CA_OP_CONN_DOWN ) {
         NSString *pname = [NSString stringWithUTF8String:ca_name(cha.chid)];
@@ -468,7 +517,20 @@ void connectionCallback( struct connection_handler_args cha) {
         //CANODE *myCAnode = ca_puser(cha.chid);
         //ca_clear_subscription(myCAnode->evid);
         
-        [notification EventCallbackToSwiftWithPvName:pname];
+        [notification ConnectionCallbackToSwiftWithMessage: @"Disconnected"];
+
+//        [notification EventCallbackToSwiftWithPvName:pname];
+    }
+}
+
+void instantConnectionCallback( struct connection_handler_args cha) {
+//    ChannelAccessClient *myChannelAccess = [ChannelAccessClient sharedObject];
+
+    if( cha.op == CA_OP_CONN_UP ) {
+        [notification EventCallbackToSwiftWithPvName: @"Connected"];
+    }
+    else if( cha.op == CA_OP_CONN_DOWN ) {
+        [notification EventCallbackToSwiftWithPvName: @"Disconnected"];
     }
 }
 
