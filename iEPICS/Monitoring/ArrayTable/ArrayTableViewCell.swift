@@ -16,6 +16,23 @@ class ArrayTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        let height = UIScreen.main.bounds.height
+        switch height {
+        case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
+            print(height)
+        case 568.0: // 568x320pt 4inch (iPhone5, C, S, SE)
+            arrayIndexLabel.font = UIFont.systemFont(ofSize: 15.0)
+            arrayIndexLabel.font = UIFont.systemFont(ofSize: 15.0)
+        case 667.0: // 375x337pt 4,7inch (iPhone8, 7, 6s Plus, 6 Plus, 6s, 6)
+            print(height)
+        case 736.0: // 414x736pt 5.5inch (iPhone8 Plus, 7 Plus)
+            print(height)
+        case 812.0: // 375x812pt 5.8inch (iPhone X)
+            print(height)
+        default:
+            break
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

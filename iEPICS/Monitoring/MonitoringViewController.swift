@@ -8,8 +8,8 @@
 
 import UIKit
 
-class MonitoringViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NewElementDataDelegate {
-    
+class MonitoringViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NewElementDataDelegate, ChangeElementDataDelegate {
+
     @IBOutlet weak var monitoringTableView: UITableView!
     
     let caObject = ChannelAccessClient.sharedObject()!
@@ -19,9 +19,9 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     let caErrorNotification = Notification.Name("ErrorCallbackNotification")
     
     var pvNameDictionary = NSMutableDictionary()
-    var pvNameDictionaryIndex = NSMutableDictionary()
+//    var pvNameDictionaryIndex = NSMutableDictionary()
     var pvNameDicKeyCopyArray = [String?]()
-    var pvDataArray = NSMutableArray()
+//    var pvDataArray = NSMutableArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -374,6 +374,20 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
         deletePVNameFromKeyArray(pvName: pvName)
     }
     
+    func changeProcessVariable(oldPVName: String?, newPVName: String?) {
+        if let newName = newPVName, let oldName = oldPVName {
+            if( caObject.channelAccessAddProcessVariable(newName) ) {
+                for i in 0 ..< pvNameDicKeyCopyArray.count {
+                    if( pvNameDicKeyCopyArray[i] == oldName ) {
+                        pvNameDicKeyCopyArray[i] = newName
+                        break;
+                    }
+                }
+            }
+        }
+        print("Changed Process")
+    }
+    
     //********* Save and Load ************
     private func loadPVListFromFile() {
         //let pvList = UserDefaults.standard.object(forKey: "PVNameList") as? [String] ?? [String]()
@@ -451,6 +465,38 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
             arrayTableView.pvName = processVariableName
             
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+        }
+        
+        if segue.identifier == "changeElementViewController" {
+            let changeElementView: ChangeElementViewController = segue.destination as! ChangeElementViewController
+            changeElementView.delegate = self
+            
+            let currentPVName: String? = sender as! String?
+            changeElementView.currentPVName = currentPVName
+        }
+    }
+    
+    @IBAction func longPressGestureRecognizer(_ sender: UILongPressGestureRecognizer) {
+        switch sender.state {
+        case .began:
+//            let position = sender.location(in: sender.view)
+//            if let indexPath: IndexPath = ((sender.view as! UICollectionView).inde)
+            let touchPoint = sender.location(in: monitoringTableView)
+            
+            if let indexPath = monitoringTableView.indexPathForRow(at: touchPoint) {
+                if let cell = monitoringTableView.cellForRow(at: indexPath) as? ParentMonitoringTableViewCell {
+                    self.performSegue(withIdentifier: "changeElementViewController", sender: cell.pvNameLabel.text)
+                }
+            }
+            
+        case .changed:
+            break
+            
+        case .ended:
+            break
+            
+        default:
+            break
         }
     }
     

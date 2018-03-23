@@ -21,6 +21,15 @@ class MainMenuViewController: UIViewController {
     
     let caObject = ChannelAccessClient.sharedObject()!
 
+    var buttonSize: CGFloat = 60
+    var marginBetweenButton: CGFloat = 152
+    var marginFromBottom: CGFloat = 118
+    var monitoringButtonImageName = "Monitoring"
+    var chartButtonImageName = "Chart"
+    var cableInfoButtonImageName = "CableInfo"
+    var settingButtonImageName = "Setting"
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,20 +38,89 @@ class MainMenuViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         
         monitoringButton.setTitle(nil, for: .normal)
-        monitoringButton.setImage(UIImage(named: "Monitoring"), for: .normal)
-        
         databroserButton.setTitle(nil, for: .normal)
-        databroserButton.setImage(UIImage(named: "Chart"), for: .normal)
-        
         cableInfoButton.setTitle(nil, for: .normal)
-        cableInfoButton.setImage(UIImage(named: "CableInfo"), for: .normal)
-        
         settingButton.setTitle(nil, for: .normal)
-        settingButton.setImage(UIImage(named: "Setting"), for: .normal)
+        
+        monitoringButton.translatesAutoresizingMaskIntoConstraints = false
+        databroserButton.translatesAutoresizingMaskIntoConstraints = false
+        cableInfoButton.translatesAutoresizingMaskIntoConstraints = false
+        settingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let height = UIScreen.main.bounds.height
+        let margins = view.layoutMarginsGuide
+        switch height {
+        case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
+            break
+            
+        case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
+            buttonSize = 51
+            marginBetweenButton = 130
+            marginFromBottom = 100
+            monitoringButtonImageName = "Monitoring_4inch"
+            chartButtonImageName = "Chart_4inch"
+            cableInfoButtonImageName = "CableInfo_4inch"
+            settingButtonImageName = "Setting_4inch"
+
+        case 667.0: // 375x337pt 4,7inch (iPhone6, 6s, 7, 8)
+            break
+            
+        case 736.0: // 414x736pt 5.5inch (iPhone 6 Plus, 6s Plus, 7 Plus, 8 Plus)
+            buttonSize = 60
+            marginBetweenButton = 160
+            marginFromBottom = 130
+            monitoringButtonImageName = "Monitoring"
+            chartButtonImageName = "Chart"
+            cableInfoButtonImageName = "CableInfo"
+            settingButtonImageName = "Setting"
+            
+        case 812.0: // 375x812pt 5.8inch (iPhone X)
+            buttonSize = 60
+            marginBetweenButton = 160
+            marginFromBottom = 130
+            monitoringButtonImageName = "Monitoring"
+            chartButtonImageName = "Chart"
+            cableInfoButtonImageName = "CableInfo"
+            settingButtonImageName = "Setting"
+            
+        default:
+            buttonSize = 60
+            marginBetweenButton = 152
+            marginFromBottom = 118
+            monitoringButtonImageName = "Monitoring"
+            chartButtonImageName = "Chart"
+            cableInfoButtonImageName = "CableInfo"
+            settingButtonImageName = "Setting"
+            break
+        }
+        
+        monitoringButton.setImage(UIImage(named: monitoringButtonImageName), for: .normal)
+        databroserButton.setImage(UIImage(named: chartButtonImageName), for: .normal)
+        cableInfoButton.setImage(UIImage(named: cableInfoButtonImageName), for: .normal)
+        settingButton.setImage(UIImage(named: settingButtonImageName), for: .normal)
+        
+        monitoringButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        monitoringButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        monitoringButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton / 2).isActive = true
+        monitoringButton.centerYAnchor.constraint(equalTo: cableInfoButton.centerYAnchor, constant: -marginBetweenButton).isActive = true
+        
+        databroserButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        databroserButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        databroserButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton / 2).isActive = true
+        databroserButton.centerYAnchor.constraint(equalTo: settingButton.centerYAnchor, constant: -marginBetweenButton).isActive = true
+        
+        cableInfoButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        cableInfoButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        cableInfoButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton / 2).isActive = true
+        cableInfoButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
+        
+        settingButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        settingButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        settingButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton / 2).isActive = true
+        settingButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
         
 
-        
-//        let backgroundImage = UIImage(named: "background3")!
+        //        let backgroundImage = UIImage(named: "background3")!
 //        
 //        if let ciImage = CIImage.init(image: backgroundImage) {
 //            

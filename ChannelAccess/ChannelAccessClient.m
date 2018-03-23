@@ -295,6 +295,10 @@ static ChannelAccessNotification *notification;
         return TRUE;
     }
     else {
+        NSString *currentPVName = pvName;
+        NSString *message = [currentPVName stringByAppendingString: @" is aleady existed"];
+        [notification ErrorCallbackToSwiftWithMessage: message];
+        
         return FALSE;
     }
 }

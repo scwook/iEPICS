@@ -207,57 +207,64 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                 let myData = pvNameDictionary[pvName] as! ChannelAccessData
                 let value = myData.value as NSMutableArray
 
-                dataBrowserModel.elementCount = value.count
-
-                if( value.count > 1 ) {
+//                if( value.count > 1 ) {
+//                    drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+//                        if( self.startDrawing ) {
+//                            self.dataDrawView.arrayData = myData.value as! [Double]
+//
+//                            self.dataDrawView.setNeedsDisplay()
+//                            self.axisDrawView.setNeedsDisplay()
+//                        }
+//                    }
+//                }
+//                else {
                     drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                        if( self.startDrawing ) {
-                            self.dataDrawView.arrayData = myData.value as! [Double]
-                            
-                            self.dataDrawView.setNeedsDisplay()
-                            self.axisDrawView.setNeedsDisplay()
-                        }
-                    }
-                }
-                else {
-                    drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-
 //                        self.caObject.channelAccessGet()
                         if( self.startDrawing ) {
+                            if (value.count > 1) {
+                                dataBrowserModel.elementCount = value.count
+                                let arrayValue = value.map{ ($0 as! NSString).doubleValue }
 
-                            let currentValue = (value[0] as? NSString)?.doubleValue
-                            let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
-                            
-                            if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
-                                let timeDiff = currentTimestamp - lastTimestamp
-                                if( timeDiff > 1 ) {
-                                    for i in 1..<timeDiff {
-                                        self.dataDrawView.data.append(lastValue)
-                                        self.dataDrawView.time.append(lastTimestamp + i)
+                                self.dataDrawView.arrayData = arrayValue
+                                
+                                self.dataDrawView.setNeedsDisplay()
+                                self.axisDrawView.setNeedsDisplay()
+                            }
+                            else {
+                                let currentValue = (value[0] as? NSString)?.doubleValue
+                                let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
+                                
+                                if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
+                                    let timeDiff = currentTimestamp - lastTimestamp
+                                    if( timeDiff > 1 ) {
+                                        for i in 1..<timeDiff {
+                                            self.dataDrawView.data.append(lastValue)
+                                            self.dataDrawView.time.append(lastTimestamp + i)
+                                        }
                                     }
                                 }
-                            }
-                            
-                            if(self.dataDrawView.data.count > self.maxArraySize) {
-                                let overCount = self.dataDrawView.data.count - self.maxArraySize
-                                for _ in 0 ..< overCount {
-                                    self.dataDrawView.data.remove(at: 0)
-                                    self.dataDrawView.time.remove(at: 0)
+                                
+                                if(self.dataDrawView.data.count > self.maxArraySize) {
+                                    let overCount = self.dataDrawView.data.count - self.maxArraySize
+                                    for _ in 0 ..< overCount {
+                                        self.dataDrawView.data.remove(at: 0)
+                                        self.dataDrawView.time.remove(at: 0)
+                                    }
                                 }
+                                
+                                self.dataDrawView.data.append(currentValue!)
+                                self.dataDrawView.time.append(currentTimestamp)
+                                
+                                if( self.dataDrawView.data.count == 2) {
+                                    dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
+                                }
+                                
+                                self.dataDrawView.setNeedsDisplay()
+                                self.axisDrawView.setNeedsDisplay()
                             }
-                            
-                            self.dataDrawView.data.append(currentValue!)
-                            self.dataDrawView.time.append(currentTimestamp)
-                            
-                            if( self.dataDrawView.data.count == 2) {
-                                dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
-                            }
-                            
-                            self.dataDrawView.setNeedsDisplay()
-                            self.axisDrawView.setNeedsDisplay()
                         }
                     }
-                }
+//                }
             }
         }
     }

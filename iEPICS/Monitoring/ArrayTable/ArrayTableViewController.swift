@@ -45,7 +45,22 @@ class ArrayTableViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var rowHeight: CGFloat = 40.0
+        let height = UIScreen.main.bounds.height
+        switch height {
+        case 568.0:
+            rowHeight = 35.0
+        default:
+            rowHeight = 40.0
+            break
+        }
+        
+        return rowHeight
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
