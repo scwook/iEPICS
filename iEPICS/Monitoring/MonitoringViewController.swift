@@ -380,6 +380,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                 for i in 0 ..< pvNameDicKeyCopyArray.count {
                     if( pvNameDicKeyCopyArray[i] == oldName ) {
                         pvNameDicKeyCopyArray[i] = newName
+                        removeProcessVariable(pvName: oldName)
                         break;
                     }
                 }
@@ -401,7 +402,8 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     private func savePVListFromTable() {
-        UserDefaults.standard.set(pvNameDicKeyCopyArray.flatMap({ $0 }), forKey: "PVNameList")
+        let reversedList = pvNameDicKeyCopyArray.reversed()
+        UserDefaults.standard.set(reversedList.flatMap({ $0 }), forKey: "PVNameList")
     }
     
     

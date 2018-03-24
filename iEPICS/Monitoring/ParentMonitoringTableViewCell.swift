@@ -22,14 +22,14 @@ class ParentMonitoringTableViewCell: UITableViewCell {
         let height = UIScreen.main.bounds.height
         switch height {
         case 480.0:
-            print(height)
+            break
         case 568.0:
             pvNameLabel.font = UIFont.systemFont(ofSize: 15.0)
             pvValueLabel.font = UIFont.systemFont(ofSize: 15.0)
         case 667.0:
-            print(height)
+            break
         case 736.0:
-            print(height)
+            break
         default:
             break
         }
