@@ -14,9 +14,11 @@ class DataDrawView: UIView {
     var time: Array<Int> = [Int]()
     var position: Array<Int> = [Int]()
     var probeIndex: Int? = nil
-    var arrayData = [Double]()
+//    var arrayData = [Double]()
     
     let attributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
+
+    let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
 
     //var xAxisScale: CGFloat = 100
     //var originPixel: CGPoint = CGPoint(x: 0, y: 0)
@@ -24,8 +26,8 @@ class DataDrawView: UIView {
     
     override func draw(_ rect: CGRect) {
         // Drawing code
-        
-        if (arrayData.count > 1) {
+        let elementCount = dataBrowserModel.elementCount
+        if (elementCount > 1) {
             DrawArrayValue()
         }
         else {
@@ -102,21 +104,42 @@ class DataDrawView: UIView {
         
     }
     
+//    private func DrawArrayValue() {
+//        let plot = UIBezierPath()
+//        let dx = self.bounds.width / CGFloat(arrayData.count)
+//
+//        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[0])))
+//
+//        plot.move(to: startPoint)
+//
+//        for i in 1 ..< arrayData.count {
+//            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[i])))
+//
+//            plot.addLine(to: nextPoint)
+//        }
+//
+////        UIColor.black.set()
+//        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+//        plot.lineJoinStyle = .round
+//        plot.lineWidth = 2
+//        plot.stroke()
+//    }
+    
     private func DrawArrayValue() {
         let plot = UIBezierPath()
-        let dx = self.bounds.width / CGFloat(arrayData.count)
+        let dx = self.bounds.width / CGFloat(data.count)
         
-        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[0])))
+        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(data[0])))
         
         plot.move(to: startPoint)
         
-        for i in 1 ..< arrayData.count {
-            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[i])))
+        for i in 1 ..< data.count {
+            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(data[i])))
             
             plot.addLine(to: nextPoint)
         }
         
-//        UIColor.black.set()
+        //        UIColor.black.set()
         UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
         plot.lineJoinStyle = .round
         plot.lineWidth = 2

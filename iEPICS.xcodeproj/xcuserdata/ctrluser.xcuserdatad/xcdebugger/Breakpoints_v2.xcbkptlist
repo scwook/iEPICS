@@ -106,76 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ChannelAccess/ChannelAccessClient.m"
-            timestampString = "544078295.435966"
+            timestampString = "544140500.827149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "423"
             endingLineNumber = "423"
             landmarkName = "-ChannelAccessAllClear"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iEPICS/DataBrowser/DataBrowserViewController.swift"
-            timestampString = "544078295.436075"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "startDataBrowser(pvName:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "iEPICS.DataBrowserViewController.(startDataBrowser in _76F98CE2D1235729F5699EE61E4818EB)(pvName: Swift.String) -&gt; ()"
-                  moduleName = "iEPICS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ctrluser/Developer/iEPICS/iEPICS/DataBrowser/DataBrowserViewController.swift"
-                  timestampString = "542933374.105772"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "223"
-                  endingLineNumber = "223"
-                  offsetFromSymbolStart = "1409">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.Timer) -&gt; () in iEPICS.DataBrowserViewController.(startDataBrowser in _76F98CE2D1235729F5699EE61E4818EB)(pvName: Swift.String) -&gt; ()"
-                  moduleName = "iEPICS"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ctrluser/Developer/iEPICS/iEPICS/DataBrowser/DataBrowserViewController.swift"
-                  timestampString = "542933374.107751"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "225"
-                  endingLineNumber = "225"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iEPICS/DataBrowser/DataBrowserViewController.swift"
-            timestampString = "544078295.436487"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "startDataBrowser(pvName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -208,38 +144,6 @@
             startingLineNumber = "26"
             endingLineNumber = "26"
             landmarkName = "draw(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChannelAccess/ChannelAccessClient.m"
-            timestampString = "544078295.4367861"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "-ChannelAccessClearChannel"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChannelAccess/ChannelAccessClient.m"
-            timestampString = "544078295.436834"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "-ChannelAccessCreateChannel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

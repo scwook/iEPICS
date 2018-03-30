@@ -220,6 +220,10 @@ static ChannelAccessNotification *notification;
     free(pTD);
 }
 
+- (void)ChannelAccessPut:(NSString *)pvName {
+    
+}
+
 - (void)ChannelAccessClearChannel {
     if( instantCAnode != NULL) {
         ca_clear_channel(instantCAnode->chid);
