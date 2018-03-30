@@ -230,7 +230,8 @@ class DataBrowserModel {
             }
         }
     
-        timeOffset = 0
+        // Time Axis Auto Reset
+//        timeOffset = 0
 
     }
 }

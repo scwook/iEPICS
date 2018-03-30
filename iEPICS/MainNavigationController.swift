@@ -16,14 +16,26 @@ class MainNavigationController: UINavigationController {
         super.viewDidLoad()
      
         // Do any additional setup after loading the view.
-        
         var autoAddressList = "YES"
-        
-        if !UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
-            autoAddressList = "NO"
+        var autoAddressListBoolen = true
+        var appLaunchedBefore = false
+
+        if UserDefaults.standard.bool(forKey: "AppLaunchedBefore") {
+            if !UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
+                autoAddressList = "NO"
+                autoAddressListBoolen = false
+            }
         }
-        
+        else {
+            print("First Lanch")
+            
+            appLaunchedBefore = true
+            UserDefaults.standard.set(appLaunchedBefore, forKey: "AppLaunchedBefore")
+        }
+
+        UserDefaults.standard.set(autoAddressListBoolen, forKey: "CAEnvAutoAddressEnable")
         caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
+
 
         if let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList") {
             caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: addressList)

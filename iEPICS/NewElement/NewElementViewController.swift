@@ -14,7 +14,6 @@ protocol NewElementDataDelegate {
 class NewElementViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var popUpView: UIView!
-    @IBOutlet weak var addNewPVLabel: UITextField!
     @IBOutlet weak var newPVTextField: UITextField! {
         didSet {
             newPVTextField.delegate = self
@@ -24,6 +23,7 @@ class NewElementViewController: UIViewController, UITextFieldDelegate {
     let caErrorNotification = Notification.Name("NewElementCallbackNotification")
 
     var delegate:NewElementDataDelegate? = nil
+    var lastPVName: String?
     
     @IBAction func okButton(_ sender: UIButton) {
         if (delegate != nil) {
@@ -57,6 +57,8 @@ class NewElementViewController: UIViewController, UITextFieldDelegate {
         popUpView.layer.cornerRadius = 10
         popUpView.layer.masksToBounds = true
         
+        newPVTextField.text = lastPVName
+                
         NotificationCenter.default.addObserver(forName: caErrorNotification, object: nil, queue: nil, using: catchErrorNotification)
 
         // Do any additional setup after loading the view.

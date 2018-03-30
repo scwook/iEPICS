@@ -20,6 +20,11 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
 
+    var caConnectionNotificationProtocol: NSObjectProtocol?
+    var appOrientationDidChangeProtocol: NSObjectProtocol?
+    var appDidEnterBackgroundProtocol: NSObjectProtocol?
+    var appWillEnterForegroundProtocol: NSObjectProtocol?
+    
     @IBOutlet weak var dataDrawView: DataDrawView!
     @IBOutlet weak var axisDrawView: AxisDrawView!
     
@@ -29,8 +34,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //        appDelegate.shouldRotate = true
         
-        NotificationCenter.default.addObserver(forName: caConnectionNotification, object: nil, queue: nil, using: catchConnectionNotification)
-        NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
         
 //        self.title = pv
         
@@ -39,17 +42,23 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        caObject.channelAccessContextCreate()
 
+        print("DataBrowser ViewWillAppear")
+
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        caConnectionNotificationProtocol = NotificationCenter.default.addObserver(forName: caConnectionNotification, object: nil, queue: nil, using: catchConnectionNotification)
+        appOrientationDidChangeProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
+        appDidEnterBackgroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationDidEnterBackground, object: nil, queue: OperationQueue.main, using: applicationDidEnterBackground)
+        appWillEnterForegroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillEnterForeground, object: nil, queue: OperationQueue.main, using: applicationWillEnterForeground)
+        
+        caObject.channelAccessContextCreate()
+        
         if let pvName = pv {
             self.title = pvName
             addNewProcessVariable(pvName: pvName)
         }
         
-        print("DataBrowser ViewWillAppear")
-
-    }
-    override func viewDidAppear(_ animated: Bool) {
         print("DataBrowser ViewDidAppear")
 
     }
@@ -60,30 +69,35 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             timer.invalidate()
         }
         
+        if let connectionNotificationProtocol = caConnectionNotificationProtocol {
+            NotificationCenter.default.removeObserver(connectionNotificationProtocol)
+        }
+        
+        if let orientationDidChangeProtocol = appOrientationDidChangeProtocol {
+            NotificationCenter.default.removeObserver(orientationDidChangeProtocol)
+        }
+        
+        if let enterBackgroundProtocol = appDidEnterBackgroundProtocol {
+            NotificationCenter.default.removeObserver(enterBackgroundProtocol)
+        }
+        
+        if let foregroundProtocol = appWillEnterForegroundProtocol {
+            NotificationCenter.default.removeObserver(foregroundProtocol)
+        }
+        
         caObject.channelAccessAllClear()
+        caObject.channelAccessContexDestroy()
 
         print("DataBrowser ViewWillDisappear")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        
         print("DataBrowser ViewDidDisappear")
 
     }
     
-    //********* Notification *************
-    private func catchConnectionNotification(notification:Notification) -> Void {
-        if let caMessage = notification.object as? String {
-            if caMessage == "Connected" {
-                startDrawing = true
-                self.title = pv
-            }
-            else {
-                startDrawing = false
-                self.title = "Disconnected"
-            }
-        }
-    }
-    
+    //***********
     func addNewProcessVariable(pvName: String) {
         
         if startDrawing {
@@ -413,9 +427,48 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         if segue.identifier == "newElementViewController" {
             let newElementView: NewElementViewController = segue.destination as! NewElementViewController
             newElementView.delegate = self
+            newElementView.lastPVName = self.title
         }
     }
     
+    //********* Notification *************
+    private func catchConnectionNotification(notification:Notification) -> Void {
+        if let caMessage = notification.object as? String {
+            if caMessage == "Connected" {
+                startDrawing = true
+                self.title = pv
+            }
+            else {
+                startDrawing = false
+                self.title = "Disconnected"
+            }
+        }
+    }
+    
+    private func applicationDidEnterBackground(notification:Notification) -> Void {
+        print("DidEnterBackground")
+        //        self.viewWillDisappear(false)
+        if let timer = drawTimer {
+            timer.invalidate()
+        }
+        
+        caObject.channelAccessAllClear()
+        caObject.channelAccessContexDestroy()
+    }
+    
+    private func applicationWillEnterForeground(notification:Notification) -> Void {
+        print("WillenterForeground")
+        //        self.viewWillAppear(false)
+        
+        caObject.channelAccessContextCreate()
+        
+        if let pvName = pv {
+            self.title = pvName
+            addNewProcessVariable(pvName: pvName)
+        }
+    }
+    
+    //********* Rotation *************
     override var shouldAutorotate: Bool {
         return true
     }

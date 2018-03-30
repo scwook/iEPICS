@@ -442,7 +442,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Process Variable Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="elF-OH-FJk">
-                                                    <rect key="frame" x="24" y="11" width="176.5" height="21"/>
+                                                    <rect key="frame" x="24" y="11" width="225" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -468,6 +468,7 @@
                                                 <constraint firstItem="6fe-Dm-iMy" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="dNi-BG-Xg1"/>
                                                 <constraint firstAttribute="trailing" secondItem="Hv6-dK-Pdp" secondAttribute="trailing" constant="30" id="elM-Hu-oco"/>
                                                 <constraint firstItem="Hv6-dK-Pdp" firstAttribute="centerY" secondItem="7gS-E3-J8D" secondAttribute="centerY" id="iWS-vc-FHb"/>
+                                                <constraint firstItem="elF-OH-FJk" firstAttribute="width" secondItem="7gS-E3-J8D" secondAttribute="width" multiplier="0.6" id="qzY-Ob-amO"/>
                                                 <constraint firstAttribute="trailing" secondItem="HP7-da-QWR" secondAttribute="trailing" constant="52" id="w2P-j8-iJy"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -663,7 +664,7 @@
                                             <action selector="cancelButton:" destination="2gg-MI-gK1" eventType="touchUpInside" id="qNU-6Q-4Oh"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SKy-3D-0hp">
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="SKy-3D-0hp">
                                         <rect key="frame" x="17" y="37" width="246" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
@@ -693,7 +694,6 @@
                         <viewLayoutGuide key="safeArea" id="tMG-76-658"/>
                     </view>
                     <connections>
-                        <outlet property="addNewPVLabel" destination="SKy-3D-0hp" id="Yhr-ew-vOl"/>
                         <outlet property="newPVTextField" destination="SKy-3D-0hp" id="8zC-s3-hvk"/>
                         <outlet property="popUpView" destination="oY9-FJ-Dh7" id="Zhx-nW-c2j"/>
                     </connections>

@@ -24,7 +24,7 @@ class ArrayTableViewCell: UITableViewCell {
             
         case 568.0: // 568x320pt 4inch (iPhone5, C, S, SE)
             arrayIndexLabel.font = UIFont.systemFont(ofSize: 15.0)
-            arrayIndexLabel.font = UIFont.systemFont(ofSize: 15.0)
+            arrayValueLabel.font = UIFont.systemFont(ofSize: 15.0)
             
         case 667.0: // 375x337pt 4,7inch (iPhone8, 7, 6s Plus, 6 Plus, 6s, 6)
             break
@@ -37,7 +37,7 @@ class ArrayTableViewCell: UITableViewCell {
             
         default:
             arrayIndexLabel.font = UIFont.systemFont(ofSize: 17.0)
-            arrayIndexLabel.font = UIFont.systemFont(ofSize: 17.0)
+            arrayValueLabel.font = UIFont.systemFont(ofSize: 17.0)
             break
         }
     }

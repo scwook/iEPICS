@@ -16,12 +16,13 @@ class ArrayTableViewController: UITableViewController {
     let caObject = ChannelAccessClient.sharedObject()!
     
     @IBAction func refreshControlTableView(_ sender: UIRefreshControl) {
-        pvDataArray = caObject.channelAccessGetArray()
-        tableView.reloadData()
+        if pvName != nil {
+            pvDataArray = caObject.channelAccessGetArray()
+            tableView.reloadData()
+        }
         
         self.refreshControl?.endRefreshing()
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +39,25 @@ class ArrayTableViewController: UITableViewController {
         
         self.title = pvName
 //        tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
-        
-        if let refreshNname = pvName {
-            caObject.channelAccessCreateChannel(refreshNname)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        caObject.channelAccessContextCreate()
+
+        if let arrayPVName = pvName {
+            caObject.channelAccessCreateChannel(arrayPVName)
             pvDataArray = caObject.channelAccessGetArray()
             tableView.reloadData()
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        caObject.channelAccessClearChannel()
+        caObject.channelAccessContexDestroy()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -87,6 +87,11 @@ static ChannelAccessNotification *notification;
     
     [self ChannelAccessStatusCheck:status];
     
+    if( status != ECA_NORMAL ) {
+        NSMutableArray *arrayData = [[NSMutableArray alloc] initWithCapacity: 0];
+        return arrayData;
+    }
+    
     ca_pend_io(5.0);
     
     const dbr_double_t * pValue;
@@ -168,6 +173,7 @@ static ChannelAccessNotification *notification;
     if( instantCAnode != NULL) {
         ca_clear_channel(instantCAnode->chid);
         free(instantCAnode);
+        instantCAnode = NULL;
     }
     
     instantCAnode = calloc(1, sizeof(CANODE));
@@ -214,8 +220,12 @@ static ChannelAccessNotification *notification;
     free(pTD);
 }
 
-- (void)ChannelAccessGet:(NSString *)pvName {
-
+- (void)ChannelAccessClearChannel {
+    if( instantCAnode != NULL) {
+        ca_clear_channel(instantCAnode->chid);
+        free(instantCAnode);
+        instantCAnode = NULL;
+    }
 }
 
 - (void)ChannelAccessClearChannel:(unsigned long)index {
@@ -518,8 +528,8 @@ void connectionCallback( struct connection_handler_args cha) {
         //[pvDictionary setObject:myData forKey:pname];
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
         
-        //CANODE *myCAnode = ca_puser(cha.chid);
-        //ca_clear_subscription(myCAnode->evid);
+        CANODE *myCAnode = ca_puser(cha.chid);
+        ca_clear_subscription(myCAnode->evid);
         
         [notification ConnectionCallbackToSwiftWithMessage: @"Disconnected"];
 
@@ -654,7 +664,10 @@ void eventCallbackFloat( evargs eha) {
         
         for(int i = 0; i < nElement; i++) {
 //            [myData.value addObject:[[NSNumber numberWithFloat:pValue[i]] stringValue]];
-            if(pValue[i] < 0.001) {
+            if( pValue[i] == 0 ) {
+                [myData.value addObject:[[NSNumber numberWithInt:pValue[i]] stringValue]];
+            }
+            else if(fabs(pValue[i]) < 0.001) {
                 [myData.value addObject:[NSString stringWithFormat:@"%.2e", pValue[i]]];
             }
             else {
@@ -793,7 +806,10 @@ void eventCallbackDouble( evargs eha) {
         
         for(int i = 0; i < nElement; i++) {
 //            [myData.value addObject:[[NSNumber numberWithDouble:pValue[i]] stringValue]];
-            if(fabs(pValue[i]) < 0.001) {
+            if( pValue[i] == 0 ) {
+                [myData.value addObject:[[NSNumber numberWithInt:pValue[i]] stringValue]];
+            }
+            else if(fabs(pValue[i]) < 0.001) {
                 [myData.value addObject:[NSString stringWithFormat:@"%.2e", pValue[i]]];
             }
             else {

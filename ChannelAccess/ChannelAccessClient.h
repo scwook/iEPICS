@@ -84,7 +84,7 @@ typedef struct {
 - (void)ChannelAccessCreateChannelForDatabrowser:(unsigned long)pvNameIndex key:(NSString *)pvName;
 
 - (long)ChannelAccessCreateChannel:(NSString *)pvName;
-- (void)ChannelAccessClearChannel:(unsigned long)index;
+- (void)ChannelAccessClearChannel;
 - (void)ChannelAccessPendEvent:(double)timeOut;
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName;
 - (void)ChannelAccessGet;
