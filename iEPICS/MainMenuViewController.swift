@@ -51,7 +51,13 @@ class MainMenuViewController: UIViewController {
         let margins = view.layoutMarginsGuide
         switch height {
         case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
-            break
+            buttonSize = 40
+            marginBetweenButton = 100
+            marginFromBottom = 80
+            monitoringButtonImageName = "Monitoring_4inch"
+            chartButtonImageName = "Chart_4inch"
+            cableInfoButtonImageName = "CableInfo_4inch"
+            settingButtonImageName = "Setting_4inch"
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
             buttonSize = 51
