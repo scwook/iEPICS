@@ -89,7 +89,7 @@ typedef struct {
 - (void)ChannelAccessPendEvent:(double)timeOut;
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName;
 
-- (void)ChannelAccessPut:(NSString *)pvName;
+- (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value;
 - (void)ChannelAccessGet;
 //- (void)ChannelAccessGet:(NSString *)pvName;
 

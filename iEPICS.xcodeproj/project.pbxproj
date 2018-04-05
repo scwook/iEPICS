@@ -24,6 +24,7 @@
 		4D4D771A1FA9A65C000BCAD1 /* NewElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D77191FA9A65C000BCAD1 /* NewElementViewController.swift */; };
 		4D726522205021CE002ADA30 /* libca.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D726520205021CE002ADA30 /* libca.a */; };
 		4D726523205021CE002ADA30 /* libCom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D726521205021CE002ADA30 /* libCom.a */; };
+		4D95C9E0207425FC006D59ED /* MotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95C9DF207425FC006D59ED /* MotionViewController.swift */; };
 		4DA9620B203DA8EA0021A11A /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */; };
 		4DB1C9392064DD9600612E2A /* ChangeElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB1C9382064DD9600612E2A /* ChangeElementViewController.swift */; };
 		4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */; };
@@ -71,6 +72,7 @@
 		4D4D77191FA9A65C000BCAD1 /* NewElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewElementViewController.swift; sourceTree = "<group>"; };
 		4D726520205021CE002ADA30 /* libca.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libca.a; path = "../../epics/R3.16.1/base/lib/ios-arm/libca.a"; sourceTree = "<group>"; };
 		4D726521205021CE002ADA30 /* libCom.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCom.a; path = "../../epics/R3.16.1/base/lib/ios-arm/libCom.a"; sourceTree = "<group>"; };
+		4D95C9DF207425FC006D59ED /* MotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionViewController.swift; sourceTree = "<group>"; };
 		4DA9620A203DA8EA0021A11A /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		4DB1C9382064DD9600612E2A /* ChangeElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeElementViewController.swift; sourceTree = "<group>"; };
 		4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CableInfoPageViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		4D4D76A01FA97D51000BCAD1 /* iEPICS */ = {
 			isa = PBXGroup;
 			children = (
+				4D95C9DE207425D8006D59ED /* Motion */,
 				4DCA906320386C0700B5E01B /* CableInformaion */,
 				4DF79C5F1FC6A3890003FC01 /* NewElement */,
 				4DF79C541FC692A60003FC01 /* DataBrowser */,
@@ -180,6 +183,14 @@
 				4D4D76C81FA97F8D000BCAD1 /* SettingViewController.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		4D95C9DE207425D8006D59ED /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				4D95C9DF207425FC006D59ED /* MotionViewController.swift */,
+			);
+			path = Motion;
 			sourceTree = "<group>";
 		};
 		4DCA906320386C0700B5E01B /* CableInformaion */ = {
@@ -246,7 +257,7 @@
 					4D4D769D1FA97D51000BCAD1 = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -290,6 +301,7 @@
 				4D4D77121FA993B6000BCAD1 /* ChannelAccessData.m in Sources */,
 				4D4D76C31FA97F5F000BCAD1 /* ParentMonitoringTableViewCell.swift in Sources */,
 				4DF79C5E1FC697530003FC01 /* AxisDrawView.swift in Sources */,
+				4D95C9E0207425FC006D59ED /* MotionViewController.swift in Sources */,
 				4D4D77141FA9942E000BCAD1 /* ChannelAccessNotification.swift in Sources */,
 				4D258B171FCF93F9004083B2 /* ArrayTableViewCell.swift in Sources */,
 				4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */,
@@ -445,8 +457,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9E7HTCE9RL;
 				ENABLE_BITCODE = NO;
@@ -468,8 +480,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a1aaecec-b586-4ef4-af97-eb56ec01e281";
-				PROVISIONING_PROFILE_SPECIFIER = iEPICS;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -483,8 +495,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9E7HTCE9RL;
 				ENABLE_BITCODE = NO;
@@ -506,8 +518,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = scwook.iEPICS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a1aaecec-b586-4ef4-af97-eb56ec01e281";
-				PROVISIONING_PROFILE_SPECIFIER = iEPICS;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ChannelAccess/iEPICS-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

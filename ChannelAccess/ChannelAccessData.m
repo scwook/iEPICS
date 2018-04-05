@@ -20,6 +20,7 @@
 @synthesize timeStamp;
 @synthesize alarmSeverity;
 @synthesize alarmStatus;
+@synthesize connected;
 
 - (id)init {
     self = [super init];
@@ -34,6 +35,7 @@
         timeStamp = @"Undefined";
         alarmSeverity = @"Undefined";
         alarmStatus = @"Undefined";
+        connected = false;
     }
 
     return self;

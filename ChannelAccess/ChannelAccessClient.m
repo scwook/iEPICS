@@ -220,8 +220,21 @@ static ChannelAccessNotification *notification;
     free(pTD);
 }
 
-- (void)ChannelAccessPut:(NSString *)pvName {
+- (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value {
+
+    int aa = [value intValue];
+    NSLog(@"%@, %d", pvName, aa);
     
+    if( [pvDictionary objectForKey:pvName] ) {
+        
+        unsigned long index = [[pvDictionaryIndex objectForKey:pvName] unsignedLongValue];
+        long fieldType = ca_field_type(myCAnode[index]->chid);
+        
+        ca_put(fieldType, myCAnode[index]->chid, (void *)&aa);
+        NSLog(@"field type: %d", fieldType);
+    }
+    
+    ca_pend_io(0.1);
 }
 
 - (void)ChannelAccessClearChannel {
@@ -515,17 +528,20 @@ void connectionCallback( struct connection_handler_args cha) {
 //        }
         
         CANODE *myCAnode = ca_puser(cha.chid);
+        NSString *pname = [NSString stringWithUTF8String:ca_name(cha.chid)];
+        ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
+        myData.connected = true;
         
         ca_create_subscription(nativeType, elementCount, cha.chid, DBE_VALUE, eventCallback, myCAnode, &myCAnode->evid);
         
-        [notification ConnectionCallbackToSwiftWithMessage: @"Connected"];
+        [notification ConnectionCallbackToSwiftWithMessage: pname];
     }
     else if( cha.op == CA_OP_CONN_DOWN ) {
         NSString *pname = [NSString stringWithUTF8String:ca_name(cha.chid)];
         ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
         
         //ChannelAccessData *myData = [pvDictionary objectForKey:pname];
-        
+        myData.connected = false;
         [myData.value removeAllObjects];
         
         [myData.value  addObject:@"Disconnected"];
@@ -535,7 +551,7 @@ void connectionCallback( struct connection_handler_args cha) {
         CANODE *myCAnode = ca_puser(cha.chid);
         ca_clear_subscription(myCAnode->evid);
         
-        [notification ConnectionCallbackToSwiftWithMessage: @"Disconnected"];
+        [notification ConnectionCallbackToSwiftWithMessage: pname];
 
 //        [notification EventCallbackToSwiftWithPvName:pname];
     }

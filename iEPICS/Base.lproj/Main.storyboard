@@ -55,7 +55,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ofP-jd-DvC">
-                                <rect key="frame" x="237.5" y="405" width="60" height="60"/>
+                                <rect key="frame" x="157" y="405" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -101,6 +101,17 @@
                                 <state key="normal" title="I"/>
                                 <connections>
                                     <segue destination="9Hf-ap-Lqd" kind="show" id="vLz-EV-Q5z"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWI-CB-IuP">
+                                <rect key="frame" x="237" y="405" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="T"/>
+                                <connections>
+                                    <segue destination="N1R-mC-DGr" kind="show" id="4bo-Sy-n8V"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -419,6 +430,105 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ge-FJ-rRi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="94" y="928"/>
+        </scene>
+        <!--Motion View Controller-->
+        <scene sceneID="Q0n-qh-Xon">
+            <objects>
+                <viewController id="N1R-mC-DGr" customClass="MotionViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EC6-Pa-djC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpa-wH-1aq">
+                                <rect key="frame" x="70" y="424" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Left"/>
+                                <connections>
+                                    <action selector="moveButtonToucUp:" destination="N1R-mC-DGr" eventType="touchUpInside" id="TGT-wt-hC7"/>
+                                    <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="xnO-oJ-Ggq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NFr-AW-iZd">
+                                <rect key="frame" x="152" y="424" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Stop">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="dRR-ry-JPM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTx-ny-6aN">
+                                <rect key="frame" x="233" y="424" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Right">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="moveButtonToucUp:" destination="N1R-mC-DGr" eventType="touchUpInside" id="v1r-7G-pGD"/>
+                                    <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="SFJ-bu-dTl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpS-eh-7Jz">
+                                <rect key="frame" x="152" y="328" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Up">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="moveButtonToucUp:" destination="N1R-mC-DGr" eventType="touchUpInside" id="3f9-Mf-BfY"/>
+                                    <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="buv-d8-s5u"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Position" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="avc-s8-Oar">
+                                <rect key="frame" x="106" y="114" width="162" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68a-DO-2ez">
+                                <rect key="frame" x="152" y="514" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" title="Down">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="moveButtonToucUp:" destination="N1R-mC-DGr" eventType="touchUpInside" id="ZHv-e6-pdy"/>
+                                    <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="MbE-62-IOx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.84832078218460083" green="0.80913370847702026" blue="0.7457919716835022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="V4Z-yp-0WW"/>
+                    </view>
+                    <connections>
+                        <outlet property="positionTextLabel" destination="avc-s8-Oar" id="ilM-J0-eTK"/>
+                        <outlet property="stopButton" destination="NFr-AW-iZd" id="dRn-So-JGg"/>
+                        <outletCollection property="moveButtons" destination="zpa-wH-1aq" collectionClass="NSMutableArray" id="76d-pz-3EP"/>
+                        <outletCollection property="moveButtons" destination="WTx-ny-6aN" collectionClass="NSMutableArray" id="KWQ-xn-NvP"/>
+                        <outletCollection property="moveButtons" destination="vpS-eh-7Jz" collectionClass="NSMutableArray" id="TIS-TP-2Au"/>
+                        <outletCollection property="moveButtons" destination="68a-DO-2ez" collectionClass="NSMutableArray" id="Rg2-iz-PXM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ROz-Ns-5DJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="94" y="-1024"/>
         </scene>
         <!--Monitoring-->
         <scene sceneID="Rjd-9L-xyP">

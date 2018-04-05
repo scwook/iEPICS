@@ -25,5 +25,7 @@
 @property NSString *timeStamp;
 @property NSString *alarmSeverity;
 @property NSString *alarmStatus;
+@property BOOL connected;
 
 @end
+
