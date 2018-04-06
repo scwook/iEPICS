@@ -222,16 +222,16 @@ static ChannelAccessNotification *notification;
 
 - (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value {
 
-    int aa = [value intValue];
-    NSLog(@"%@, %d", pvName, aa);
+    int caPutValue = [value intValue];
+//    NSLog(@"%@, %d", pvName, aa);
     
     if( [pvDictionary objectForKey:pvName] ) {
         
         unsigned long index = [[pvDictionaryIndex objectForKey:pvName] unsignedLongValue];
         long fieldType = ca_field_type(myCAnode[index]->chid);
         
-        ca_put(fieldType, myCAnode[index]->chid, (void *)&aa);
-        NSLog(@"field type: %d", fieldType);
+        ca_put(fieldType, myCAnode[index]->chid, (void *)&caPutValue);
+//        NSLog(@"field type: %d", fieldType);
     }
     
     ca_pend_io(0.1);

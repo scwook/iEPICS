@@ -14,22 +14,24 @@ class MainMenuViewController: UIViewController {
     @IBOutlet weak var databroserButton: UIButton!
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var cableInfoButton: UIButton!
-//    @IBOutlet weak var manuView: UIView!
+    @IBOutlet weak var motionButton: UIButton!
+    //    @IBOutlet weak var manuView: UIView!
 //    @IBOutlet weak var backgroundImageView: UIImageView!
+    
     @IBOutlet weak var currentIPAddress: UILabel!
 //    let blurFilter = CIFilter(name: "CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 10])
     
     let caObject = ChannelAccessClient.sharedObject()!
 
     var buttonSize: CGFloat = 60
-    var marginBetweenButton: CGFloat = 152
-    var marginFromBottom: CGFloat = 118
+    var marginBetweenButton: CGFloat = 60
+    var marginFromBottom: CGFloat = 120
     var monitoringButtonImageName = "Monitoring"
     var chartButtonImageName = "Chart"
+    var motionButtonImageName = "Motion"
     var cableInfoButtonImageName = "CableInfo"
     var settingButtonImageName = "Setting"
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,11 +41,13 @@ class MainMenuViewController: UIViewController {
         
         monitoringButton.setTitle(nil, for: .normal)
         databroserButton.setTitle(nil, for: .normal)
+        motionButton.setTitle(nil, for: .normal)
         cableInfoButton.setTitle(nil, for: .normal)
         settingButton.setTitle(nil, for: .normal)
-        
+
         monitoringButton.translatesAutoresizingMaskIntoConstraints = false
         databroserButton.translatesAutoresizingMaskIntoConstraints = false
+        motionButton.translatesAutoresizingMaskIntoConstraints = false
         cableInfoButton.translatesAutoresizingMaskIntoConstraints = false
         settingButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -52,19 +56,21 @@ class MainMenuViewController: UIViewController {
         switch height {
         case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
             buttonSize = 40
-            marginBetweenButton = 100
-            marginFromBottom = 80
+            marginBetweenButton = 43
+            marginFromBottom = 90
             monitoringButtonImageName = "Monitoring_4inch"
             chartButtonImageName = "Chart_4inch"
+            motionButtonImageName = "Motion_4inch"
             cableInfoButtonImageName = "CableInfo_4inch"
             settingButtonImageName = "Setting_4inch"
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
             buttonSize = 51
-            marginBetweenButton = 130
-            marginFromBottom = 100
+            marginBetweenButton = 51
+            marginFromBottom = 110
             monitoringButtonImageName = "Monitoring_4inch"
             chartButtonImageName = "Chart_4inch"
+            motionButtonImageName = "Motion_4inch"
             cableInfoButtonImageName = "CableInfo_4inch"
             settingButtonImageName = "Setting_4inch"
 
@@ -77,6 +83,7 @@ class MainMenuViewController: UIViewController {
             marginFromBottom = 130
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
+            motionButtonImageName = "Motion"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             
@@ -86,6 +93,7 @@ class MainMenuViewController: UIViewController {
             marginFromBottom = 130
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
+            motionButtonImageName = "Motion"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             
@@ -95,6 +103,7 @@ class MainMenuViewController: UIViewController {
             marginFromBottom = 118
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
+            motionButtonImageName = "Motion"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             break
@@ -102,29 +111,36 @@ class MainMenuViewController: UIViewController {
         
         monitoringButton.setImage(UIImage(named: monitoringButtonImageName), for: .normal)
         databroserButton.setImage(UIImage(named: chartButtonImageName), for: .normal)
+        motionButton.setImage(UIImage(named: motionButtonImageName), for: .normal)
         cableInfoButton.setImage(UIImage(named: cableInfoButtonImageName), for: .normal)
         settingButton.setImage(UIImage(named: settingButtonImageName), for: .normal)
-        
+
         monitoringButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         monitoringButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        monitoringButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton / 2).isActive = true
-        monitoringButton.centerYAnchor.constraint(equalTo: cableInfoButton.centerYAnchor, constant: -marginBetweenButton).isActive = true
-        
+        monitoringButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton * 2).isActive = true
+        monitoringButton.centerYAnchor.constraint(equalTo: cableInfoButton.centerYAnchor, constant: -marginBetweenButton * 2).isActive = true
+
         databroserButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         databroserButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        databroserButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton / 2).isActive = true
-        databroserButton.centerYAnchor.constraint(equalTo: settingButton.centerYAnchor, constant: -marginBetweenButton).isActive = true
+        databroserButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: 0).isActive = true
+        databroserButton.centerYAnchor.constraint(equalTo: settingButton.centerYAnchor, constant: -marginBetweenButton * 2).isActive = true
+        
+        motionButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        motionButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        motionButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton * 2).isActive = true
+        motionButton.centerYAnchor.constraint(equalTo: cableInfoButton.centerYAnchor, constant: -marginBetweenButton * 2).isActive = true
         
         cableInfoButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         cableInfoButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        cableInfoButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton / 2).isActive = true
+        cableInfoButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton).isActive = true
         cableInfoButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
         
         settingButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         settingButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        settingButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton / 2).isActive = true
+        settingButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton).isActive = true
         settingButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
         
+
 
         //        let backgroundImage = UIImage(named: "background3")!
 //        

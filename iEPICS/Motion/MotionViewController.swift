@@ -19,10 +19,13 @@ class MotionViewController: UIViewController {
     let upButtonIndex = 2
     let downButtonIndex = 3
     
-    var buttonSize: CGFloat = 70
-    var marginBetweenButton: CGFloat = 200
+    var buttonSize: CGFloat = 80
+    var marginBetweenButton: CGFloat = 180
     var marginFromBottom: CGFloat = 200
-    var moveButtonImageName = "Motion_left_black"
+    var leftMoveButtonImageName = "Motion_left_black"
+    var rightMoveButtonImageName = "Motion_right_black"
+    var upMoveButtonImageName = "Motion_up_black"
+    var downMoveButtonImageName = "Motion_down_black"
     var stopButtonImageName = "Motion_stop_black"
     
     let leftPVname = "ECR11-PCU:SMO:SEQ:JCW"
@@ -30,11 +33,14 @@ class MotionViewController: UIViewController {
     let position = "ECR11-PCU:SMO:SEQ:Pcur"
 
     @IBAction func moveButtonToucUp(_ sender: UIButton) {
-        print("move up")
-        sender.isHighlighted = false
 
-        let index = moveButtons.index(of: sender)!
-        switch index {
+        let buttonIndex = moveButtons.index(of: sender)!
+        UIView.animate(withDuration: 0.3, animations: ({
+            self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+        ))
+
+        switch buttonIndex {
         case leftButtonIndex:
             caObject.channelAccessPut(leftPVname, putValue: 0)
             break
@@ -53,16 +59,19 @@ class MotionViewController: UIViewController {
         default:
             break
         }
-        
 //        moveButtons[index].tintColor = UIColor.black
     }
     
+    
     @IBAction func moveButtonTouchDown(_ sender: UIButton) {
-        print("move down")
-        sender.isHighlighted = false
+        
+        let buttonIndex = moveButtons.index(of: sender)!
+        UIView.animate(withDuration: 0.3, animations: ({
+            self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }
+        ))
 
-        let index = moveButtons.index(of: sender)!
-        switch index {
+        switch buttonIndex {
         case leftButtonIndex:
             caObject.channelAccessPut(leftPVname, putValue: 1)
             break
@@ -86,11 +95,14 @@ class MotionViewController: UIViewController {
     }
     
     @IBAction func stopButtonTouchDown(_ sender: UIButton) {
-        sender.isHighlighted = false
         sender.tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-        print("down")
     }
 
+    @IBAction func editButton(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    
     let caEventNotification = Notification.Name("EventCallbackNotification")
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
     let caErrorNotification = Notification.Name("ErrorCallbackNotification")
@@ -107,31 +119,33 @@ class MotionViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
         moveButtons[leftButtonIndex].setTitle(nil, for: .normal)
         moveButtons[rightButtonIndex].setTitle(nil, for: .normal)
         moveButtons[upButtonIndex].setTitle(nil, for: .normal)
         moveButtons[downButtonIndex].setTitle(nil, for: .normal)
         stopButton.setTitle(nil, for: .normal)
         
-//        moveButtons[0].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[1].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[2].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[3].translatesAutoresizingMaskIntoConstraints = false
-
         let height = UIScreen.main.bounds.height
         switch height {
         case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
             buttonSize = 40
             marginBetweenButton = 100
             marginFromBottom = 80
-            moveButtonImageName = "Motion_left_black_4inch"
+            leftMoveButtonImageName = "Motion_left_black_4inch"
+            rightMoveButtonImageName = "Motion_right_black_4inch"
+            upMoveButtonImageName = "Motion_up_black_4inch"
+            downMoveButtonImageName = "Motion_down_black_4inch"
             stopButtonImageName = "Motion_stop_black_4inch"
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
             buttonSize = 60
             marginBetweenButton = 130
             marginFromBottom = 100
-            moveButtonImageName = "Motion_left_black"
+            leftMoveButtonImageName = "Motion_left_black"
+            rightMoveButtonImageName = "Motion_right_black"
+            upMoveButtonImageName = "Motion_up_black"
+            downMoveButtonImageName = "Motion_down_black"
             stopButtonImageName = "Motion_stop_black"
             
         case 667.0: // 375x337pt 4,7inch (iPhone6, 6s, 7, 8)
@@ -147,15 +161,16 @@ class MotionViewController: UIViewController {
             break
         }
         
-        moveButtons[leftButtonIndex].setImage(UIImage(named: moveButtonImageName), for: .normal)
-        moveButtons[rightButtonIndex].setImage(UIImage(named: moveButtonImageName), for: .normal)
-        moveButtons[upButtonIndex].setImage(UIImage(named: moveButtonImageName), for: .normal)
-        moveButtons[downButtonIndex].setImage(UIImage(named: moveButtonImageName), for: .normal)
+//        let moveButtonImage = UIImage(named: moveButtonImageName)?.withRenderingMode(.alwaysTemplate)
+        moveButtons[leftButtonIndex].setImage(UIImage(named: leftMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        moveButtons[rightButtonIndex].setImage(UIImage(named: rightMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        moveButtons[upButtonIndex].setImage(UIImage(named: upMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        moveButtons[downButtonIndex].setImage(UIImage(named: downMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
         stopButton.setImage(UIImage(named: stopButtonImageName), for: .normal)
     
-        moveButtons[rightButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        moveButtons[upButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
-        moveButtons[downButtonIndex].transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2.0)
+//        moveButtons[rightButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+//        moveButtons[upButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
+//        moveButtons[downButtonIndex].transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2.0)
         
         let margins = view.layoutMarginsGuide
 
@@ -194,9 +209,6 @@ class MotionViewController: UIViewController {
         moveButtons[rightButtonIndex].isEnabled = false
         moveButtons[upButtonIndex].isEnabled = false
         moveButtons[downButtonIndex].isEnabled = false
-
-        //        let value: Any = 2345
-//        caObject.channelAccessPut("left", putValue: value)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -244,7 +256,6 @@ class MotionViewController: UIViewController {
         caObject.channelAccessContexDestroy()
     }
     
-    
     //********* Notification *************
     private func catchEventNotification(notification:Notification) -> Void {
         if let pvNameFromNotification = notification.object as? String, let pvNameDictionary = caObject.channelAccessGetDictionary() {
@@ -261,11 +272,10 @@ class MotionViewController: UIViewController {
             }
             
             let currentValue = (moveData.value[0] as? NSString)?.integerValue
-
             DispatchQueue.main.async {
                 if let buttonIndex = moveButtonIndex {
                     if currentValue != 0 {
-                        self.moveButtons[buttonIndex].tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
+                        self.moveButtons[buttonIndex].tintColor = UIColor.green
                     }
                     else {
                         self.moveButtons[buttonIndex].tintColor = UIColor.black
@@ -279,49 +289,6 @@ class MotionViewController: UIViewController {
                 }
             }
         }
-        
-//        if let pvNameDictionary = caObject.channelAccessGetDictionary() {
-//            let moveLeftData = pvNameDictionary[leftPVname] as! ChannelAccessData
-//            let moveRightData = pvNameDictionary[rightPVname] as! ChannelAccessData
-//            let moveUpData = pvNameDictionary["up"] as! ChannelAccessData
-//            let moveDownData = pvNameDictionary["down"] as! ChannelAccessData
-//
-//            let leftDataValue = (moveLeftData.value[0] as? NSString)?.integerValue
-//            let rightDataValue = (moveRightData.value[0] as? NSString)?.integerValue
-//            let upDataValue = (moveUpData.value[0] as? NSString)?.integerValue
-//            let downDataValue = (moveDownData.value[0] as? NSString)?.integerValue
-//
-//
-//            DispatchQueue.main.async {
-//                if leftDataValue != 0 {
-//                    self.moveButtons[0].tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-//                }
-//                else {
-//                    self.moveButtons[0].tintColor = UIColor.black
-//                }
-//
-//                if rightDataValue != 0 {
-//                    self.moveButtons[1].tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-//                }
-//                else {
-//                    self.moveButtons[1].tintColor = UIColor.black
-//                }
-//
-//                if upDataValue != 0 {
-//                    self.moveButtons[2].tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-//                }
-//                else {
-//                    self.moveButtons[2].tintColor = UIColor.black
-//                }
-//
-//                if downDataValue != 0 {
-//                    self.moveButtons[3].tintColor = UIColor(red:0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-//                }
-//                else {
-//                    self.moveButtons[3].tintColor = UIColor.black
-//                }
-//            }
-//        }
     }
     
     private func catchConnectionNotification(notification:Notification) -> Void {
@@ -340,7 +307,6 @@ class MotionViewController: UIViewController {
             if let buttonIndex = moveButtonIndex {
                 DispatchQueue.main.async {
                     if moveData.connected {
-                        self.moveButtons[buttonIndex].tintColor = UIColor.black
                         self.moveButtons[buttonIndex].isEnabled = true
                     }
                     else {
@@ -362,9 +328,9 @@ class MotionViewController: UIViewController {
         }
     }
     
+
     private func applicationDidEnterBackground(notification:Notification) -> Void {
         caObject.channelAccessAllClear()
-        
         caObject.channelAccessContexDestroy()
     }
     

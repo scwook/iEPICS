@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "circle_black_68x68.png",
+      "filename" : "motion_black_60x60.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "circle_black_136x136.png",
+      "filename" : "motion_black_120x120.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "circle_black_204x204.png",
+      "filename" : "motion_black_180x180.png",
       "scale" : "3x"
     }
   ],
