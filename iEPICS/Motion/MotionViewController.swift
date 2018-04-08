@@ -35,9 +35,9 @@ class MotionViewController: UIViewController {
 //    var stopButtonImageName = "Motion_stop_black"
     var moveButtonImageName = ["Motion_left_black", "Motion_right_black", "Motion_up_black", "Motion_down_black", "Motion_stop_black"]
     
-    var limitImageSizeH: CGFloat = 58
-    var limitImageSizeV: CGFloat = 242
-    var marginBetweenLimit: CGFloat = 141
+    var limitImageSizeH: CGFloat = 38
+    var limitImageSizeV: CGFloat = 182
+    var marginBetweenLimit: CGFloat = 150
 //    var leftLimitImageName = "Shield_left_balck"
 //    var rightLimitImageName = "Shield_right_black"
 //    var upLimitImageName = "Shield_up_black"
@@ -167,6 +167,9 @@ class MotionViewController: UIViewController {
 //            downMoveButtonImageName = "Motion_down_black_4inch"
 //            stopButtonImageName = "Motion_stop_black_4inch"
             
+            limitImageSizeH = 32
+            limitImageSizeV = 150
+            marginBetweenLimit = 128
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
 
 //            leftLimitImageName = "Shield_left_black_4inch"
@@ -180,11 +183,17 @@ class MotionViewController: UIViewController {
             buttonSize = 77
             marginBetweenButton = 150
             marginFromBottom = 100
+
 //            leftMoveButtonImageName = "Motion_left_black"
 //            rightMoveButtonImageName = "Motion_right_black"
 //            upMoveButtonImageName = "Motion_up_black"
 //            downMoveButtonImageName = "Motion_down_black"
 //            stopButtonImageName = "Motion_stop_black"
+            
+            limitImageSizeH = 32
+            limitImageSizeV = 150
+            marginBetweenLimit = 128
+
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
 
 //            leftLimitImageName = "Shield_left_black_4inch"
@@ -277,8 +286,8 @@ class MotionViewController: UIViewController {
             limitImageView[i].image = limitImageView[i].image?.withRenderingMode(.alwaysTemplate)
             limitImageView[i].translatesAutoresizingMaskIntoConstraints = false
 
-            limitImageView[i].isHidden = true
-            limitImageView[i].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 1.0)
+//            limitImageView[i].isHidden = true
+            limitImageView[i].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 0.0)
         }
         
 //        limitImageView[leftLimitImageIndex].image = UIImage(named: leftLimitImageName)
@@ -436,11 +445,15 @@ class MotionViewController: UIViewController {
                     let value = moveData.value as NSMutableArray
                     if value.count != 0, let isEnabled = Int(String(describing: value[0])) {
                         if isEnabled == 0 {
-                            self.limitImageView[limitIndex].isHidden = true
-
+                            UIView.animate(withDuration: 0.3, animations: ({
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 0.0)
+                            }))
                         }
                         else {
-                            self.limitImageView[limitIndex].isHidden = false
+                            UIView.animate(withDuration: 0.3, animations: ({
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 1.0)
+                                }))
+
                         }
                     }
                 }
