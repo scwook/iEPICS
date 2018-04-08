@@ -441,7 +441,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpa-wH-1aq">
-                                <rect key="frame" x="70" y="424" width="70" height="70"/>
+                                <rect key="frame" x="68" y="424" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -481,7 +481,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vpS-eh-7Jz">
-                                <rect key="frame" x="152" y="328" width="70" height="70"/>
+                                <rect key="frame" x="152" y="326" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -494,8 +494,8 @@
                                     <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="buv-d8-s5u"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Position" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="avc-s8-Oar">
-                                <rect key="frame" x="106" y="114" width="162" height="38"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Position1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="avc-s8-Oar">
+                                <rect key="frame" x="92" y="75" width="191" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
@@ -515,6 +515,33 @@
                                     <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="MbE-62-IOx"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Position2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1z6-Tv-oD5">
+                                <rect key="frame" x="119" y="131" width="136" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shield_left_balck" translatesAutoresizingMaskIntoConstraints="NO" id="UKm-Vi-ueF">
+                                <rect key="frame" x="18" y="334" width="58" height="242"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shield_right_black" translatesAutoresizingMaskIntoConstraints="NO" id="36u-yM-teD">
+                                <rect key="frame" x="299" y="335" width="58" height="242"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shield_up_black" translatesAutoresizingMaskIntoConstraints="NO" id="pyN-op-KtM">
+                                <rect key="frame" x="66" y="286" width="242" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shield_down_black" translatesAutoresizingMaskIntoConstraints="NO" id="QbD-Tk-4Tn">
+                                <rect key="frame" x="67" y="567" width="242" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.84832078218460083" green="0.80913370847702026" blue="0.7457919716835022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -528,17 +555,22 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="positionTextLabel" destination="avc-s8-Oar" id="ilM-J0-eTK"/>
-                        <outlet property="stopButton" destination="NFr-AW-iZd" id="dRn-So-JGg"/>
                         <outletCollection property="moveButtons" destination="zpa-wH-1aq" collectionClass="NSMutableArray" id="76d-pz-3EP"/>
                         <outletCollection property="moveButtons" destination="WTx-ny-6aN" collectionClass="NSMutableArray" id="KWQ-xn-NvP"/>
                         <outletCollection property="moveButtons" destination="vpS-eh-7Jz" collectionClass="NSMutableArray" id="TIS-TP-2Au"/>
                         <outletCollection property="moveButtons" destination="68a-DO-2ez" collectionClass="NSMutableArray" id="Rg2-iz-PXM"/>
+                        <outletCollection property="moveButtons" destination="NFr-AW-iZd" collectionClass="NSMutableArray" id="yaj-mk-5xA"/>
+                        <outletCollection property="positionTextLabel" destination="avc-s8-Oar" collectionClass="NSMutableArray" id="XoM-d7-ONB"/>
+                        <outletCollection property="positionTextLabel" destination="1z6-Tv-oD5" collectionClass="NSMutableArray" id="84e-ap-qQD"/>
+                        <outletCollection property="limitImageView" destination="UKm-Vi-ueF" collectionClass="NSMutableArray" id="WKr-JQ-UvE"/>
+                        <outletCollection property="limitImageView" destination="36u-yM-teD" collectionClass="NSMutableArray" id="fvT-Dk-UQ7"/>
+                        <outletCollection property="limitImageView" destination="pyN-op-KtM" collectionClass="NSMutableArray" id="i2D-lh-Yro"/>
+                        <outletCollection property="limitImageView" destination="QbD-Tk-4Tn" collectionClass="NSMutableArray" id="Fk9-fN-PH5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ROz-Ns-5DJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="94" y="-1024"/>
+            <point key="canvasLocation" x="93.599999999999994" y="-1024.1379310344828"/>
         </scene>
         <!--Monitoring-->
         <scene sceneID="Rjd-9L-xyP">
@@ -920,11 +952,15 @@
         <image name="RJ45_T568A_ST" width="104" height="187"/>
         <image name="RJ45_T568B_CR" width="104" height="187"/>
         <image name="RJ45_T568B_ST" width="104" height="187"/>
+        <image name="Shield_down_black" width="242" height="58"/>
+        <image name="Shield_left_balck" width="58" height="242"/>
+        <image name="Shield_right_black" width="58" height="242"/>
+        <image name="Shield_up_black" width="242" height="58"/>
         <image name="Symbol" width="30" height="30"/>
         <image name="iEPICS" width="100" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dck-XA-d2z"/>
-        <segue reference="APA-hH-wj0"/>
+        <segue reference="HPh-di-gIm"/>
     </inferredMetricsTieBreakers>
 </document>

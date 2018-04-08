@@ -89,9 +89,9 @@ typedef struct {
 - (void)ChannelAccessPendEvent:(double)timeOut;
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName;
 
-- (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value;
 - (void)ChannelAccessGet;
-//- (void)ChannelAccessGet:(NSString *)pvName;
+- (void)ChannelAccessGet:(NSString *)pvName;
+- (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value;
 
 - (NSMutableDictionary *)ChannelAccessGetDictionary;
 - (NSMutableDictionary *)ChannelAccessGetIndexDictionary;
