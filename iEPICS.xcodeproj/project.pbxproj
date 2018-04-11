@@ -34,6 +34,7 @@
 		4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C571FC693E90003FC01 /* DataDrawView.swift */; };
 		4DF79C5C1FC695EB0003FC01 /* DataBrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */; };
 		4DF79C5E1FC697530003FC01 /* AxisDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C5D1FC697530003FC01 /* AxisDrawView.swift */; };
+		4DF8D3E2207D616F00EF0204 /* MotionSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF8D3E1207D616F00EF0204 /* MotionSettingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,6 +83,7 @@
 		4DF79C571FC693E90003FC01 /* DataDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDrawView.swift; sourceTree = "<group>"; };
 		4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserModel.swift; sourceTree = "<group>"; };
 		4DF79C5D1FC697530003FC01 /* AxisDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisDrawView.swift; sourceTree = "<group>"; };
+		4DF8D3E1207D616F00EF0204 /* MotionSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				4D95C9DF207425FC006D59ED /* MotionViewController.swift */,
+				4DF8D3E1207D616F00EF0204 /* MotionSettingViewController.swift */,
 			);
 			path = Motion;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				4D258B171FCF93F9004083B2 /* ArrayTableViewCell.swift in Sources */,
 				4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */,
 				4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */,
+				4DF8D3E2207D616F00EF0204 /* MotionSettingViewController.swift in Sources */,
 				4D4D76C71FA97F83000BCAD1 /* MonitoringViewController.swift in Sources */,
 				4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */,
 				4DA9620B203DA8EA0021A11A /* MainNavigationController.swift in Sources */,

@@ -14,6 +14,18 @@ class MotionViewController: UIViewController {
     @IBOutlet var positionTextLabel: [UILabel]!
     @IBOutlet var limitImageView: [UIImageView]!
     
+//    var leftMoveTextField: UITextField?
+//    var rightMoveTextField: UITextField?
+//    var upMoveTextField: UITextField?
+//    var downMoveTextField: UITextField?
+//
+//    var leftLimitTextField: UITextField?
+//    var rightLimitTextField: UITextField?
+//    var upMoveLimitField: UITextField?
+//    var downLimitTextField: UITextField?
+    
+//    var isPVEditing = false
+
     let leftButtonIndex = 0
     let rightButtonIndex = 1
     let upButtonIndex = 2
@@ -26,33 +38,36 @@ class MotionViewController: UIViewController {
     let downLimitImageIndex = 3
     
     var buttonSize: CGFloat = 90
-    var marginBetweenButton: CGFloat = 200
+    var marginBetweenButton: CGFloat = 100
     var marginFromBottom: CGFloat = 200
-//    var leftMoveButtonImageName = "Motion_left_black"
-//    var rightMoveButtonImageName = "Motion_right_black"
-//    var upMoveButtonImageName = "Motion_up_black"
-//    var downMoveButtonImageName = "Motion_down_black"
-//    var stopButtonImageName = "Motion_stop_black"
     var moveButtonImageName = ["Motion_left_black", "Motion_right_black", "Motion_up_black", "Motion_down_black", "Motion_stop_black"]
     
     var limitImageSizeH: CGFloat = 38
     var limitImageSizeV: CGFloat = 182
     var marginBetweenLimit: CGFloat = 150
-//    var leftLimitImageName = "Shield_left_balck"
-//    var rightLimitImageName = "Shield_right_black"
-//    var upLimitImageName = "Shield_up_black"
-//    var downLimitImageName = "Shield_down_black"
     var limitImageName = ["Shield_left_balck", "Shield_right_black", "Shield_up_black", "Shield_down_black"]
     
-    let lelftPVName = "ECR11-PCU:SMO:SEQ:JCW"
-    let rightPVName = "ECR11-PCU:SMO:SEQ:JCCW"
-    let upPVName = "ECR11-PCU:SMO:SEQ:UP"
-    let downPVName = "ECR11-PCU:SMO:SEQ:DN"
-    let stopPVName = "ECR11-PCU:SMO:SEQ:STOP"
-    let position1PVName = "ECR11-PCU:SMO:SEQ:Pcur"
-    let position2PVName = "ECR11-PCU:SMO:SEQ:Pang"
-    let leftLimitPVName = "ECR11-PCU:SMO:SEQ:Fmin"
-    let rightLimitPVName = "ECR11-PCU:SMO:SEQ:Fmax"
+    var lelftPVName = "scwook:Init@"
+    var rightPVName = "scwook:Init@"
+    var upPVName = "scwook:Init@"
+    var downPVName = "scwook:Init@"
+    var stopPVName = "scwook:Init@"
+    var position1PVName = "scwook:Init@"
+    var position2PVName = "scwook:Init@"
+    var leftLimitPVName = "scwook:Init@"
+    var rightLimitPVName = "scwook:Init@"
+    var upLimitPVName = "scwook:Init@"
+    var downLimitPVName = "scwook:Init@"
+    
+    let keyNameforAxis1 = ["MotionPosition1", "MotionLeftPV", "MotionRightPV", "MotionLeftLimitPV", "MotionRightLimitPV"]
+    let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
+    
+    let editingModeOffsetX: CGFloat = 40.0
+    let editingModeOffsetY: CGFloat = 100.0
+    let alignSpaceOffset: CGFloat = 90 * 0.7 // Based on button size
+    
+    var textFieldWidth: CGFloat = 110.0
+    var textFieldHeight: CGFloat = 30
 
     @IBAction func moveButtonToucUp(_ sender: UIButton) {
 
@@ -72,11 +87,11 @@ class MotionViewController: UIViewController {
             break
             
         case upButtonIndex:
-            caObject.channelAccessPut("up", putValue: 0)
+            caObject.channelAccessPut(upPVName, putValue: 0)
             break
             
         case downButtonIndex:
-            caObject.channelAccessPut("down", putValue: 0)
+            caObject.channelAccessPut(downPVName, putValue: 0)
             break
         default:
             break
@@ -101,11 +116,11 @@ class MotionViewController: UIViewController {
             break
             
         case upButtonIndex:
-            caObject.channelAccessPut("up", putValue: 1)
+            caObject.channelAccessPut(upPVName, putValue: 1)
             break
             
         case downButtonIndex:
-            caObject.channelAccessPut("down", putValue: 1)
+            caObject.channelAccessPut(downPVName, putValue: 1)
             break
         default:
             break
@@ -118,25 +133,124 @@ class MotionViewController: UIViewController {
         caObject.channelAccessPut(stopPVName, putValue: 1)
     }
 
-    @IBAction func editButton(_ sender: UIBarButtonItem) {
-        let buttonTransform1 = moveButtons[0].transform.translatedBy(x: -100, y: -100)
-        let buttonScale1 = buttonTransform1.scaledBy(x: 0.5, y: 0.5)
-        let buttonTransform2 = moveButtons[1].transform.translatedBy(x: -100, y: -50)
-        let buttonScale2 = buttonTransform2.scaledBy(x: 0.5, y: 0.5)
-        let buttonTransform3 = moveButtons[2].transform.translatedBy(x: -100, y: -40)
-        let buttonScale3 = buttonTransform3.scaledBy(x: 0.5, y: 0.5)
-        let buttonTransform4 = moveButtons[3].transform.translatedBy(x: -100, y: -10)
-        let buttonScale4 = buttonTransform4.scaledBy(x: 0.5, y: 0.5)
-        
-        UIView.animate(withDuration: 0.5, animations: ({
-            self.moveButtons[0].transform = buttonScale1
-            self.moveButtons[1].transform = buttonScale2
-            self.moveButtons[2].transform = buttonScale3
-            self.moveButtons[3].transform = buttonScale4
-
-        }))
-    }
-    
+//    @IBAction func editButton(_ sender: UIBarButtonItem) {
+//        if !isPVEditing {
+//            // Move Button Editing Mode
+//            for i in 0 ..< moveButtons.count {
+//                let xAlignOffsetFromCenter = -view.frame.width / 2 + editingModeOffsetX
+//                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
+//                var translatedX: CGFloat = 0.0
+//                var translatedY: CGFloat = 0.0
+//                let scale: CGFloat = 0.5
+//
+//                switch i {
+//                case leftButtonIndex:
+//                    translatedX = marginBetweenButton + xAlignOffsetFromCenter
+//                    translatedY = yAlignOffsetFromCenter
+//
+//                case rightButtonIndex:
+//                    translatedX = -marginBetweenButton + xAlignOffsetFromCenter
+//                    translatedY = yAlignOffsetFromCenter
+//
+//                case upButtonIndex:
+//                    translatedX = xAlignOffsetFromCenter
+//                    translatedY = marginBetweenButton + yAlignOffsetFromCenter
+//
+//                case downButtonIndex:
+//                    translatedX = xAlignOffsetFromCenter
+//                    translatedY = -marginBetweenButton + yAlignOffsetFromCenter
+//
+//                case stopButtonIndex:
+//                    translatedX = xAlignOffsetFromCenter
+//                    translatedY = yAlignOffsetFromCenter
+//
+//                default:
+//                    break
+//                }
+//
+//                translatedY += alignSpaceOffset * CGFloat(i)
+//                let buttonTransform = moveButtons[i].transform.translatedBy(x: translatedX, y: translatedY)
+//                let buttonScale = buttonTransform.scaledBy(x: scale, y:scale)
+//
+//                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
+//                    self.moveButtons[i].transform = buttonScale
+//
+//                }, completion: nil)
+//
+//                let x = moveButtons[i].frame.origin.x
+//                let y = moveButtons[i].frame.origin.y
+//
+//                createMoveTextField(i, x + alignSpaceOffset - 5, y + 7)
+//            }
+//
+//            // Limit Image Editing Mode
+//            for i in 0 ..< limitImageView.count {
+//                let xAlignOffsetFromCenter: CGFloat = editingModeOffsetX
+//                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
+//                let alignSpaceOffset = buttonSize * 0.7
+//                var translatedX: CGFloat = 0.0
+//                var translatedY: CGFloat = 0.0
+//                let scale: CGFloat = 0.3
+//
+//                switch i {
+//                case leftLimitImageIndex:
+//                    translatedX = marginBetweenLimit + xAlignOffsetFromCenter
+//                    translatedY = yAlignOffsetFromCenter
+//
+//                case rightLimitImageIndex:
+//                    translatedX = -marginBetweenLimit + xAlignOffsetFromCenter
+//                    translatedY = yAlignOffsetFromCenter
+//
+//                case upLimitImageIndex:
+//                    translatedX = xAlignOffsetFromCenter
+//                    translatedY = marginBetweenLimit + yAlignOffsetFromCenter
+//
+//                case downLimitImageIndex:
+//                    translatedX = xAlignOffsetFromCenter
+//                    translatedY = -marginBetweenLimit + yAlignOffsetFromCenter
+//
+//                default:
+//                    break
+//                }
+//
+//                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+//
+//                translatedY += alignSpaceOffset * CGFloat(i)
+//                let limitTransform = limitImageView[i].transform.translatedBy(x: translatedX, y: translatedY)
+//                let limitScale = limitTransform.scaledBy(x: scale, y: scale)
+//
+//                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
+//                    self.limitImageView[i].transform = limitScale
+//
+//                }, completion: nil)
+//
+//                let x = limitImageView[i].frame.origin.x
+//                let y = limitImageView[i].frame.origin.y
+//
+//                createLimitTextField(i, x, y)
+//            }
+//
+//            sender.title = "Done"
+//            isPVEditing = true
+//        }
+//        else {
+//            for i in 0 ..< moveButtons.count {
+//                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+//                    self.moveButtons[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+//
+//                }, completion: nil)
+//            }
+//
+//            for i in 0 ..< limitImageView.count {
+//                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+//                    self.limitImageView[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+//
+//                }, completion: nil)
+//            }
+//            sender.title = "➕"
+//            isPVEditing = false
+//        }
+//    }
     
     let caEventNotification = Notification.Name("EventCallbackNotification")
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
@@ -161,48 +275,25 @@ class MotionViewController: UIViewController {
             buttonSize = 77
             marginBetweenButton = 120
             marginFromBottom = 80
-//            leftMoveButtonImageName = "Motion_left_black_4inch"
-//            rightMoveButtonImageName = "Motion_right_black_4inch"
-//            upMoveButtonImageName = "Motion_up_black_4inch"
-//            downMoveButtonImageName = "Motion_down_black_4inch"
-//            stopButtonImageName = "Motion_stop_black_4inch"
-            
+
             limitImageSizeH = 32
             limitImageSizeV = 150
             marginBetweenLimit = 128
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
-
-//            leftLimitImageName = "Shield_left_black_4inch"
-//            rightLimitImageName = "Shield_right_black_4inch"
-//            upLimitImageName = "Shield_up_black_4inch"
-//            downLimitImageName = "Shield_down_black_4inch"
-            
             limitImageName = ["Shield_left_black_4inch", "Shield_right_black_4inch", "Shield_up_black_4inch", "Shield_down_black_4inch"]
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
             buttonSize = 77
             marginBetweenButton = 150
             marginFromBottom = 100
-
-//            leftMoveButtonImageName = "Motion_left_black"
-//            rightMoveButtonImageName = "Motion_right_black"
-//            upMoveButtonImageName = "Motion_up_black"
-//            downMoveButtonImageName = "Motion_down_black"
-//            stopButtonImageName = "Motion_stop_black"
             
             limitImageSizeH = 32
             limitImageSizeV = 150
             marginBetweenLimit = 128
 
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
-
-//            leftLimitImageName = "Shield_left_black_4inch"
-//            rightLimitImageName = "Shield_right_black_4inch"
-//            upLimitImageName = "Shield_up_black_4inch"
-//            downLimitImageName = "Shield_down_black_4inch"
-            
             limitImageName = ["Shield_left_black_4inch", "Shield_right_black_4inch", "Shield_up_black_4inch", "Shield_down_black_4inch"]
-
+            
             
         case 667.0: // 375x337pt 4,7inch (iPhone6, 6s, 7, 8)
             break
@@ -217,36 +308,12 @@ class MotionViewController: UIViewController {
             break
         }
         
-//        let moveButtonImage = UIImage(named: moveButtonImageName)?.withRenderingMode(.alwaysTemplate)
-        
         for i in 0 ..< moveButtons.count {
             moveButtons[i].setTitle(nil, for: .normal)
             moveButtons[i].setImage(UIImage(named: moveButtonImageName[i])?.withRenderingMode(.alwaysTemplate), for: .normal)
             moveButtons[i].translatesAutoresizingMaskIntoConstraints = false
             moveButtons[i].isEnabled = false
         }
-        
-//        moveButtons[leftButtonIndex].setTitle(nil, for: .normal)
-//        moveButtons[rightButtonIndex].setTitle(nil, for: .normal)
-//        moveButtons[upButtonIndex].setTitle(nil, for: .normal)
-//        moveButtons[downButtonIndex].setTitle(nil, for: .normal)
-//        moveButtons[stopButtonIndex].setTitle(nil, for: .normal)
-        
-//        moveButtons[leftButtonIndex].setImage(UIImage(named: leftMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
-//        moveButtons[rightButtonIndex].setImage(UIImage(named: rightMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
-//        moveButtons[upButtonIndex].setImage(UIImage(named: upMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
-//        moveButtons[downButtonIndex].setImage(UIImage(named: downMoveButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
-//        moveButtons[stopButtonIndex].setImage(UIImage(named: stopButtonImageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
-
-//        moveButtons[rightButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-//        moveButtons[upButtonIndex].transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2.0)
-//        moveButtons[downButtonIndex].transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2.0)
-        
-//        moveButtons[leftButtonIndex].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[rightButtonIndex].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[upButtonIndex].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[downButtonIndex].translatesAutoresizingMaskIntoConstraints = false
-//        moveButtons[stopButtonIndex].translatesAutoresizingMaskIntoConstraints = false
         
         let margins = view.layoutMarginsGuide
 
@@ -257,53 +324,32 @@ class MotionViewController: UIViewController {
 
         moveButtons[leftButtonIndex].widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[leftButtonIndex].heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        moveButtons[leftButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: -marginBetweenButton / 2).isActive = true
+        moveButtons[leftButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: -marginBetweenButton).isActive = true
         moveButtons[leftButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: 0).isActive = true
         
         moveButtons[rightButtonIndex].widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[rightButtonIndex].heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        moveButtons[rightButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: marginBetweenButton / 2).isActive = true
+        moveButtons[rightButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: marginBetweenButton).isActive = true
         moveButtons[rightButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: 0).isActive = true
         
         moveButtons[upButtonIndex].widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[upButtonIndex].heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[upButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: 0).isActive = true
-        moveButtons[upButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: -marginBetweenButton / 2).isActive = true
+        moveButtons[upButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: -marginBetweenButton).isActive = true
         
         moveButtons[downButtonIndex].widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[downButtonIndex].heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
         moveButtons[downButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: 0).isActive = true
-        moveButtons[downButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: marginBetweenButton / 2).isActive = true
+        moveButtons[downButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: marginBetweenButton).isActive = true
 
-//        moveButtons[leftButtonIndex].isEnabled = false
-//        moveButtons[rightButtonIndex].isEnabled = false
-//        moveButtons[upButtonIndex].isEnabled = false
-//        moveButtons[downButtonIndex].isEnabled = false
-//        moveButtons[stopButtonIndex].isEnabled = false
         
         for i in 0 ..< limitImageView.count {
             limitImageView[i].image = UIImage(named: limitImageName[i])
             limitImageView[i].image = limitImageView[i].image?.withRenderingMode(.alwaysTemplate)
             limitImageView[i].translatesAutoresizingMaskIntoConstraints = false
 
-//            limitImageView[i].isHidden = true
             limitImageView[i].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 0.0)
         }
-        
-//        limitImageView[leftLimitImageIndex].image = UIImage(named: leftLimitImageName)
-//        limitImageView[rightLimitImageIndex].image = UIImage(named: rightLimitImageName)
-//        limitImageView[upLimitImageIndex].image = UIImage(named: upLimitImageName)
-//        limitImageView[downLimitImageIndex].image = UIImage(named: downLimitImageName)
-//
-//        limitImageView[leftLimitImageIndex].image = limitImageView[leftLimitImageIndex].image?.withRenderingMode(.alwaysTemplate)
-//        limitImageView[rightLimitImageIndex].image = limitImageView[rightLimitImageIndex].image?.withRenderingMode(.alwaysTemplate)
-//        limitImageView[upLimitImageIndex].image = limitImageView[upLimitImageIndex].image?.withRenderingMode(.alwaysTemplate)
-//        limitImageView[downLimitImageIndex].image = limitImageView[downLimitImageIndex].image?.withRenderingMode(.alwaysTemplate)
-
-//        limitImageView[leftLimitImageIndex].translatesAutoresizingMaskIntoConstraints = false
-//        limitImageView[rightLimitImageIndex].translatesAutoresizingMaskIntoConstraints = false
-//        limitImageView[upLimitImageIndex].translatesAutoresizingMaskIntoConstraints = false
-//        limitImageView[downLimitImageIndex].translatesAutoresizingMaskIntoConstraints = false
         
         limitImageView[leftLimitImageIndex].widthAnchor.constraint(equalToConstant: limitImageSizeH).isActive = true
         limitImageView[leftLimitImageIndex].heightAnchor.constraint(equalToConstant: limitImageSizeV).isActive = true
@@ -324,27 +370,10 @@ class MotionViewController: UIViewController {
         limitImageView[downLimitImageIndex].heightAnchor.constraint(equalToConstant: limitImageSizeH).isActive = true
         limitImageView[downLimitImageIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: 0).isActive = true
         limitImageView[downLimitImageIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: marginBetweenLimit).isActive = true
-        
-        
-//        limitImageView[leftLimitImageIndex].isHidden = true
-//        limitImageView[rightLimitImageIndex].isHidden = true
-//        limitImageView[upLimitImageIndex].isHidden = true
-//        limitImageView[downLimitImageIndex].isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        let sampleTextField =  UITextField(frame: CGRect(x: 20, y: 100, width: 300, height: 40))
-//        sampleTextField.placeholder = "Enter text here"
-//        sampleTextField.font = UIFont.systemFont(ofSize: 15)
-//        sampleTextField.borderStyle = UITextBorderStyle.roundedRect
-//        sampleTextField.autocorrectionType = UITextAutocorrectionType.no
-//        sampleTextField.keyboardType = UIKeyboardType.default
-//        sampleTextField.returnKeyType = UIReturnKeyType.done
-//        sampleTextField.clearButtonMode = UITextFieldViewMode.whileEditing;
-//        sampleTextField.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-//        sampleTextField.delegate = self
-//        self.view.addSubview(sampleTextField)
-        
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -355,15 +384,91 @@ class MotionViewController: UIViewController {
         appWillEnterForegroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillEnterForeground, object: nil, queue: OperationQueue.main, using: applicationWillEnterForeground)
         
         caObject.channelAccessContextCreate()
-        caObject.channelAccessAddProcessVariable(lelftPVName)
-        caObject.channelAccessAddProcessVariable(rightPVName)
-        caObject.channelAccessAddProcessVariable(upPVName)
-        caObject.channelAccessAddProcessVariable(downPVName)
-        caObject.channelAccessAddProcessVariable(stopPVName)
-        caObject.channelAccessAddProcessVariable(position1PVName)
-        caObject.channelAccessAddProcessVariable(position2PVName)
-        caObject.channelAccessAddProcessVariable(leftLimitPVName)
-        caObject.channelAccessAddProcessVariable(rightLimitPVName)
+//        var lelftPVName: String?
+//        var rightPVName: String?
+//        var upPVName: String?
+//        var downPVName: String?
+//        var stopPVName: String?
+//        var position1PVName: String?
+//        var position2PVName: String?
+//        var leftLimitPVName: String?
+//        var rightLimitPVName: String?
+        
+        if UserDefaults.standard.bool(forKey: "MotionAxisEnable1") {
+            if let position1Name = UserDefaults.standard.string(forKey: keyNameforAxis1[0]) {
+                caObject.channelAccessAddProcessVariable(position1Name)
+                position1PVName = position1Name
+            }
+
+            if let leftMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[1]) {
+                caObject.channelAccessAddProcessVariable(leftMoveName)
+                lelftPVName = leftMoveName
+            }
+
+            if let rightMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[2]) {
+                caObject.channelAccessAddProcessVariable(rightMoveName)
+                rightPVName = rightMoveName
+            }
+
+            if let leftLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[3]) {
+                caObject.channelAccessAddProcessVariable(leftLimitName)
+                leftLimitPVName = leftLimitName
+            }
+
+            if let rightLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[4]) {
+                caObject.channelAccessAddProcessVariable(rightLimitName)
+                rightLimitPVName = rightLimitName
+            }
+            moveButtons[leftButtonIndex].isHidden = false
+            moveButtons[rightButtonIndex].isHidden = false
+        }
+        else {
+            moveButtons[leftButtonIndex].isHidden = true
+            moveButtons[rightButtonIndex].isHidden = true
+        }
+
+        if UserDefaults.standard.bool(forKey: "MotionAxisEnable2") {
+            if let position2Name = UserDefaults.standard.string(forKey: keyNameforAxis2[0]) {
+                caObject.channelAccessAddProcessVariable(position2Name)
+                position2PVName = position2Name
+            }
+
+            if let upMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[1]) {
+                caObject.channelAccessAddProcessVariable(upMoveName)
+                upPVName = upMoveName
+            }
+
+            if let downMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[2]) {
+                caObject.channelAccessAddProcessVariable(downMoveName)
+                downPVName = downMoveName
+            }
+
+            if let upLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[3]) {
+                caObject.channelAccessAddProcessVariable(upLimitName)
+                upLimitPVName = upLimitName
+            }
+
+            if let downLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[4]) {
+                caObject.channelAccessAddProcessVariable(downLimitName)
+                downLimitPVName = downLimitName
+            }
+            moveButtons[upButtonIndex].isHidden = false
+            moveButtons[downButtonIndex].isHidden = false
+        }
+        else {
+            moveButtons[upButtonIndex].isHidden = true
+            moveButtons[downButtonIndex].isHidden = true
+        }
+
+
+//        caObject.channelAccessAddProcessVariable(lelftPVName)
+//        caObject.channelAccessAddProcessVariable(rightPVName)
+//        caObject.channelAccessAddProcessVariable(upPVName)
+//        caObject.channelAccessAddProcessVariable(downPVName)
+//        caObject.channelAccessAddProcessVariable(stopPVName)
+//        caObject.channelAccessAddProcessVariable(position2PVName)
+//        caObject.channelAccessAddProcessVariable(leftLimitPVName)
+//        caObject.channelAccessAddProcessVariable(rightLimitPVName)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -390,6 +495,108 @@ class MotionViewController: UIViewController {
         caObject.channelAccessAllClear()
         caObject.channelAccessContexDestroy()
     }
+    
+//    private func createMoveTextField(_ index: Int, _ xPosition: CGFloat, _ yPosition: CGFloat) {
+//        switch index {
+//        case 0:
+//            leftMoveTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            leftMoveTextField?.font = UIFont.systemFont(ofSize: 14)
+//            leftMoveTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            leftMoveTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            leftMoveTextField?.keyboardType = UIKeyboardType.default
+//            leftMoveTextField?.returnKeyType = UIReturnKeyType.done
+//            leftMoveTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            leftMoveTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            leftMoveTextField?.delegate = self
+//            view.addSubview(leftMoveTextField!)
+//        case 1:
+//            rightMoveTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            rightMoveTextField?.font = UIFont.systemFont(ofSize: 14)
+//            rightMoveTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            rightMoveTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            rightMoveTextField?.keyboardType = UIKeyboardType.default
+//            rightMoveTextField?.returnKeyType = UIReturnKeyType.done
+//            rightMoveTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            rightMoveTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            rightMoveTextField?.delegate = self
+//            view.addSubview(rightMoveTextField!)
+//        case 2:
+//            upMoveTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            upMoveTextField?.font = UIFont.systemFont(ofSize: 14)
+//            upMoveTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            upMoveTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            upMoveTextField?.keyboardType = UIKeyboardType.default
+//            upMoveTextField?.returnKeyType = UIReturnKeyType.done
+//            upMoveTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            upMoveTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            upMoveTextField?.delegate = self
+//            view.addSubview(upMoveTextField!)
+//        case 3:
+//            downMoveTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            downMoveTextField?.font = UIFont.systemFont(ofSize: 14)
+//            downMoveTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            downMoveTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            downMoveTextField?.keyboardType = UIKeyboardType.default
+//            downMoveTextField?.returnKeyType = UIReturnKeyType.done
+//            downMoveTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            downMoveTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            downMoveTextField?.delegate = self
+//            view.addSubview(downMoveTextField!)
+//        default:
+//            break
+//        }
+//    }
+    
+//    private func createLimitTextField(_ index: Int, _ xPosition: CGFloat, _ yPosition: CGFloat) {
+//        switch index {
+//        case 0:
+//            leftLimitTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            leftLimitTextField?.font = UIFont.systemFont(ofSize: 14)
+//            leftLimitTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            leftLimitTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            leftLimitTextField?.keyboardType = UIKeyboardType.default
+//            leftLimitTextField?.returnKeyType = UIReturnKeyType.done
+//            leftLimitTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            leftLimitTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            leftLimitTextField?.delegate = self
+//            view.addSubview(leftLimitTextField!)
+//        case 1:
+//            rightLimitTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            rightLimitTextField?.font = UIFont.systemFont(ofSize: 14)
+//            rightLimitTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            rightLimitTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            rightLimitTextField?.keyboardType = UIKeyboardType.default
+//            rightLimitTextField?.returnKeyType = UIReturnKeyType.done
+//            rightLimitTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            rightLimitTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            rightLimitTextField?.delegate = self
+//            view.addSubview(rightLimitTextField!)
+//        case 2:
+//            upMoveLimitField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            upMoveLimitField?.font = UIFont.systemFont(ofSize: 14)
+//            upMoveLimitField?.borderStyle = UITextBorderStyle.roundedRect
+//            upMoveLimitField?.autocorrectionType = UITextAutocorrectionType.no
+//            upMoveLimitField?.keyboardType = UIKeyboardType.default
+//            upMoveLimitField?.returnKeyType = UIReturnKeyType.done
+//            upMoveLimitField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            upMoveLimitField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            upMoveLimitField?.delegate = self
+//            view.addSubview(upMoveLimitField!)
+//        case 3:
+//            downLimitTextField = UITextField(frame: CGRect(x: xPosition, y: yPosition, width: textFieldWidth, height: textFieldHeight))
+//            downLimitTextField?.font = UIFont.systemFont(ofSize: 14)
+//            downLimitTextField?.borderStyle = UITextBorderStyle.roundedRect
+//            downLimitTextField?.autocorrectionType = UITextAutocorrectionType.no
+//            downLimitTextField?.keyboardType = UIKeyboardType.default
+//            downLimitTextField?.returnKeyType = UIReturnKeyType.done
+//            downLimitTextField?.clearButtonMode = UITextFieldViewMode.whileEditing;
+//            downLimitTextField?.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//            downLimitTextField?.delegate = self
+//            view.addSubview(downLimitTextField!)
+//        default:
+//            break
+//        }
+//    }
     
     //********* Notification *************
     private func catchEventNotification(notification:Notification) -> Void {
@@ -419,6 +626,10 @@ class MotionViewController: UIViewController {
                 limitImageIndex = 0
             case rightLimitPVName:
                 limitImageIndex = 1
+            case upLimitPVName:
+                limitImageIndex = 2
+            case downLimitPVName:
+                limitImageIndex = 3
             default:
                 break
             }
@@ -454,6 +665,7 @@ class MotionViewController: UIViewController {
                                 self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 1.0)
                                 }))
 
+                            self.moveButtons[limitIndex].shake(duration: 0.3, values: [-12.0, 12.0, -12.0, 12.0, -6.0, 6.0, -3.0, 3.0, 0.0])
                         }
                     }
                 }
@@ -482,7 +694,6 @@ class MotionViewController: UIViewController {
                 break
             case position2PVName:
                 positionLabelIndex = 1
-                break
             default:
                 break
             }
@@ -551,6 +762,39 @@ class MotionViewController: UIViewController {
 
 }
 
+extension UIView {
+    
+    
+    // Using CAMediaTimingFunction
+    func shake(duration: TimeInterval = 0.5, values: [CGFloat]) {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.duration = duration // You can set fix duration
+        animation.values = values  // You can set fix values here also
+        self.layer.add(animation, forKey: "shake")
+    }
+    
+    
+    // Using SpringWithDamping
+    func shake(duration: TimeInterval = 0.5, xValue: CGFloat = 12, yValue: CGFloat = 0) {
+        self.transform = CGAffineTransform(translationX: xValue, y: yValue)
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 1.0, options: .curveEaseInOut, animations: {
+            self.transform = CGAffineTransform.identity
+        }, completion: nil)
+        
+    }
+    
+    // Using CABasicAnimation
+    func shake(duration: TimeInterval = 0.05, shakeCount: Float = 6, xValue: CGFloat = 12, yValue: CGFloat = 0){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = duration
+        animation.repeatCount = shakeCount
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - xValue, y: self.center.y - yValue))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + xValue, y: self.center.y - yValue))
+        self.layer.add(animation, forKey: "shake")
+    }
+}
 
 extension MotionViewController: UITextFieldDelegate {
     
@@ -562,6 +806,7 @@ extension MotionViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         // became first responder
+        
         print("TextField did begin editing method called")
     }
     
@@ -581,10 +826,28 @@ extension MotionViewController: UITextFieldDelegate {
         print("TextField did end editing with reason method called")
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // return NO to not change text
-        print("While entering the characters this method gets called")
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        switch textField {
+//        case leftMoveTextField:
+//            print("Left Move PV Nmae")
+//        case rightMoveTextField:
+//            print("right Move PV Nmae")
+//        case upMoveTextField:
+//            print("up Move PV Nmae")
+//        case downMoveTextField:
+//            print("down Move PV Nmae")
+//        default:
+//            break;
+//        }
+        print("TextField did enter return")
+        self.view.endEditing(true)
         return true
     }
+    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        // return NO to not change text
+//        print("While entering the characters this method gets called")
+//        return true
+//    }
 }
 

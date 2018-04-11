@@ -16,6 +16,7 @@ class MainNavigationController: UINavigationController {
         super.viewDidLoad()
      
         // Do any additional setup after loading the view.
+        
         var autoAddressList = "YES"
         var autoAddressListBoolen = true
         var appLaunchedBefore = false
