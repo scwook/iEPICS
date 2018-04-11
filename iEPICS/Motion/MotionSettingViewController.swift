@@ -12,8 +12,16 @@ class MotionSettingViewController: UIViewController, UITextFieldDelegate {
     
     let keyNameforAxis1 = ["MotionPosition1", "MotionLeftPV", "MotionRightPV", "MotionLeftLimitPV", "MotionRightLimitPV"]
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
+    let keyNameforStop = "MotionStopPV"
     
     @IBOutlet weak var axisSettingView1: UIView!
+    @IBOutlet weak var axisStopPVTextField: UITextField! {
+        didSet {
+            axisStopPVTextField.delegate = self
+            axisStopPVTextField.text = UserDefaults.standard.string(forKey: keyNameforStop)
+        }
+    }
+    
     @IBOutlet weak var axisEnableSwitch1: UISwitch! {
         didSet {
             axisEnableSwitch1.setOn(UserDefaults.standard.bool(forKey: "MotionAxisEnable1"), animated: false)
@@ -123,6 +131,9 @@ class MotionSettingViewController: UIViewController, UITextFieldDelegate {
 
         case axisPVTextField2[4]:
             keyName = keyNameforAxis2[4]
+            
+        case axisStopPVTextField:
+            keyName = keyNameforStop
 
         default:
             break

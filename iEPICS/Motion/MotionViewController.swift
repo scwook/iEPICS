@@ -25,7 +25,8 @@ class MotionViewController: UIViewController {
 //    var downLimitTextField: UITextField?
     
 //    var isPVEditing = false
-
+    var isStop = false
+    
     let leftButtonIndex = 0
     let rightButtonIndex = 1
     let upButtonIndex = 2
@@ -61,6 +62,7 @@ class MotionViewController: UIViewController {
     
     let keyNameforAxis1 = ["MotionPosition1", "MotionLeftPV", "MotionRightPV", "MotionLeftLimitPV", "MotionRightLimitPV"]
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
+    let keyNameforStop = "MotionStopPV"
     
     let editingModeOffsetX: CGFloat = 40.0
     let editingModeOffsetY: CGFloat = 100.0
@@ -68,7 +70,7 @@ class MotionViewController: UIViewController {
     
     var textFieldWidth: CGFloat = 110.0
     var textFieldHeight: CGFloat = 30
-
+    
     @IBAction func moveButtonToucUp(_ sender: UIButton) {
 
         let buttonIndex = moveButtons.index(of: sender)!
@@ -130,7 +132,14 @@ class MotionViewController: UIViewController {
     @IBAction func stopButtonTouchDown(_ sender: UIButton) {
 //        let stopState = caObject.channelAccessGetValue(stopPVName)
 
-        caObject.channelAccessPut(stopPVName, putValue: 1)
+        if isStop {
+            caObject.channelAccessPut(stopPVName, putValue: 0)
+            isStop = false
+        }
+        else {
+            caObject.channelAccessPut(stopPVName, putValue: 1)
+            isStop = true
+        }
     }
 
 //    @IBAction func editButton(_ sender: UIBarButtonItem) {
@@ -370,6 +379,38 @@ class MotionViewController: UIViewController {
         limitImageView[downLimitImageIndex].heightAnchor.constraint(equalToConstant: limitImageSizeH).isActive = true
         limitImageView[downLimitImageIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: 0).isActive = true
         limitImageView[downLimitImageIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: marginBetweenLimit).isActive = true
+    
+        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionAxisEnable1")
+        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionAxisEnable2")
+        
+        if axisEnable1 {
+            positionTextLabel[0].isHidden = false
+            moveButtons[leftButtonIndex].isHidden = false
+            moveButtons[rightButtonIndex].isHidden = false
+        }
+        else {
+            positionTextLabel[0].isHidden = true
+            moveButtons[leftButtonIndex].isHidden = true
+            moveButtons[rightButtonIndex].isHidden = true
+        }
+        
+        if axisEnable2 {
+            positionTextLabel[1].isHidden = false
+            moveButtons[upButtonIndex].isHidden = false
+            moveButtons[downButtonIndex].isHidden = false
+        }
+        else {
+            positionTextLabel[1].isHidden = true
+            moveButtons[upButtonIndex].isHidden = true
+            moveButtons[downButtonIndex].isHidden = true
+        }
+        
+        if axisEnable1 || axisEnable2 {
+            moveButtons[stopButtonIndex].isHidden = false
+        }
+        else {
+            moveButtons[stopButtonIndex].isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -384,17 +425,11 @@ class MotionViewController: UIViewController {
         appWillEnterForegroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillEnterForeground, object: nil, queue: OperationQueue.main, using: applicationWillEnterForeground)
         
         caObject.channelAccessContextCreate()
-//        var lelftPVName: String?
-//        var rightPVName: String?
-//        var upPVName: String?
-//        var downPVName: String?
-//        var stopPVName: String?
-//        var position1PVName: String?
-//        var position2PVName: String?
-//        var leftLimitPVName: String?
-//        var rightLimitPVName: String?
         
-        if UserDefaults.standard.bool(forKey: "MotionAxisEnable1") {
+        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionAxisEnable1")
+        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionAxisEnable2")
+        
+        if axisEnable1 {
             if let position1Name = UserDefaults.standard.string(forKey: keyNameforAxis1[0]) {
                 caObject.channelAccessAddProcessVariable(position1Name)
                 position1PVName = position1Name
@@ -419,15 +454,9 @@ class MotionViewController: UIViewController {
                 caObject.channelAccessAddProcessVariable(rightLimitName)
                 rightLimitPVName = rightLimitName
             }
-            moveButtons[leftButtonIndex].isHidden = false
-            moveButtons[rightButtonIndex].isHidden = false
-        }
-        else {
-            moveButtons[leftButtonIndex].isHidden = true
-            moveButtons[rightButtonIndex].isHidden = true
         }
 
-        if UserDefaults.standard.bool(forKey: "MotionAxisEnable2") {
+        if axisEnable2 {
             if let position2Name = UserDefaults.standard.string(forKey: keyNameforAxis2[0]) {
                 caObject.channelAccessAddProcessVariable(position2Name)
                 position2PVName = position2Name
@@ -452,23 +481,14 @@ class MotionViewController: UIViewController {
                 caObject.channelAccessAddProcessVariable(downLimitName)
                 downLimitPVName = downLimitName
             }
-            moveButtons[upButtonIndex].isHidden = false
-            moveButtons[downButtonIndex].isHidden = false
         }
-        else {
-            moveButtons[upButtonIndex].isHidden = true
-            moveButtons[downButtonIndex].isHidden = true
+        
+        if axisEnable1 || axisEnable2 {
+            if let stopMovePVName = UserDefaults.standard.string(forKey: keyNameforStop) {
+                caObject.channelAccessAddProcessVariable(stopMovePVName)
+                stopPVName = stopMovePVName
+            }
         }
-
-
-//        caObject.channelAccessAddProcessVariable(lelftPVName)
-//        caObject.channelAccessAddProcessVariable(rightPVName)
-//        caObject.channelAccessAddProcessVariable(upPVName)
-//        caObject.channelAccessAddProcessVariable(downPVName)
-//        caObject.channelAccessAddProcessVariable(stopPVName)
-//        caObject.channelAccessAddProcessVariable(position2PVName)
-//        caObject.channelAccessAddProcessVariable(leftLimitPVName)
-//        caObject.channelAccessAddProcessVariable(rightLimitPVName)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -657,12 +677,12 @@ class MotionViewController: UIViewController {
                     if value.count != 0, let isEnabled = Int(String(describing: value[0])) {
                         if isEnabled == 0 {
                             UIView.animate(withDuration: 0.3, animations: ({
-                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 0.0)
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 125/255, alpha: 0.0)
                             }))
                         }
                         else {
                             UIView.animate(withDuration: 0.3, animations: ({
-                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 1.0)
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 125/255, alpha: 1.0)
                                 }))
 
                             self.moveButtons[limitIndex].shake(duration: 0.3, values: [-12.0, 12.0, -12.0, 12.0, -6.0, 6.0, -3.0, 3.0, 0.0])
