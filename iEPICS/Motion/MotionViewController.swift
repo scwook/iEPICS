@@ -25,7 +25,7 @@ class MotionViewController: UIViewController {
 //    var downLimitTextField: UITextField?
     
 //    var isPVEditing = false
-    var isStop = false
+//    var isStop = false
     
     let leftButtonIndex = 0
     let rightButtonIndex = 1
@@ -130,18 +130,31 @@ class MotionViewController: UIViewController {
     }
     
     @IBAction func stopButtonTouchDown(_ sender: UIButton) {
-//        let stopState = caObject.channelAccessGetValue(stopPVName)
+        if let stopStateString = caObject.channelAccessGet(stopPVName) {
+            let stopState = Int(stopStateString)
+            if stopState != 0 {
+                caObject.channelAccessPut(stopPVName, putValue: 0)
+            }
+            else {
+                caObject.channelAccessPut(stopPVName, putValue: 1)
+            }
+        }
+        
+        UIView.animate(withDuration: 0.3, animations: ({
+            sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            }
+        ))
+        
 
-        if isStop {
-            caObject.channelAccessPut(stopPVName, putValue: 0)
-            isStop = false
-        }
-        else {
-            caObject.channelAccessPut(stopPVName, putValue: 1)
-            isStop = true
-        }
     }
 
+    @IBAction func stopButtonTouchUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.3, animations: ({
+            sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+        ))
+    }
+    
 //    @IBAction func editButton(_ sender: UIBarButtonItem) {
 //        if !isPVEditing {
 //            // Move Button Editing Mode

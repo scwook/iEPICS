@@ -90,7 +90,7 @@ typedef struct {
 - (NSString *)ChannelAccessGetValue:(NSString *)pvName;
 
 - (void)ChannelAccessGet;
-- (void)ChannelAccessGet:(NSString *)pvName;
+- (NSString *)ChannelAccessGet:(NSString *)pvName;
 - (void)ChannelAccessPut:(NSString *)pvName putValue:(id)value;
 
 - (NSMutableDictionary *)ChannelAccessGetDictionary;

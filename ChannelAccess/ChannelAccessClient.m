@@ -220,11 +220,13 @@ static ChannelAccessNotification *notification;
     free(pTD);
 }
 
-- (void)ChannelAccessGet:(NSString *)pvName {
+- (NSString *)ChannelAccessGet:(NSString *)pvName {
     if( [pvDictionary objectForKey:pvName] ) {
         unsigned long index = [[pvDictionaryIndex objectForKey:pvName] unsignedLongValue];
         long fieldType = ca_field_type(myCAnode[index]->chid);
         long nativeType = dbf_type_to_DBR_TIME(fieldType);
+        double timeout = 0.1;
+        NSString *stringValue = NULL;
         
         unsigned nBytes;
         switch (nativeType) {
@@ -232,49 +234,68 @@ static ChannelAccessNotification *notification;
                 nBytes = dbr_size_n(DBR_TIME_STRING, 1);
                 struct dbr_time_string *pDataString;
                 pDataString = ( struct dbr_time_string * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataString);
+                ca_get(nativeType, myCAnode[index]->chid, pDataString);
+                ca_pend_io(timeout);
+                stringValue = [NSString stringWithUTF8String: pDataString->value];
                 break;
                 
             case DBR_TIME_SHORT:
                 nBytes = dbr_size_n(DBR_TIME_SHORT, 1);
                 struct dbr_time_short *pDataShort;
                 pDataShort = ( struct dbr_time_short * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataShort);
+                ca_get(nativeType, myCAnode[index]->chid, pDataShort);
+                ca_pend_io(timeout);
+                stringValue = [[NSNumber numberWithShort:pDataShort->value] stringValue];
                 break;
                 
             case DBR_TIME_FLOAT:
                 nBytes = dbr_size_n(DBR_TIME_FLOAT, 1);
                 struct dbr_time_float *pDataFloat;
                 pDataFloat = ( struct dbr_time_float * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataFloat);
+                ca_get(nativeType, myCAnode[index]->chid, pDataFloat);
+                ca_pend_io(timeout);
+                stringValue = [[NSNumber numberWithFloat:pDataFloat->value] stringValue];
                 break;
                 
             case DBR_TIME_ENUM:
                 nBytes = dbr_size_n(DBR_TIME_ENUM, 1);
                 struct dbr_time_enum *pDataEnum;
                 pDataEnum = ( struct dbr_time_enum * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataEnum);
+//                ca_get(fieldType, myCAnode[index]->chid, pDataEnum);
+                ca_array_get(nativeType, 1, myCAnode[index]->chid, pDataEnum);
+                ca_pend_io(timeout);
+
+                const dbr_enum_t *pEnumValue = &pDataEnum->value;
+                stringValue = [[NSNumber numberWithInteger:pEnumValue[0]] stringValue];
                 break;
                 
             case DBR_TIME_LONG:
                 nBytes = dbr_size_n(DBR_TIME_LONG, 1);
                 struct dbr_time_long *pDataLong;
                 pDataLong = ( struct dbr_time_long * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataLong);
+                ca_get(nativeType, myCAnode[index]->chid, pDataLong);
+                ca_pend_io(timeout);
+                stringValue = [[NSNumber numberWithLong:pDataLong->value] stringValue];
                 break;
                 
             case DBR_TIME_DOUBLE:
                 nBytes = dbr_size_n(DBR_TIME_DOUBLE, 1);
                 struct dbr_time_double *pDataDouble;
                 pDataDouble = ( struct dbr_time_double * )malloc(nBytes);
-                ca_get(fieldType, myCAnode[index]->chid, pDataDouble);
+                ca_get(nativeType, myCAnode[index]->chid, pDataDouble);
+                ca_pend_io(timeout);
+                stringValue = [[NSNumber numberWithDouble:pDataDouble->value] stringValue];
                 break;
                 
             default:
                 break;
         }
         
+//        id returnValue = (id)stringValue;
+        return stringValue;
     }
+    
+    return NULL;
 }
 
 

@@ -464,6 +464,8 @@
                                 </state>
                                 <connections>
                                     <action selector="stopButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="dRR-ry-JPM"/>
+                                    <action selector="stopButtonTouchUp:" destination="N1R-mC-DGr" eventType="touchUpInside" id="B4w-N6-flC"/>
+                                    <action selector="stopButtonTouchUp:" destination="N1R-mC-DGr" eventType="touchUpOutside" id="Z7u-kO-a1f"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTx-ny-6aN">
