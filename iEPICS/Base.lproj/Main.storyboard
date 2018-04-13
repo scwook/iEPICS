@@ -550,9 +550,9 @@
                         <viewLayoutGuide key="safeArea" id="V4Z-yp-0WW"/>
                     </view>
                     <navigationItem key="navigationItem" id="Z9Z-jX-J9I">
-                        <barButtonItem key="rightBarButtonItem" title="⚙︎" id="lrc-O1-BY5">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="lrc-O1-BY5">
                             <connections>
-                                <segue destination="Ozc-ak-c7F" kind="show" id="Isz-VL-sHj"/>
+                                <action selector="editButton:" destination="N1R-mC-DGr" id="wvg-Ku-wqg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -939,6 +939,9 @@
                         <outlet property="axisSettingView1" destination="UQT-xc-UE5" id="XSl-bH-4Pa"/>
                         <outlet property="axisSettingView2" destination="MCC-7g-ydf" id="lLe-Mv-fNa"/>
                         <outlet property="axisStopPVTextField" destination="40q-En-sGL" id="EMN-H9-lhG"/>
+                        <outlet property="axisStopTextLabel" destination="mfW-ve-T9U" id="QR2-hh-fwU"/>
+                        <outlet property="axisTextLabel1" destination="EWN-xd-yyz" id="enx-hg-3ai"/>
+                        <outlet property="axisTextLabel2" destination="5I9-zR-mP5" id="wst-df-cxo"/>
                         <outletCollection property="axisPVTextField2" destination="FIo-Zo-HBt" collectionClass="NSMutableArray" id="c8a-T8-TxV"/>
                         <outletCollection property="axisPVTextField2" destination="ui9-Ne-VSw" collectionClass="NSMutableArray" id="CDh-6a-srx"/>
                         <outletCollection property="axisPVTextField2" destination="7lZ-Cr-yZk" collectionClass="NSMutableArray" id="7KO-MC-vCP"/>
@@ -949,11 +952,21 @@
                         <outletCollection property="axisPVTextField1" destination="EKR-tr-5K0" collectionClass="NSMutableArray" id="lds-LO-0HC"/>
                         <outletCollection property="axisPVTextField1" destination="g9S-1Q-GAu" collectionClass="NSMutableArray" id="aRL-tt-dvT"/>
                         <outletCollection property="axisPVTextField1" destination="l8v-u8-Wgw" collectionClass="NSMutableArray" id="jyi-Va-YN0"/>
+                        <outletCollection property="axisTextLabelCollection1" destination="8ae-uw-YEa" collectionClass="NSMutableArray" id="2io-0b-z0S"/>
+                        <outletCollection property="axisTextLabelCollection1" destination="paQ-ih-ZlB" collectionClass="NSMutableArray" id="PDI-w9-W82"/>
+                        <outletCollection property="axisTextLabelCollection1" destination="FnL-NF-1F4" collectionClass="NSMutableArray" id="XO1-21-gHg"/>
+                        <outletCollection property="axisTextLabelCollection1" destination="Okh-Ci-EkB" collectionClass="NSMutableArray" id="SYx-UH-Pii"/>
+                        <outletCollection property="axisTextLabelCollection1" destination="ayt-NR-nlc" collectionClass="NSMutableArray" id="fbb-Ro-ozG"/>
+                        <outletCollection property="axisTextLabelCollection2" destination="9a3-Tq-PGW" collectionClass="NSMutableArray" id="LwQ-Xn-76F"/>
+                        <outletCollection property="axisTextLabelCollection2" destination="OYU-c5-fJG" collectionClass="NSMutableArray" id="aHv-zT-vdZ"/>
+                        <outletCollection property="axisTextLabelCollection2" destination="WY4-tF-HHc" collectionClass="NSMutableArray" id="ECu-Wc-E64"/>
+                        <outletCollection property="axisTextLabelCollection2" destination="ztL-HN-wvv" collectionClass="NSMutableArray" id="TRP-fB-xsp"/>
+                        <outletCollection property="axisTextLabelCollection2" destination="oqc-Jc-9h9" collectionClass="NSMutableArray" id="LYL-xr-j9R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhD-Ex-GeI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="976.79999999999995" y="-1024.1379310344828"/>
+            <point key="canvasLocation" x="-850" y="-1024"/>
         </scene>
         <!--Array Table View Controller-->
         <scene sceneID="3IZ-i9-NMa">
@@ -1159,6 +1172,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="dNm-wr-9aD" firstAttribute="centerY" secondItem="CUp-Ev-DTJ" secondAttribute="centerY" id="aRw-bW-MjI"/>
                             <constraint firstItem="dNm-wr-9aD" firstAttribute="centerX" secondItem="CUp-Ev-DTJ" secondAttribute="centerX" id="sd3-yy-Eu9"/>

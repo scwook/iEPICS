@@ -24,7 +24,7 @@ class MotionViewController: UIViewController {
 //    var upMoveLimitField: UITextField?
 //    var downLimitTextField: UITextField?
     
-//    var isPVEditing = false
+    var isPVEditing = false
 //    var isStop = false
     
     let leftButtonIndex = 0
@@ -64,7 +64,7 @@ class MotionViewController: UIViewController {
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
     let keyNameforStop = "MotionStopPV"
     
-    let editingModeOffsetX: CGFloat = 40.0
+    let editingModeOffsetX: CGFloat = 20.0
     let editingModeOffsetY: CGFloat = 100.0
     let alignSpaceOffset: CGFloat = 90 * 0.7 // Based on button size
     
@@ -144,8 +144,6 @@ class MotionViewController: UIViewController {
             sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             }
         ))
-        
-
     }
 
     @IBAction func stopButtonTouchUp(_ sender: UIButton) {
@@ -155,124 +153,128 @@ class MotionViewController: UIViewController {
         ))
     }
     
-//    @IBAction func editButton(_ sender: UIBarButtonItem) {
-//        if !isPVEditing {
-//            // Move Button Editing Mode
-//            for i in 0 ..< moveButtons.count {
+    @IBAction func editButton(_ sender: UIBarButtonItem) {
+        if !isPVEditing {
+            // Move Button Editing Mode
+            let yOffset: CGFloat = 200
+            for i in 0 ..< moveButtons.count {
 //                let xAlignOffsetFromCenter = -view.frame.width / 2 + editingModeOffsetX
 //                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
-//                var translatedX: CGFloat = 0.0
-//                var translatedY: CGFloat = 0.0
-//                let scale: CGFloat = 0.5
-//
-//                switch i {
-//                case leftButtonIndex:
-//                    translatedX = marginBetweenButton + xAlignOffsetFromCenter
-//                    translatedY = yAlignOffsetFromCenter
-//
-//                case rightButtonIndex:
-//                    translatedX = -marginBetweenButton + xAlignOffsetFromCenter
-//                    translatedY = yAlignOffsetFromCenter
-//
-//                case upButtonIndex:
-//                    translatedX = xAlignOffsetFromCenter
-//                    translatedY = marginBetweenButton + yAlignOffsetFromCenter
-//
-//                case downButtonIndex:
-//                    translatedX = xAlignOffsetFromCenter
-//                    translatedY = -marginBetweenButton + yAlignOffsetFromCenter
-//
-//                case stopButtonIndex:
-//                    translatedX = xAlignOffsetFromCenter
-//                    translatedY = yAlignOffsetFromCenter
-//
-//                default:
-//                    break
-//                }
-//
+                var translatedX: CGFloat = 0.0
+                var translatedY: CGFloat = 0.0
+                let scale: CGFloat = 0.75
+
+                switch i {
+                case leftButtonIndex:
+                    translatedX = marginBetweenButton - buttonSize / 2 - buttonSize
+                    translatedY = -yOffset
+
+                case rightButtonIndex:
+                    translatedX = -marginBetweenButton - (buttonSize / 2)
+                    translatedY = -yOffset
+
+                case upButtonIndex:
+                    translatedX = buttonSize / 2
+                    translatedY = marginBetweenButton - yOffset
+                    
+                case downButtonIndex:
+                    translatedX = (buttonSize / 2) + buttonSize
+                    translatedY = -marginBetweenButton - yOffset
+
+                case stopButtonIndex:
+                    translatedX = 0.0
+                    translatedY = 0.0
+
+                default:
+                    break
+                }
+
+                moveButtons[i].isHidden = false
+//                moveButtons[i].backgroundColor = UIColor.blue
 //                translatedY += alignSpaceOffset * CGFloat(i)
-//                let buttonTransform = moveButtons[i].transform.translatedBy(x: translatedX, y: translatedY)
-//                let buttonScale = buttonTransform.scaledBy(x: scale, y:scale)
-//
-//                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
-//                    self.moveButtons[i].transform = buttonScale
-//
-//                }, completion: nil)
-//
+                let buttonTransform = moveButtons[i].transform.translatedBy(x: translatedX, y: translatedY)
+                let buttonScale = buttonTransform.scaledBy(x: scale, y:scale)
+
+                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
+                    self.moveButtons[i].transform = buttonScale
+
+                }, completion: nil)
+
 //                let x = moveButtons[i].frame.origin.x
 //                let y = moveButtons[i].frame.origin.y
 //
 //                createMoveTextField(i, x + alignSpaceOffset - 5, y + 7)
-//            }
-//
-//            // Limit Image Editing Mode
-//            for i in 0 ..< limitImageView.count {
+            }
+
+            // Limit Image Editing Mode
+            for i in 0 ..< limitImageView.count {
 //                let xAlignOffsetFromCenter: CGFloat = editingModeOffsetX
 //                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
 //                let alignSpaceOffset = buttonSize * 0.7
-//                var translatedX: CGFloat = 0.0
-//                var translatedY: CGFloat = 0.0
-//                let scale: CGFloat = 0.3
-//
-//                switch i {
-//                case leftLimitImageIndex:
-//                    translatedX = marginBetweenLimit + xAlignOffsetFromCenter
-//                    translatedY = yAlignOffsetFromCenter
-//
-//                case rightLimitImageIndex:
-//                    translatedX = -marginBetweenLimit + xAlignOffsetFromCenter
-//                    translatedY = yAlignOffsetFromCenter
-//
-//                case upLimitImageIndex:
-//                    translatedX = xAlignOffsetFromCenter
-//                    translatedY = marginBetweenLimit + yAlignOffsetFromCenter
-//
-//                case downLimitImageIndex:
-//                    translatedX = xAlignOffsetFromCenter
-//                    translatedY = -marginBetweenLimit + yAlignOffsetFromCenter
-//
-//                default:
-//                    break
-//                }
-//
-//                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-//
+                var translatedX: CGFloat = 0.0
+                var translatedY: CGFloat = 0.0
+                let scale: CGFloat = 0.3
+
+                switch i {
+                case leftLimitImageIndex:
+                    translatedX = marginBetweenLimit - 45 - 90
+                    translatedY = -yOffset + 90
+
+                case rightLimitImageIndex:
+                    translatedX = -marginBetweenLimit - 45
+                    translatedY = -yOffset + 90
+
+                case upLimitImageIndex:
+                    translatedX = 45
+                    translatedY = marginBetweenLimit - yOffset + 90
+
+                case downLimitImageIndex:
+                    translatedX = 45 + 90
+                    translatedY = -marginBetweenLimit - yOffset + 90
+
+                default:
+                    break
+                }
+
+                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+//                limitImageView[i].backgroundColor = UIColor.brown
+
 //                translatedY += alignSpaceOffset * CGFloat(i)
-//                let limitTransform = limitImageView[i].transform.translatedBy(x: translatedX, y: translatedY)
-//                let limitScale = limitTransform.scaledBy(x: scale, y: scale)
-//
-//                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
-//                    self.limitImageView[i].transform = limitScale
-//
-//                }, completion: nil)
-//
+                let limitTransform = limitImageView[i].transform.translatedBy(x: translatedX, y: translatedY)
+                let limitScale = limitTransform.scaledBy(x: scale, y: scale)
+
+                UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
+                    self.limitImageView[i].transform = limitScale
+
+                }, completion: nil)
+
 //                let x = limitImageView[i].frame.origin.x
 //                let y = limitImageView[i].frame.origin.y
 //
 //                createLimitTextField(i, x, y)
-//            }
-//
-//            sender.title = "Done"
-//            isPVEditing = true
-//        }
-//        else {
-//            for i in 0 ..< moveButtons.count {
-//                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
-//                    self.moveButtons[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//
-//                }, completion: nil)
-//            }
-//
-//            for i in 0 ..< limitImageView.count {
-//                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
-//                    self.limitImageView[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//
-//                }, completion: nil)
-//            }
-//            sender.title = "➕"
-//            isPVEditing = false
-//        }
-//    }
+            }
+
+            sender.title = "Done"
+            isPVEditing = true
+        }
+        else {
+            for i in 0 ..< moveButtons.count {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.moveButtons[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+
+                }, completion: nil)
+            }
+
+            for i in 0 ..< limitImageView.count {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.limitImageView[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+
+                }, completion: nil)
+            }
+            sender.title = "➕"
+            isPVEditing = false
+        }
+    }
     
     let caEventNotification = Notification.Name("EventCallbackNotification")
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
@@ -690,12 +692,12 @@ class MotionViewController: UIViewController {
                     if value.count != 0, let isEnabled = Int(String(describing: value[0])) {
                         if isEnabled == 0 {
                             UIView.animate(withDuration: 0.3, animations: ({
-                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 125/255, alpha: 0.0)
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 180/255, alpha: 0.0)
                             }))
                         }
                         else {
                             UIView.animate(withDuration: 0.3, animations: ({
-                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 125/255, alpha: 1.0)
+                                self.limitImageView[limitIndex].tintColor = UIColor(red: 0.0, green: 100/255, blue: 180/255, alpha: 1.0)
                                 }))
 
                             self.moveButtons[limitIndex].shake(duration: 0.3, values: [-12.0, 12.0, -12.0, 12.0, -6.0, 6.0, -3.0, 3.0, 0.0])

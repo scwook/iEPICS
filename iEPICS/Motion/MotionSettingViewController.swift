@@ -9,12 +9,19 @@
 import UIKit
 
 class MotionSettingViewController: UIViewController, UITextFieldDelegate {
+    @IBOutlet weak var axisTextLabel1: UILabel!
+    @IBOutlet var axisTextLabelCollection1: [UILabel]!
+    
+    @IBOutlet weak var axisTextLabel2: UILabel!
+    @IBOutlet var axisTextLabelCollection2: [UILabel]!
     
     let keyNameforAxis1 = ["MotionPosition1", "MotionLeftPV", "MotionRightPV", "MotionLeftLimitPV", "MotionRightLimitPV"]
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
     let keyNameforStop = "MotionStopPV"
     
     @IBOutlet weak var axisSettingView1: UIView!
+    
+    @IBOutlet weak var axisStopTextLabel: UILabel!
     @IBOutlet weak var axisStopPVTextField: UITextField! {
         didSet {
             axisStopPVTextField.delegate = self
@@ -93,6 +100,43 @@ class MotionSettingViewController: UIViewController, UITextFieldDelegate {
         axisSettingView2.layer.cornerRadius = 5
         axisSettingView2.layer.borderWidth = 1
         axisSettingView2.layer.borderColor = UIColor.black.cgColor
+        
+        let margins = view.layoutMarginsGuide
+        
+        let settingViewSizeW = self.view.frame.width * 0.9
+        let settingViewSizeH = self.view.frame.height * 0.5
+        
+        axisTextLabel1.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 10.0)
+        axisTextLabel1.topAnchor.constraint(equalTo: margins.topAnchor, constant: 30.0)
+        
+        axisSettingView1.widthAnchor.constraint(equalToConstant: settingViewSizeW).isActive = true
+        axisSettingView1.heightAnchor.constraint(equalToConstant: settingViewSizeH).isActive = true
+        axisSettingView1.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: 0).isActive = true
+        axisSettingView1.centerYAnchor.constraint(equalTo: axisTextLabel1.bottomAnchor, constant: 10).isActive = true
+        
+        axisTextLabelCollection1[0].leftAnchor.constraint(equalTo: axisSettingView1.leftAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[1].leftAnchor.constraint(equalTo: axisSettingView1.leftAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[2].leftAnchor.constraint(equalTo: axisSettingView1.leftAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[3].leftAnchor.constraint(equalTo: axisSettingView1.leftAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[4].leftAnchor.constraint(equalTo: axisSettingView1.leftAnchor, constant: 10).isActive = true
+        
+        axisTextLabelCollection1[0].topAnchor.constraint(equalTo: axisSettingView1.topAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[1].topAnchor.constraint(equalTo: axisTextLabelCollection1[0].topAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[2].topAnchor.constraint(equalTo: axisTextLabelCollection1[1].topAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[3].topAnchor.constraint(equalTo: axisTextLabelCollection1[2].topAnchor, constant: 10).isActive = true
+        axisTextLabelCollection1[4].topAnchor.constraint(equalTo: axisTextLabelCollection1[3].topAnchor, constant: 10).isActive = true
+
+        axisPVTextField1[0].rightAnchor.constraint(equalTo: axisSettingView1.rightAnchor, constant: 10).isActive = true
+        axisPVTextField1[1].rightAnchor.constraint(equalTo: axisSettingView1.rightAnchor, constant: 10).isActive = true
+        axisPVTextField1[2].rightAnchor.constraint(equalTo: axisSettingView1.rightAnchor, constant: 10).isActive = true
+        axisPVTextField1[3].rightAnchor.constraint(equalTo: axisSettingView1.rightAnchor, constant: 10).isActive = true
+        axisPVTextField1[4].rightAnchor.constraint(equalTo: axisSettingView1.rightAnchor, constant: 10).isActive = true
+        
+        axisPVTextField1[0].topAnchor.constraint(equalTo: axisSettingView1.topAnchor, constant: 10).isActive = true
+        axisPVTextField1[1].topAnchor.constraint(equalTo: axisPVTextField1[0].topAnchor, constant: 10).isActive = true
+        axisPVTextField1[2].topAnchor.constraint(equalTo: axisPVTextField1[1].topAnchor, constant: 10).isActive = true
+        axisPVTextField1[3].topAnchor.constraint(equalTo: axisPVTextField1[2].topAnchor, constant: 10).isActive = true
+        axisPVTextField1[4].topAnchor.constraint(equalTo: axisPVTextField1[3].topAnchor, constant: 10).isActive = true
         
         // Do any additional setup after loading the view.
     }
