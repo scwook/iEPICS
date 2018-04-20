@@ -14,6 +14,7 @@ protocol ChangeElementDataDelegate {
 class ChangeElementViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var popUpView: UIView!
+    @IBOutlet weak var changePVTextLabel: UILabel!
     @IBOutlet weak var changePVTextField: UITextField! {
         didSet {
             changePVTextField.delegate = self
@@ -23,7 +24,7 @@ class ChangeElementViewController: UIViewController, UITextFieldDelegate {
     let caErrorNotification = Notification.Name("ChangeElementCallbackNotification")
     var delegate:ChangeElementDataDelegate? = nil
     var currentPVName: String? = nil
-    
+    var changePVTitle: String? = "Change Process Variable"
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +35,7 @@ class ChangeElementViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(forName: caErrorNotification, object: nil, queue: nil, using: catchErrorNotification)
         
         changePVTextField.text = currentPVName
+        changePVTextLabel.text = changePVTitle
     }
     
     @IBAction func okButton(_ sender: UIButton) {

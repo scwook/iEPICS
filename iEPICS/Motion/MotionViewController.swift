@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MotionViewController: UIViewController {
+class MotionViewController: UIViewController, ChangeElementDataDelegate {
     
     @IBOutlet var moveButtons: [UIButton]!
     @IBOutlet var positionTextLabel: [UILabel]!
@@ -64,196 +64,245 @@ class MotionViewController: UIViewController {
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
     let keyNameforStop = "MotionStopPV"
     
-    let editingModeOffsetX: CGFloat = 20.0
-    let editingModeOffsetY: CGFloat = 100.0
-    let alignSpaceOffset: CGFloat = 90 * 0.7 // Based on button size
-    
     var textFieldWidth: CGFloat = 110.0
     var textFieldHeight: CGFloat = 30
     
     @IBAction func moveButtonToucUp(_ sender: UIButton) {
+        if isPVEditing {
 
-        let buttonIndex = moveButtons.index(of: sender)!
-        UIView.animate(withDuration: 0.3, animations: ({
-            self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+        else {
+            let buttonIndex = moveButtons.index(of: sender)!
+            UIView.animate(withDuration: 0.3, animations: ({
+                self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
+            ))
+            
+            switch buttonIndex {
+            case leftButtonIndex:
+                caObject.channelAccessPut(lelftPVName, putValue: 0)
+                break
+                
+            case rightButtonIndex:
+                caObject.channelAccessPut(rightPVName, putValue: 0)
+                break
+                
+            case upButtonIndex:
+                caObject.channelAccessPut(upPVName, putValue: 0)
+                break
+                
+            case downButtonIndex:
+                caObject.channelAccessPut(downPVName, putValue: 0)
+                break
+            default:
+                break
             }
-        ))
-
-        switch buttonIndex {
-        case leftButtonIndex:
-            caObject.channelAccessPut(lelftPVName, putValue: 0)
-            break
-            
-        case rightButtonIndex:
-            caObject.channelAccessPut(rightPVName, putValue: 0)
-            break
-            
-        case upButtonIndex:
-            caObject.channelAccessPut(upPVName, putValue: 0)
-            break
-            
-        case downButtonIndex:
-            caObject.channelAccessPut(downPVName, putValue: 0)
-            break
-        default:
-            break
         }
     }
     
-    
     @IBAction func moveButtonTouchDown(_ sender: UIButton) {
-        let buttonIndex = moveButtons.index(of: sender)!
-        UIView.animate(withDuration: 0.3, animations: ({
-            self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        if isPVEditing {
+            let buttonIndex = moveButtons.index(of: sender)!
+            var buttonPV: String?
+            var buttonName: String?
+            switch buttonIndex {
+            case leftButtonIndex:
+                buttonName = "Left Direction"
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis1[1])
+                break
+                
+            case rightButtonIndex:
+                buttonName = "Right Direction"
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis1[2])
+                break
+                
+            case upButtonIndex:
+                buttonName = "Up Direction"
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis2[1])
+                break
+                
+            case downButtonIndex:
+                buttonName = "Down Direction"
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis2[2])
+                break
+            default:
+                buttonName = ""
+                buttonPV = ""
+                break
             }
-        ))
-
-        switch buttonIndex {
-        case leftButtonIndex:
-            caObject.channelAccessPut(lelftPVName, putValue: 1)
-            break
             
-        case rightButtonIndex:
-            caObject.channelAccessPut(rightPVName, putValue: 1)
-            break
+            let buttonInfoArray: [String?] = [buttonName, buttonPV]
+            performSegue(withIdentifier: "changeElementViewController", sender: buttonInfoArray)
+        }
+        else {
+            let buttonIndex = moveButtons.index(of: sender)!
+            UIView.animate(withDuration: 0.3, animations: ({
+                self.moveButtons[buttonIndex].transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                }
+            ))
             
-        case upButtonIndex:
-            caObject.channelAccessPut(upPVName, putValue: 1)
-            break
-            
-        case downButtonIndex:
-            caObject.channelAccessPut(downPVName, putValue: 1)
-            break
-        default:
-            break
+            switch buttonIndex {
+            case leftButtonIndex:
+                caObject.channelAccessPut(lelftPVName, putValue: 1)
+                break
+                
+            case rightButtonIndex:
+                caObject.channelAccessPut(rightPVName, putValue: 1)
+                break
+                
+            case upButtonIndex:
+                caObject.channelAccessPut(upPVName, putValue: 1)
+                break
+                
+            case downButtonIndex:
+                caObject.channelAccessPut(downPVName, putValue: 1)
+                break
+            default:
+                break
+            }
         }
     }
     
     @IBAction func stopButtonTouchDown(_ sender: UIButton) {
-        if let stopStateString = caObject.channelAccessGet(stopPVName) {
-            let stopState = Int(stopStateString)
-            if stopState != 0 {
-                caObject.channelAccessPut(stopPVName, putValue: 0)
-            }
-            else {
-                caObject.channelAccessPut(stopPVName, putValue: 1)
-            }
+        if isPVEditing {
+            let buttonName = "Stop"
+            let buttonPV: String? = UserDefaults.standard.string(forKey: keyNameforStop)
+
+            let buttonInfoArray: [String?] = [buttonName, buttonPV]
+            performSegue(withIdentifier: "changeElementViewController", sender: buttonInfoArray)
         }
-        
-        UIView.animate(withDuration: 0.3, animations: ({
-            sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        else {
+            if let stopStateString = caObject.channelAccessGet(stopPVName) {
+                let stopState = Int(stopStateString)
+                if stopState != 0 {
+                    caObject.channelAccessPut(stopPVName, putValue: 0)
+                }
+                else {
+                    caObject.channelAccessPut(stopPVName, putValue: 1)
+                }
             }
-        ))
+            
+            UIView.animate(withDuration: 0.3, animations: ({
+                sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                }
+            ))
+        }
     }
 
     @IBAction func stopButtonTouchUp(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.3, animations: ({
-            sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            }
-        ))
+        if isPVEditing {
+            
+        }
+        else {
+            UIView.animate(withDuration: 0.3, animations: ({
+                sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
+            ))
+        }
     }
     
     @IBAction func editButton(_ sender: UIBarButtonItem) {
+        editingMode1(sender)
+//        editingMode2(sender)
+    }
+    
+    private func editingMode1(_ sender: UIBarButtonItem) {
+//        let editingModeOffsetX: CGFloat = 50.0
+//        let editingModeOffsetY: CGFloat = 100.0
+//        let alignSpaceOffset: CGFloat = 90 // Based on button size
+//        let viewCenterX = view.frame.width / 2
+        let viewCenterY = view.frame.height / 2
+        
         if !isPVEditing {
             // Move Button Editing Mode
-            let yOffset: CGFloat = 200
             for i in 0 ..< moveButtons.count {
-//                let xAlignOffsetFromCenter = -view.frame.width / 2 + editingModeOffsetX
-//                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
+//                let xAlignOffsetFromCenter = viewCenterX + editingModeOffsetX
+//                let yAlignOffsetFromCenter = viewCenterY + editingModeOffsetY
                 var translatedX: CGFloat = 0.0
                 var translatedY: CGFloat = 0.0
                 let scale: CGFloat = 0.75
-
+                
+                moveButtons[i].isHidden = false
+                moveButtons[i].isEnabled = true
+                
                 switch i {
                 case leftButtonIndex:
-                    translatedX = marginBetweenButton - buttonSize / 2 - buttonSize
-                    translatedY = -yOffset
-
+                    translatedX = marginBetweenButton - buttonSize
+                    translatedY = viewCenterY - moveButtons[leftButtonIndex].center.y - buttonSize * 1.5
+                    
                 case rightButtonIndex:
-                    translatedX = -marginBetweenButton - (buttonSize / 2)
-                    translatedY = -yOffset
-
+                    translatedX = -marginBetweenButton - buttonSize
+                    translatedY = viewCenterY - moveButtons[rightButtonIndex].center.y - buttonSize / 2
+                    
                 case upButtonIndex:
-                    translatedX = buttonSize / 2
-                    translatedY = marginBetweenButton - yOffset
+                    translatedX = -buttonSize
+                    translatedY = viewCenterY - moveButtons[upButtonIndex].center.y + buttonSize / 2
                     
                 case downButtonIndex:
-                    translatedX = (buttonSize / 2) + buttonSize
-                    translatedY = -marginBetweenButton - yOffset
-
+                    translatedX = -buttonSize
+                    translatedY = viewCenterY - moveButtons[downButtonIndex].center.y + buttonSize * 1.5
+                    
                 case stopButtonIndex:
-                    translatedX = 0.0
-                    translatedY = 0.0
-
+                    translatedX = -buttonSize
+                    translatedY = viewCenterY - moveButtons[stopButtonIndex].center.y + buttonSize * 2.5
+                    
                 default:
                     break
                 }
 
-                moveButtons[i].isHidden = false
-//                moveButtons[i].backgroundColor = UIColor.blue
+
 //                translatedY += alignSpaceOffset * CGFloat(i)
                 let buttonTransform = moveButtons[i].transform.translatedBy(x: translatedX, y: translatedY)
                 let buttonScale = buttonTransform.scaledBy(x: scale, y:scale)
-
+                
                 UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
                     self.moveButtons[i].transform = buttonScale
-
+                    
                 }, completion: nil)
-
-//                let x = moveButtons[i].frame.origin.x
-//                let y = moveButtons[i].frame.origin.y
-//
-//                createMoveTextField(i, x + alignSpaceOffset - 5, y + 7)
             }
-
+            
             // Limit Image Editing Mode
             for i in 0 ..< limitImageView.count {
 //                let xAlignOffsetFromCenter: CGFloat = editingModeOffsetX
 //                let yAlignOffsetFromCenter = -view.frame.height / 2 + editingModeOffsetY
-//                let alignSpaceOffset = buttonSize * 0.7
+//                let alignSpaceOffset = buttonSize
                 var translatedX: CGFloat = 0.0
                 var translatedY: CGFloat = 0.0
-                let scale: CGFloat = 0.3
+                let scale: CGFloat = 0.45
+                
+                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
 
                 switch i {
                 case leftLimitImageIndex:
-                    translatedX = marginBetweenLimit - 45 - 90
-                    translatedY = -yOffset + 90
-
+                    translatedX = marginBetweenLimit + buttonSize
+                    translatedY = viewCenterY - limitImageView[leftLimitImageIndex].center.y - buttonSize * 1.5
+                    
                 case rightLimitImageIndex:
-                    translatedX = -marginBetweenLimit - 45
-                    translatedY = -yOffset + 90
-
+                    translatedX = -marginBetweenLimit + buttonSize
+                    translatedY = viewCenterY - limitImageView[rightLimitImageIndex].center.y - buttonSize / 2
+                    
                 case upLimitImageIndex:
-                    translatedX = 45
-                    translatedY = marginBetweenLimit - yOffset + 90
-
+                    translatedX = buttonSize
+                    translatedY = viewCenterY - limitImageView[upLimitImageIndex].center.y + buttonSize / 2
+                    
                 case downLimitImageIndex:
-                    translatedX = 45 + 90
-                    translatedY = -marginBetweenLimit - yOffset + 90
-
+                    translatedX = buttonSize
+                    translatedY = viewCenterY - limitImageView[downLimitImageIndex].center.y + buttonSize * 1.5
+                    
                 default:
                     break
                 }
-
-                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-//                limitImageView[i].backgroundColor = UIColor.brown
-
+                
 //                translatedY += alignSpaceOffset * CGFloat(i)
                 let limitTransform = limitImageView[i].transform.translatedBy(x: translatedX, y: translatedY)
                 let limitScale = limitTransform.scaledBy(x: scale, y: scale)
-
+                
                 UIView.animate(withDuration: 0.5, delay: Double(i) * 0.1, options: .curveEaseInOut, animations: {
                     self.limitImageView[i].transform = limitScale
-
+                    
                 }, completion: nil)
-
-//                let x = limitImageView[i].frame.origin.x
-//                let y = limitImageView[i].frame.origin.y
-//
-//                createLimitTextField(i, x, y)
             }
-
+            
             sender.title = "Done"
             isPVEditing = true
         }
@@ -261,14 +310,129 @@ class MotionViewController: UIViewController {
             for i in 0 ..< moveButtons.count {
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                     self.moveButtons[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-
+                    
                 }, completion: nil)
             }
-
+            
             for i in 0 ..< limitImageView.count {
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                     self.limitImageView[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    
+                }, completion: nil)
+            }
+            sender.title = "➕"
+            isPVEditing = false
+        }
+    }
+    
+    private func editingMode2(_ sender: UIBarButtonItem) {
+        let durationTime = 0.4
+        let delayTime = 0.0
+        let yOffset: CGFloat = 100
+        if !isPVEditing {
+            // Move Button Editing Mode
+            for i in 0 ..< moveButtons.count {
+                var translatedX: CGFloat = 0.0
+                var translatedY: CGFloat = 0.0
+                let scale: CGFloat = 0.75
+                
+                switch i {
+                case leftButtonIndex:
+                    translatedX = marginBetweenButton - buttonSize * scale
+                    translatedY = -yOffset
 
+                case rightButtonIndex:
+                    translatedX = -marginBetweenButton + buttonSize * scale
+                    translatedY = -yOffset
+
+                case upButtonIndex:
+//                    translatedX = buttonSize / 2
+                    translatedY = marginBetweenButton - buttonSize * scale - yOffset
+
+                case downButtonIndex:
+//                    translatedX = (buttonSize / 2) + buttonSize
+                    translatedY = -marginBetweenButton + buttonSize * scale - yOffset
+
+                case stopButtonIndex:
+                    translatedX = 0.0
+                    translatedY = -yOffset
+
+                default:
+                    break
+                }
+                moveButtons[i].isHidden = false
+                
+                let buttonTransform = moveButtons[i].transform.translatedBy(x: translatedX, y: translatedY)
+                let buttonScale = buttonTransform.scaledBy(x: scale, y:scale)
+                
+                UIView.animate(withDuration: durationTime, delay: delayTime, options: .curveEaseOut, animations: {
+                    self.moveButtons[i].transform = buttonScale
+                    
+                }, completion: nil)
+            }
+            
+            // Limit Image Editing Mode
+            for i in 0 ..< limitImageView.count {
+                var translatedX: CGFloat = 0.0
+                var translatedY: CGFloat = 0.0
+                let scale: CGFloat = 0.75
+                let firstTranslatedScale: CGFloat = 0.6
+                
+                switch i {
+                case leftLimitImageIndex:
+                    translatedX = marginBetweenLimit - limitImageSizeV * firstTranslatedScale
+                    translatedY = -yOffset
+
+                case rightLimitImageIndex:
+                    translatedX = -marginBetweenLimit + limitImageSizeV * firstTranslatedScale
+                    translatedY = -yOffset
+
+                case upLimitImageIndex:
+//                    translatedX = 45
+                    translatedY = marginBetweenLimit - limitImageSizeV * firstTranslatedScale - yOffset
+
+                case downLimitImageIndex:
+//                    translatedX = 45 + 90
+                    translatedY = -marginBetweenLimit + limitImageSizeV * firstTranslatedScale - yOffset
+
+                default:
+                    break
+                }
+                
+                limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+                let limitTransform = limitImageView[i].transform.translatedBy(x: translatedX, y: translatedY)
+                let limitScale = limitTransform.scaledBy(x: scale, y: scale)
+                
+                UIView.animate(withDuration: durationTime, delay: delayTime, options: .curveEaseOut, animations: {
+                    self.limitImageView[i].transform = limitScale
+                    
+                }, completion: nil)
+                
+//                let secondTransform = limitImageView[i].transform.translatedBy(x: 0.0, y: -yOffset)
+//                let secondScale = secondTransform.scaledBy(x: 1.0, y: 1.0)
+//
+//                UIView.animate(withDuration: durationTime + 0.2, delay: durationTime + 0.3, options: .curveLinear, animations: {
+//                    self.limitImageView[i].transform = secondScale
+//
+//                }, completion: nil)
+                
+            }
+            
+            sender.title = "Done"
+            isPVEditing = true
+        }
+        else {
+            for i in 0 ..< moveButtons.count {
+                UIView.animate(withDuration: durationTime, delay: delayTime, options: .curveEaseInOut, animations: {
+                    self.moveButtons[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    
+                }, completion: nil)
+            }
+            
+            for i in 0 ..< limitImageView.count {
+                UIView.animate(withDuration: durationTime, delay: delayTime, options: .curveEaseInOut, animations: {
+                    self.limitImageView[i].transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    
                 }, completion: nil)
             }
             sender.title = "➕"
@@ -783,22 +947,28 @@ class MotionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "changeElementViewController" {
+            let changeElementView: ChangeElementViewController = segue.destination as! ChangeElementViewController
+            changeElementView.delegate = self
+            
+            let buttonInfoArray: [String?] = sender as! [String?]
+            changeElementView.changePVTitle = buttonInfoArray[0]
+            changeElementView.currentPVName = buttonInfoArray[1]
+        }
     }
-    */
-
+    
+    func changeProcessVariable(oldPVName: String?, newPVName: String?) {
+        
+        
+    }
 }
 
 extension UIView {
-    
     
     // Using CAMediaTimingFunction
     func shake(duration: TimeInterval = 0.5, values: [CGFloat]) {

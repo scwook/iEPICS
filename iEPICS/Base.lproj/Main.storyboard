@@ -568,11 +568,12 @@
                         <outletCollection property="limitImageView" destination="36u-yM-teD" collectionClass="NSMutableArray" id="fvT-Dk-UQ7"/>
                         <outletCollection property="limitImageView" destination="pyN-op-KtM" collectionClass="NSMutableArray" id="i2D-lh-Yro"/>
                         <outletCollection property="limitImageView" destination="QbD-Tk-4Tn" collectionClass="NSMutableArray" id="Fk9-fN-PH5"/>
+                        <segue destination="ZeO-dF-mVj" kind="presentation" identifier="changeElementViewController" id="zfL-Sd-H0i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ROz-Ns-5DJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="93.599999999999994" y="-1024.1379310344828"/>
+            <point key="canvasLocation" x="166" y="-1103"/>
         </scene>
         <!--Monitoring-->
         <scene sceneID="Rjd-9L-xyP">
@@ -1028,7 +1029,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZZf-MH-rna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1841" y="-1127"/>
+            <point key="canvasLocation" x="1841" y="-1103"/>
         </scene>
         <!--New Element View Controller-->
         <scene sceneID="hLY-XG-vDt">
@@ -1156,7 +1157,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Process Variable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wv3-6E-VvM">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Process Variable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wv3-6E-VvM">
                                         <rect key="frame" x="44" y="8" width="191" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1181,6 +1182,7 @@
                     </view>
                     <connections>
                         <outlet property="changePVTextField" destination="Eqa-Vm-C3e" id="8M0-kW-mHE"/>
+                        <outlet property="changePVTextLabel" destination="Wv3-6E-VvM" id="Zdf-Ec-rMs"/>
                         <outlet property="popUpView" destination="dNm-wr-9aD" id="ucw-5c-990"/>
                     </connections>
                 </viewController>
@@ -1206,7 +1208,8 @@
         <image name="iEPICS" width="100" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="zfL-Sd-H0i"/>
         <segue reference="dck-XA-d2z"/>
-        <segue reference="HPh-di-gIm"/>
+        <segue reference="APA-hH-wj0"/>
     </inferredMetricsTieBreakers>
 </document>
