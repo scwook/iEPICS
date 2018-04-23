@@ -64,6 +64,8 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
     let keyNameforAxis2 = ["MotionPosition2", "MotionUpPV", "MotionDownPV", "MotionUpLimitPV", "MotionDownLimitPV"]
     let keyNameforStop = "MotionStopPV"
     
+    var keyNameforSegue: String?
+    
     var textFieldWidth: CGFloat = 110.0
     var textFieldHeight: CGFloat = 30
     
@@ -108,26 +110,31 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             switch buttonIndex {
             case leftButtonIndex:
                 buttonName = "Left Direction"
-                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis1[1])
+                keyNameforSegue = keyNameforAxis1[1]
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case rightButtonIndex:
                 buttonName = "Right Direction"
-                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis1[2])
+                keyNameforSegue = keyNameforAxis1[2]
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case upButtonIndex:
                 buttonName = "Up Direction"
-                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis2[1])
+                keyNameforSegue = keyNameforAxis2[1]
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case downButtonIndex:
                 buttonName = "Down Direction"
-                buttonPV = UserDefaults.standard.string(forKey: keyNameforAxis2[2])
+                keyNameforSegue = keyNameforAxis2[2]
+                buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
             default:
                 buttonName = ""
                 buttonPV = ""
+                keyNameforSegue = nil
                 break
             }
             
@@ -166,7 +173,8 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
     @IBAction func stopButtonTouchDown(_ sender: UIButton) {
         if isPVEditing {
             let buttonName = "Stop"
-            let buttonPV: String? = UserDefaults.standard.string(forKey: keyNameforStop)
+            keyNameforSegue = keyNameforStop
+            let buttonPV: String? = UserDefaults.standard.string(forKey: keyNameforSegue!)
 
             let buttonInfoArray: [String?] = [buttonName, buttonPV]
             performSegue(withIdentifier: "changeElementViewController", sender: buttonInfoArray)
@@ -200,6 +208,8 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             ))
         }
     }
+    
+    
     
     @IBAction func editButton(_ sender: UIBarButtonItem) {
         editingMode1(sender)
@@ -530,12 +540,16 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         moveButtons[downButtonIndex].centerXAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerXAnchor, constant: 0).isActive = true
         moveButtons[downButtonIndex].centerYAnchor.constraint(equalTo: moveButtons[stopButtonIndex].centerYAnchor, constant: marginBetweenButton).isActive = true
 
-        
+
         for i in 0 ..< limitImageView.count {
             limitImageView[i].image = UIImage(named: limitImageName[i])
             limitImageView[i].image = limitImageView[i].image?.withRenderingMode(.alwaysTemplate)
             limitImageView[i].translatesAutoresizingMaskIntoConstraints = false
-
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.limitImageViewTapped(sender:)))
+            limitImageView[i].isUserInteractionEnabled = true
+            limitImageView[i].addGestureRecognizer(tapGesture)
+            
             limitImageView[i].tintColor = UIColor(red: 0.0, green: 64/255, blue: 125/255, alpha: 0.0)
         }
         
@@ -604,70 +618,7 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         appWillEnterForegroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationWillEnterForeground, object: nil, queue: OperationQueue.main, using: applicationWillEnterForeground)
         
         caObject.channelAccessContextCreate()
-        
-        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionAxisEnable1")
-        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionAxisEnable2")
-        
-        if axisEnable1 {
-            if let position1Name = UserDefaults.standard.string(forKey: keyNameforAxis1[0]) {
-                caObject.channelAccessAddProcessVariable(position1Name)
-                position1PVName = position1Name
-            }
-
-            if let leftMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[1]) {
-                caObject.channelAccessAddProcessVariable(leftMoveName)
-                lelftPVName = leftMoveName
-            }
-
-            if let rightMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[2]) {
-                caObject.channelAccessAddProcessVariable(rightMoveName)
-                rightPVName = rightMoveName
-            }
-
-            if let leftLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[3]) {
-                caObject.channelAccessAddProcessVariable(leftLimitName)
-                leftLimitPVName = leftLimitName
-            }
-
-            if let rightLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[4]) {
-                caObject.channelAccessAddProcessVariable(rightLimitName)
-                rightLimitPVName = rightLimitName
-            }
-        }
-
-        if axisEnable2 {
-            if let position2Name = UserDefaults.standard.string(forKey: keyNameforAxis2[0]) {
-                caObject.channelAccessAddProcessVariable(position2Name)
-                position2PVName = position2Name
-            }
-
-            if let upMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[1]) {
-                caObject.channelAccessAddProcessVariable(upMoveName)
-                upPVName = upMoveName
-            }
-
-            if let downMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[2]) {
-                caObject.channelAccessAddProcessVariable(downMoveName)
-                downPVName = downMoveName
-            }
-
-            if let upLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[3]) {
-                caObject.channelAccessAddProcessVariable(upLimitName)
-                upLimitPVName = upLimitName
-            }
-
-            if let downLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[4]) {
-                caObject.channelAccessAddProcessVariable(downLimitName)
-                downLimitPVName = downLimitName
-            }
-        }
-        
-        if axisEnable1 || axisEnable2 {
-            if let stopMovePVName = UserDefaults.standard.string(forKey: keyNameforStop) {
-                caObject.channelAccessAddProcessVariable(stopMovePVName)
-                stopPVName = stopMovePVName
-            }
-        }
+        createProcessVariable()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -693,6 +644,115 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         
         caObject.channelAccessAllClear()
         caObject.channelAccessContexDestroy()
+    }
+    
+    private func createProcessVariable() {
+        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionAxisEnable1")
+        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionAxisEnable2")
+        
+        if axisEnable1 {
+            if let position1Name = UserDefaults.standard.string(forKey: keyNameforAxis1[0]) {
+                caObject.channelAccessAddProcessVariable(position1Name)
+                position1PVName = position1Name
+            }
+            
+            if let leftMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[1]) {
+                caObject.channelAccessAddProcessVariable(leftMoveName)
+                lelftPVName = leftMoveName
+            }
+            
+            if let rightMoveName = UserDefaults.standard.string(forKey: keyNameforAxis1[2]) {
+                caObject.channelAccessAddProcessVariable(rightMoveName)
+                rightPVName = rightMoveName
+            }
+            
+            if let leftLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[3]) {
+                caObject.channelAccessAddProcessVariable(leftLimitName)
+                leftLimitPVName = leftLimitName
+            }
+            
+            if let rightLimitName = UserDefaults.standard.string(forKey: keyNameforAxis1[4]) {
+                caObject.channelAccessAddProcessVariable(rightLimitName)
+                rightLimitPVName = rightLimitName
+            }
+        }
+        
+        if axisEnable2 {
+            if let position2Name = UserDefaults.standard.string(forKey: keyNameforAxis2[0]) {
+                caObject.channelAccessAddProcessVariable(position2Name)
+                position2PVName = position2Name
+            }
+            
+            if let upMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[1]) {
+                caObject.channelAccessAddProcessVariable(upMoveName)
+                upPVName = upMoveName
+            }
+            
+            if let downMoveName = UserDefaults.standard.string(forKey: keyNameforAxis2[2]) {
+                caObject.channelAccessAddProcessVariable(downMoveName)
+                downPVName = downMoveName
+            }
+            
+            if let upLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[3]) {
+                caObject.channelAccessAddProcessVariable(upLimitName)
+                upLimitPVName = upLimitName
+            }
+            
+            if let downLimitName = UserDefaults.standard.string(forKey: keyNameforAxis2[4]) {
+                caObject.channelAccessAddProcessVariable(downLimitName)
+                downLimitPVName = downLimitName
+            }
+        }
+        
+        if axisEnable1 || axisEnable2 {
+            if let stopMovePVName = UserDefaults.standard.string(forKey: keyNameforStop) {
+                caObject.channelAccessAddProcessVariable(stopMovePVName)
+                stopPVName = stopMovePVName
+            }
+        }
+    }
+    
+    @objc private func limitImageViewTapped(sender: UITapGestureRecognizer) {
+        if isPVEditing {
+            if let limitImageViewFormSender = sender.view as? UIImageView {
+                let imageViewIndex = limitImageView.index(of: limitImageViewFormSender)
+                var limitPV: String?
+                var limitName: String?
+                switch imageViewIndex {
+                case leftLimitImageIndex:
+                    limitName = "Left Limit"
+                    keyNameforSegue = keyNameforAxis1[3]
+                    limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
+                    
+                case rightLimitImageIndex:
+                    limitName = "right Limit"
+                    keyNameforSegue = keyNameforAxis1[4]
+                    limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
+                    
+                case upLimitImageIndex:
+                    limitName = "Up Limit"
+                    keyNameforSegue = keyNameforAxis2[3]
+                    limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
+                    
+                case downLimitImageIndex:
+                    limitName = "Down Limit"
+                    keyNameforSegue = keyNameforAxis2[4]
+                    limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
+                    
+                default:
+                    limitName = ""
+                    limitPV = ""
+                    keyNameforSegue = nil
+                    break
+                }
+                
+                let limitInfoArray: [String?] = [limitName, limitPV]
+                performSegue(withIdentifier: "changeElementViewController", sender: limitInfoArray)
+            }
+        }
+        else {
+            
+        }
     }
     
 //    private func createMoveTextField(_ index: Int, _ xPosition: CGFloat, _ yPosition: CGFloat) {
@@ -797,6 +857,7 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
 //        }
 //    }
     
+
     //********* Notification *************
     private func catchEventNotification(notification:Notification) -> Void {
         if let pvNameFromNotification = notification.object as? String, let pvNameDictionary = caObject.channelAccessGetDictionary() {
@@ -947,24 +1008,22 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changeElementViewController" {
             let changeElementView: ChangeElementViewController = segue.destination as! ChangeElementViewController
             changeElementView.delegate = self
             
-            let buttonInfoArray: [String?] = sender as! [String?]
-            changeElementView.changePVTitle = buttonInfoArray[0]
-            changeElementView.currentPVName = buttonInfoArray[1]
+            let changePVInfoArray: [String?] = sender as! [String?]
+            changeElementView.changePVTitle = changePVInfoArray[0] // selected button or limit image
+            changeElementView.currentPVName = changePVInfoArray[1] // current PV name that is selected
         }
     }
     
     func changeProcessVariable(oldPVName: String?, newPVName: String?) {
-        
-        
+        if oldPVName != newPVName, let keyName = keyNameforSegue {
+            UserDefaults.standard.set(newPVName, forKey: keyName)
+            keyNameforSegue = nil
+        }
     }
 }
 
