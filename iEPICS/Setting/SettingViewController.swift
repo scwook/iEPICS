@@ -12,6 +12,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
 
     let caObject = ChannelAccessClient.sharedObject()!
 
+    // Channel Access Environment
     @IBOutlet weak var CAEnvironmentView: UIView!
     @IBOutlet weak var autoAddrListSwitch: UISwitch! {
         didSet{
@@ -45,6 +46,17 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         
         UserDefaults.standard.set(autoAddrListSwitch.isOn, forKey: "CAEnvAutoAddressEnable")
         caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
+    }
+    
+    // Motion Settings
+    @IBOutlet weak var motionSettingView: UIView!
+    @IBOutlet weak var motionHorizontalAxisSwitch: UISwitch!
+    @IBOutlet weak var motionVerticalAxisSwitch: UIView!
+    
+    @IBAction func motionHorizontalAxisSwitchAction(_ sender: UISwitch) {
+    }
+    
+    @IBAction func motionVerticalAxisSwitchAction(_ sender: UISwitch) {
     }
     
     override func viewDidLoad() {

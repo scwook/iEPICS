@@ -364,6 +364,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Motion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ad9-h0-S0F">
+                                <rect key="frame" x="16" y="236" width="53" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EPk-iu-8aS">
                                 <rect key="frame" x="19" y="110.5" width="337.5" height="97"/>
                                 <subviews>
@@ -410,6 +417,40 @@
                                     <constraint firstItem="szA-jk-WUT" firstAttribute="leading" secondItem="EPk-iu-8aS" secondAttribute="leading" constant="8" id="nBx-U2-f1d"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i1x-pP-YpP">
+                                <rect key="frame" x="19" y="265" width="340" height="88"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Horizontal Axis" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvw-AR-Ukz">
+                                        <rect key="frame" x="8" y="8" width="115" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OGQ-Mw-vxA">
+                                        <rect key="frame" x="283" y="3" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="motionHorizontalAxisSwitchAction:" destination="0QX-bh-cT0" eventType="valueChanged" id="PkZ-ea-xT5"/>
+                                        </connections>
+                                    </switch>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ker-3R-9Ef">
+                                        <rect key="frame" x="283" y="48" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="motionVerticalAxisSwitchAction:" destination="0QX-bh-cT0" eventType="valueChanged" id="bIp-N8-ffD"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vertical Axis" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IJB-SE-rW5">
+                                        <rect key="frame" x="8" y="53" width="94" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.81176470590000005" green="0.76862745099999996" blue="0.69019607839999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -426,11 +467,14 @@
                         <outlet property="CAAddressListTextField" destination="GQd-iT-UZX" id="HjQ-bZ-K1n"/>
                         <outlet property="CAEnvironmentView" destination="EPk-iu-8aS" id="OYo-jC-Zjb"/>
                         <outlet property="autoAddrListSwitch" destination="D3z-Dl-bVd" id="AeZ-Cb-GKM"/>
+                        <outlet property="motionHorizontalAxisSwitch" destination="OGQ-Mw-vxA" id="jIp-Yg-ZcA"/>
+                        <outlet property="motionSettingView" destination="i1x-pP-YpP" id="1Pj-Ms-xDg"/>
+                        <outlet property="motionVerticalAxisSwitch" destination="i1x-pP-YpP" id="inP-p6-qfO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ge-FJ-rRi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-463" y="926"/>
+            <point key="canvasLocation" x="-463.19999999999999" y="925.18740629685169"/>
         </scene>
         <!--Motion View Controller-->
         <scene sceneID="Q0n-qh-Xon">
@@ -544,6 +588,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mzW-GN-XtE">
+                                <rect key="frame" x="152" y="64" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DDn-DW-81N">
+                                <rect key="frame" x="152" y="131" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.84832078218460083" green="0.80913370847702026" blue="0.7457919716835022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -568,6 +620,8 @@
                         <outletCollection property="limitImageView" destination="36u-yM-teD" collectionClass="NSMutableArray" id="fvT-Dk-UQ7"/>
                         <outletCollection property="limitImageView" destination="pyN-op-KtM" collectionClass="NSMutableArray" id="i2D-lh-Yro"/>
                         <outletCollection property="limitImageView" destination="QbD-Tk-4Tn" collectionClass="NSMutableArray" id="Fk9-fN-PH5"/>
+                        <outletCollection property="positionImageView" destination="mzW-GN-XtE" collectionClass="NSMutableArray" id="8Vq-9o-4p8"/>
+                        <outletCollection property="positionImageView" destination="DDn-DW-81N" collectionClass="NSMutableArray" id="ffS-D3-jYy"/>
                         <segue destination="ZeO-dF-mVj" kind="presentation" identifier="changeElementViewController" id="zfL-Sd-H0i"/>
                     </connections>
                 </viewController>
