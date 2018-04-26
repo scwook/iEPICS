@@ -526,17 +526,20 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
+        var horizontalPositionFontSize: CGFloat = 40.0
+        var verticalPositionFontSize: CGFloat = 35.0
+        
         let height = UIScreen.main.bounds.height
         switch height {
         case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
+            horizontalPositionFontSize = 35.0
+            verticalPositionFontSize = 30.0
             positionImageSize = 77
             positionImageName = ["Position_horizontal_black_4inch", "Position_vertical_black_4inch"]
 
             buttonSize = 77
-            marginBetweenButton = 120
-            marginFromBottom = 80
+            marginBetweenButton = 85
+            marginFromBottom = 170
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
             
             limitImageSizeH = 32
@@ -545,19 +548,21 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             limitImageName = ["Shield_left_black_4inch", "Shield_right_black_4inch", "Shield_up_black_4inch", "Shield_down_black_4inch"]
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
+            horizontalPositionFontSize = 35.0
+            verticalPositionFontSize = 30.0
+            
             positionImageSize = 77
             positionImageName = ["Position_horizontal_black_4inch", "Position_vertical_black_4inch"]
 
             buttonSize = 77
-            marginBetweenButton = 150
-            marginFromBottom = 100
+            marginBetweenButton = 85
+            marginFromBottom = 170
             moveButtonImageName = ["Motion_left_black_4inch", "Motion_right_black_4inch", "Motion_up_black_4inch", "Motion_down_black_4inch", "Motion_stop_black_4inch"]
             
             limitImageSizeH = 32
             limitImageSizeV = 150
             marginBetweenLimit = 128
             limitImageName = ["Shield_left_black_4inch", "Shield_right_black_4inch", "Shield_up_black_4inch", "Shield_down_black_4inch"]
-            
             
         case 667.0: // 375x337pt 4,7inch (iPhone6, 6s, 7, 8)
             break
@@ -573,6 +578,17 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         }
         
         let margins = view.layoutMarginsGuide
+        
+        positionTextLabel[positionHorizontalIndex].translatesAutoresizingMaskIntoConstraints = false
+        positionTextLabel[positionHorizontalIndex].font = UIFont.systemFont(ofSize: horizontalPositionFontSize)
+        positionTextLabel[positionHorizontalIndex].centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
+        positionTextLabel[positionHorizontalIndex].centerYAnchor.constraint(equalTo: margins.topAnchor, constant: 30).isActive = true
+
+
+        positionTextLabel[positionVerticalIndex].translatesAutoresizingMaskIntoConstraints = false
+        positionTextLabel[positionVerticalIndex].font = UIFont.systemFont(ofSize: verticalPositionFontSize)
+        positionTextLabel[positionVerticalIndex].centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
+        positionTextLabel[positionVerticalIndex].centerYAnchor.constraint(equalTo: positionTextLabel[positionHorizontalIndex].bottomAnchor, constant: 30).isActive = true
 
         for i in 0 ..< positionImageView.count {
             positionImageView[i].image = UIImage(named: positionImageName[i])

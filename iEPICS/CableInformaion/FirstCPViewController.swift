@@ -44,6 +44,20 @@ class FirstCPViewController: UIViewController {
         let height = UIScreen.main.bounds.height
         let margins = view.layoutMarginsGuide
         switch height {
+        case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
+            imageSizeWidth = 88
+            imageSizeHeight = 159
+            marginHorizontal = 68
+            marginVertical = 100
+            marginVerticalOffset = 30
+            marginTextLabel = 10
+            rj45_T568A_Standard_ImageName = "RJ45_T568A_ST_4inch"
+            rj45_T568B_Standard_ImageName = "RJ45_T568B_ST_4inch"
+            rj45_T568A_Crossover_ImageName = "RJ45_T568A_CR_4inch"
+            rj45_T568B_Crossover_ImageName = "RJ45_T568B_CR_4inch"
+            standardTextSize = 12.0
+            crossoverTextSize = 12.0
+            
         case 568.0:
             imageSizeWidth = 88
             imageSizeHeight = 159
