@@ -49,7 +49,10 @@ class ChangeElementViewController: UIViewController, UITextFieldDelegate {
                 delegate!.changeProcessVariable(oldPVName: currentPVName, newPVName: changePVTextField.text)
             }
             else {
-                NotificationCenter.default.post(name: caErrorNotification, object:"Enter Process Variable")
+//                NotificationCenter.default.post(name: caErrorNotification, object:"Enter Process Variable")
+                dismiss(animated: true, completion: nil)
+                delegate!.changeProcessVariable(oldPVName: currentPVName, newPVName: nil)
+
             }
             //let pvNameString: String = newPVTextField.text!
         }

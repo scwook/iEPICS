@@ -435,7 +435,6 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
         }
-        print("Changed Process")
     }
     
     //********* Save and Load ************

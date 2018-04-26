@@ -223,9 +223,10 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             editingMode1(sender)
         }
         else {
+            caObject.channelAccessAllClear()
+
             motionMode(sender)
             
-            caObject.channelAccessAllClear()
             createProcessVariable()
         }
         
@@ -357,7 +358,7 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             }, completion: nil)
         }
         
-        sender.title = "Done"
+        sender.title = "✓"
         isPVEditing = true
     }
     
@@ -702,8 +703,12 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
     }
     
     private func createProcessVariable() {
-        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionAxisEnable1")
-        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionAxisEnable2")
+        for i in 0 ..< moveButtons.count {
+                moveButtons[i].isEnabled = false
+        }
+        
+        let axisEnable1 = UserDefaults.standard.bool(forKey: "MotionHorizontalAxisEnable")
+        let axisEnable2 = UserDefaults.standard.bool(forKey: "MotionVerticalAxisEnable")
         
         if axisEnable1 {
             positionTextLabel[0].isHidden = false
@@ -1076,7 +1081,7 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
                 else {
                     if let positionIndex = positionLabelIndex {
                         if moveData.connected {
-                            self.positionTextLabel[positionIndex].text = "Connected"
+//                            self.positionTextLabel[positionIndex].text = "Connected"
                         }
                         else  {
                             self.positionTextLabel[positionIndex].text = "Disconnected"
@@ -1106,6 +1111,7 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
     private func applicationWillEnterForeground(notification:Notification) -> Void {
 
         caObject.channelAccessContextCreate()
+        createProcessVariable()
     }
     
     override func didReceiveMemoryWarning() {

@@ -50,23 +50,38 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     
     // Motion Settings
     @IBOutlet weak var motionSettingView: UIView!
-    @IBOutlet weak var motionHorizontalAxisSwitch: UISwitch!
-    @IBOutlet weak var motionVerticalAxisSwitch: UIView!
+    @IBOutlet weak var motionHorizontalAxisSwitch: UISwitch! {
+        didSet {
+            motionHorizontalAxisSwitch.setOn(UserDefaults.standard.bool(forKey: "MotionHorizontalAxisEnable"), animated: false)
+        }
+    }
+    @IBOutlet weak var motionVerticalAxisSwitch: UISwitch! {
+        didSet {
+            motionVerticalAxisSwitch.setOn(UserDefaults.standard.bool(forKey: "MotionVerticalAxisEnable"), animated: false)
+        }
+    }
     
     @IBAction func motionHorizontalAxisSwitchAction(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "MotionHorizontalAxisEnable")
     }
     
     @IBAction func motionVerticalAxisSwitchAction(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "MotionVerticalAxisEnable")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let viewCornerRadius: CGFloat = 10
         
-        CAEnvironmentView.layer.cornerRadius = 5
+        CAEnvironmentView.layer.cornerRadius = viewCornerRadius
         CAEnvironmentView.layer.borderWidth = 1
         CAEnvironmentView.layer.borderColor = UIColor.black.cgColor
+        
+        motionSettingView.layer.cornerRadius = viewCornerRadius
+        motionSettingView.layer.borderWidth = 1
+        motionSettingView.layer.borderColor = UIColor.black.cgColor
         
 //        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable")
 //        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")

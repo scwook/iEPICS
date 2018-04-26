@@ -16,30 +16,56 @@ class MainNavigationController: UINavigationController {
         super.viewDidLoad()
      
         // Do any additional setup after loading the view.
-        
-        var autoAddressList = "YES"
-        var autoAddressListBoolen = true
+        let epicsEnv_AutoAddressList = "EPICS_CA_AUTO_ADDR_LIST"
+        let epicsEnv_AddressList = "EPICS_CA_ADDR_LIST"
+
         var appLaunchedBefore = false
 
         if UserDefaults.standard.bool(forKey: "AppLaunchedBefore") {
-            if !UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable") {
-                autoAddressList = "NO"
-                autoAddressListBoolen = false
+            
+            // Auto Address Init Settings
+            let autoAddressListEnable = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable")
+            var autoAddressListEPICS = "YES"
+            
+            if !autoAddressListEnable {
+                autoAddressListEPICS = "NO"
             }
+        
+            UserDefaults.standard.set(autoAddressListEnable, forKey: "CAEnvAutoAddressEnable")
+            caObject.channelAccessSetEnvironment(epicsEnv_AutoAddressList, key: autoAddressListEPICS)
+
+            if let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList") {
+                caObject.channelAccessSetEnvironment(epicsEnv_AddressList, key: addressList)
+            }
+            
+            // Motion Init Settings
+            let motionHorizontalAxisEnable = UserDefaults.standard.bool(forKey: "MotionHorizontalAxisEnable")
+            let motionVerticalAxisEnable = UserDefaults.standard.bool(forKey: "MotionVerticalAxisEnable")
+            
+            UserDefaults.standard.set(motionHorizontalAxisEnable, forKey: "MotionHorizontalAxisEnable")
+            UserDefaults.standard.set(motionVerticalAxisEnable, forKey: "MotionVerticalAxisEnable")
         }
         else {
             print("First Lanch")
             
+            // Auto Address Init Settings
+            let autoAddressListEnable = true
+            let autoAddressListEPICS = "YES"
+
+            UserDefaults.standard.set(autoAddressListEnable, forKey: "CAEnvAutoAddressEnable")
+            caObject.channelAccessSetEnvironment(epicsEnv_AutoAddressList, key: autoAddressListEPICS)
+            caObject.channelAccessSetEnvironment(epicsEnv_AddressList, key: "")
+
+            // Motion Init Settings
+            let motionHorizontalAxisEnable = true
+            let motionVerticalAxisEnable = true
+            
+            UserDefaults.standard.set(motionHorizontalAxisEnable, forKey: "MotionHorizontalAxisEnable")
+            UserDefaults.standard.set(motionVerticalAxisEnable, forKey: "MotionVerticalAxisEnable")
+
+            // Disable First Launch
             appLaunchedBefore = true
             UserDefaults.standard.set(appLaunchedBefore, forKey: "AppLaunchedBefore")
-        }
-
-        UserDefaults.standard.set(autoAddressListBoolen, forKey: "CAEnvAutoAddressEnable")
-        caObject.channelAccessSetEnvironment("EPICS_CA_AUTO_ADDR_LIST", key: autoAddressList)
-
-
-        if let addressList = UserDefaults.standard.string(forKey: "CAEnvAddressList") {
-            caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: addressList)
         }
     }
 
