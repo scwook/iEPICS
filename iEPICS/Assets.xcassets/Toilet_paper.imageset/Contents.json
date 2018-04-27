@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "symbol-1.0.2_30x30.png",
+      "filename" : "symbol_toilet_paper-1.0.2_17x6.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "symbol-1.0.2_60x60.png",
+      "filename" : "symbol_toilet_paper-1.0.2_34x12.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "symbol-1.0.2_90x90.png",
+      "filename" : "symbol_toilet_paper-1.0.2_51x18.png",
       "scale" : "3x"
     }
   ],

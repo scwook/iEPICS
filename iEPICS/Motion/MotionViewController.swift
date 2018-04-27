@@ -273,7 +273,6 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             }, completion: nil)
         }
         
-        
         // Move Button Editing Mode
         for i in 0 ..< moveButtons.count {
             var translatedX: CGFloat = 0.0
