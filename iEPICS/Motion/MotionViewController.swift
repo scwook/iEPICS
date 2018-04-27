@@ -26,7 +26,8 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
 //    var downLimitTextField: UITextField?
     
     var isPVEditing = false
-//    var isStop = false
+    var editImageName = "Edit_black"
+    var checkImageName = "Check_black"
     
     let positionHorizontalIndex = 0
     let positionVerticalIndex = 1
@@ -358,7 +359,8 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             }, completion: nil)
         }
         
-        sender.title = "✓"
+        let barButtonImageName = checkImageName
+        sender.image = UIImage(named: barButtonImageName)
         isPVEditing = true
     }
     
@@ -392,7 +394,10 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
                 self.limitImageView[i].tintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
             }, completion: nil)
         }
-        sender.title = "➕"
+        
+        let barButtonImageName = editImageName
+        sender.image = UIImage(named: barButtonImageName)
+
         isPVEditing = false
     }
     
@@ -532,6 +537,9 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         let height = UIScreen.main.bounds.height
         switch height {
         case 480.0: // 480x320pt 3.5inch (iPhone4s) Not Supported in iEPICS
+            editImageName = "Edit_black_4inch"
+            checkImageName = "Check_balck_4inch"
+            
             horizontalPositionFontSize = 35.0
             verticalPositionFontSize = 30.0
             positionImageSize = 77
@@ -548,6 +556,9 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             limitImageName = ["Shield_left_black_4inch", "Shield_right_black_4inch", "Shield_up_black_4inch", "Shield_down_black_4inch"]
             
         case 568.0: // 568x320pt 4inch (iPhone5, 5c, 5s, SE)
+            editImageName = "Edit_black_4inch"
+            checkImageName = "Check_balck_4inch"
+            
             horizontalPositionFontSize = 35.0
             verticalPositionFontSize = 30.0
             
@@ -604,12 +615,12 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
         positionImageView[positionHorizontalIndex].widthAnchor.constraint(equalToConstant: positionImageSize).isActive = true
         positionImageView[positionHorizontalIndex].heightAnchor.constraint(equalToConstant: positionImageSize).isActive = true
         positionImageView[positionHorizontalIndex].centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: 0).isActive = true
-        positionImageView[positionHorizontalIndex].centerYAnchor.constraint(equalTo: positionTextLabel[0].centerYAnchor, constant: 0).isActive = true
+        positionImageView[positionHorizontalIndex].centerYAnchor.constraint(equalTo: positionTextLabel[positionHorizontalIndex].bottomAnchor, constant: 10).isActive = true
 
         positionImageView[positionVerticalIndex].widthAnchor.constraint(equalToConstant: positionImageSize).isActive = true
         positionImageView[positionVerticalIndex].heightAnchor.constraint(equalToConstant: positionImageSize).isActive = true
         positionImageView[positionVerticalIndex].centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: 0).isActive = true
-        positionImageView[positionVerticalIndex].centerYAnchor.constraint(equalTo: positionImageView[positionHorizontalIndex].centerYAnchor , constant: 20).isActive = true
+        positionImageView[positionVerticalIndex].centerYAnchor.constraint(equalTo: positionTextLabel[positionHorizontalIndex].bottomAnchor , constant: 10).isActive = true
         
         for i in 0 ..< moveButtons.count {
             moveButtons[i].setTitle(nil, for: .normal)

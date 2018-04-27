@@ -573,6 +573,13 @@
                                     <action selector="moveButtonTouchDown:" destination="N1R-mC-DGr" eventType="touchDown" id="MbE-62-IOx"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vertical" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1z6-Tv-oD5">
+                                <rect key="frame" x="119" y="142" width="136" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shield_left_balck" translatesAutoresizingMaskIntoConstraints="NO" id="UKm-Vi-ueF">
                                 <rect key="frame" x="16" y="368" width="38" height="182"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -601,20 +608,13 @@
                                 <rect key="frame" x="152" y="131" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vertical" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1z6-Tv-oD5">
-                                <rect key="frame" x="119" y="142" width="136" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.84832078218460083" green="0.80913370847702026" blue="0.7457919716835022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="V4Z-yp-0WW"/>
                     </view>
                     <navigationItem key="navigationItem" id="Z9Z-jX-J9I">
-                        <barButtonItem key="rightBarButtonItem" title="➕" id="lrc-O1-BY5">
+                        <barButtonItem key="rightBarButtonItem" title="➕" image="Edit_black" id="lrc-O1-BY5">
                             <connections>
                                 <action selector="editButton:" destination="N1R-mC-DGr" id="wvg-Ku-wqg"/>
                             </connections>
@@ -639,7 +639,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ROz-Ns-5DJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="166" y="-1103"/>
+            <point key="canvasLocation" x="165.59999999999999" y="-1103.2983508245877"/>
         </scene>
         <!--Monitoring-->
         <scene sceneID="Rjd-9L-xyP">
@@ -795,6 +795,7 @@
         <!--Motion Setting View Controller-->
         <scene sceneID="Vmq-h3-y3L">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hhD-Ex-GeI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Ozc-ak-c7F" customClass="MotionSettingViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PUF-W4-hZg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -1031,7 +1032,6 @@
                         <outletCollection property="axisTextLabelCollection2" destination="oqc-Jc-9h9" collectionClass="NSMutableArray" id="LYL-xr-j9R"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hhD-Ex-GeI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-850" y="-1024"/>
         </scene>
@@ -1262,6 +1262,7 @@
         <image name="Clock" width="16" height="16"/>
         <image name="Dsub9_female" width="191" height="91"/>
         <image name="Dsub9_male" width="193" height="92"/>
+        <image name="Edit_black" width="32" height="32"/>
         <image name="RJ45_T568A_CR" width="104" height="187"/>
         <image name="RJ45_T568A_ST" width="104" height="187"/>
         <image name="RJ45_T568B_CR" width="104" height="187"/>
