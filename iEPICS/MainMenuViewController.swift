@@ -31,7 +31,8 @@ class MainMenuViewController: UIViewController {
     var motionButtonImageName = "Motion"
     var cableInfoButtonImageName = "CableInfo"
     var settingButtonImageName = "Setting"
-
+    var scwookMarginFromBottom: CGFloat = 15
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,7 +80,7 @@ class MainMenuViewController: UIViewController {
             
         case 736.0: // 414x736pt 5.5inch (iPhone 6 Plus, 6s Plus, 7 Plus, 8 Plus)
             buttonSize = 60
-            marginBetweenButton = 160
+            marginBetweenButton = 60
             marginFromBottom = 130
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
@@ -89,17 +90,18 @@ class MainMenuViewController: UIViewController {
             
         case 812.0: // 375x812pt 5.8inch (iPhone X)
             buttonSize = 60
-            marginBetweenButton = 160
+            marginBetweenButton = 60
             marginFromBottom = 130
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
             motionButtonImageName = "Motion"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
+            scwookMarginFromBottom = 5
             
         default:
             buttonSize = 60
-            marginBetweenButton = 152
+            marginBetweenButton = 60
             marginFromBottom = 118
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"

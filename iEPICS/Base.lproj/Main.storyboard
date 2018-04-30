@@ -135,8 +135,8 @@
                             <constraint firstItem="I5E-UB-oIj" firstAttribute="height" secondItem="S0P-37-esy" secondAttribute="height" multiplier="0.173913" id="jl5-ZP-ENh"/>
                             <constraint firstItem="H1v-UV-ECJ" firstAttribute="width" secondItem="I5E-UB-oIj" secondAttribute="width" id="kxk-Nh-hYX"/>
                             <constraint firstItem="lVn-Uk-iwI" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="nyQ-0F-gF7"/>
-                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="93u-AR-8AG" secondAttribute="bottom" constant="15" id="pes-tN-1Aw"/>
                             <constraint firstItem="2yj-FA-TkP" firstAttribute="top" secondItem="H1v-UV-ECJ" secondAttribute="bottom" constant="12" id="sF2-LP-Zjk"/>
+                            <constraint firstItem="BYT-eZ-1K3" firstAttribute="bottom" secondItem="93u-AR-8AG" secondAttribute="bottom" constant="14.5" id="waT-VD-TBh"/>
                             <constraint firstItem="H1v-UV-ECJ" firstAttribute="centerX" secondItem="S0P-37-esy" secondAttribute="centerX" id="yrW-DV-mwe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BYT-eZ-1K3"/>
@@ -614,7 +614,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.84832078218460083" green="0.80913370847702026" blue="0.7457919716835022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.84705882352941175" green="0.80784313725490198" blue="0.74901960784313726" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="V4Z-yp-0WW"/>
                     </view>
@@ -1283,7 +1283,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zfL-Sd-H0i"/>
-        <segue reference="dck-XA-d2z"/>
+        <segue reference="fYh-vg-6fm"/>
         <segue reference="HPh-di-gIm"/>
     </inferredMetricsTieBreakers>
 </document>

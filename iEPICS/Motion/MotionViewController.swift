@@ -117,25 +117,25 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
             var buttonName: String?
             switch buttonIndex {
             case leftButtonIndex:
-                buttonName = "Left Direction"
+                buttonName = "Left"
                 keyNameforSegue = keyNameforAxis1[1]
                 buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case rightButtonIndex:
-                buttonName = "Right Direction"
+                buttonName = "Right"
                 keyNameforSegue = keyNameforAxis1[2]
                 buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case upButtonIndex:
-                buttonName = "Up Direction"
+                buttonName = "Up"
                 keyNameforSegue = keyNameforAxis2[1]
                 buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
                 
             case downButtonIndex:
-                buttonName = "Down Direction"
+                buttonName = "Down"
                 keyNameforSegue = keyNameforAxis2[2]
                 buttonPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                 break
@@ -856,22 +856,22 @@ class MotionViewController: UIViewController, ChangeElementDataDelegate {
                 var limitName: String?
                 switch imageViewIndex {
                 case leftLimitImageIndex:
-                    limitName = "Left Limit"
+                    limitName = "Limit Left"
                     keyNameforSegue = keyNameforAxis1[3]
                     limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                     
                 case rightLimitImageIndex:
-                    limitName = "right Limit"
+                    limitName = "Limit Right"
                     keyNameforSegue = keyNameforAxis1[4]
                     limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                     
                 case upLimitImageIndex:
-                    limitName = "Up Limit"
+                    limitName = "Limit Up"
                     keyNameforSegue = keyNameforAxis2[3]
                     limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                     
                 case downLimitImageIndex:
-                    limitName = "Down Limit"
+                    limitName = "Limit Down"
                     keyNameforSegue = keyNameforAxis2[4]
                     limitPV = UserDefaults.standard.string(forKey: keyNameforSegue!)
                     
