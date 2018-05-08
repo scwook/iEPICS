@@ -9,6 +9,7 @@
 import UIKit
 
 class ArchiveTableViewCell: UITableViewCell {
+    @IBOutlet weak var archivingImageView: UIImageView!
     @IBOutlet weak var pvNameTextLabel: UILabel!
     
     override func awakeFromNib() {

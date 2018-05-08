@@ -14,9 +14,15 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     var pvValueArray = NSMutableArray()
     var drawTimer: Timer?
     
-    let maxArraySize = 100
+    let maxArraySize = 1000
     var pv: String? = nil
     var startDrawing = false
+    
+    var isArchiveEnabled = false
+    var archiveServerURL: String?
+    let getData = "/retrieval/data/getData"
+    let getAllPVs = "/mgmt/bpl/getAllPVs"
+    let getPVState = "/mgmt/bpl/getPVStatus"
     
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
 
@@ -31,13 +37,18 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.shouldRotate = true
+        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+
+        if archiveServerURL != nil {
+            let url = URL(string: archiveServerURL!)
+            do {
+                _ = try String(contentsOf: url!)
+                isArchiveEnabled = true
+            } catch {
+//                errorMessage(message: "Can Not Access to Server")
+            }
+        }
         
-        
-//        self.title = pv
-        
-        // Do any additional setup after loading the view, typically from a nib.
         print("DataBrowser ViewDidLoad")
     }
     
@@ -133,7 +144,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 
                             let currentValue = (value[0] as? NSString)?.doubleValue
                             let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
-                            
+                            print(currentTimestamp)
                             if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
                                 let timeDiff = currentTimestamp - lastTimestamp
                                 if( timeDiff > 1 ) {
@@ -183,18 +194,45 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         if let drawView = dataDrawView {
             drawView.data.removeAll()
             drawView.time.removeAll()
-            //            drawView.arrayData.removeAll()
         }
         
         pvValueArray.removeAllObjects()
         
-        //        caObject.channelAccessSetGet(pvValueArray)
         pv = pvName
         caObject.channelAccessAddProcessVariable(pvName)
         self.title = pvName
         
-        //        self.title = pvName
+        if isArchiveEnabled {
+            getArchiveData(pvName: pvName)
+        }
+        
         startDataBrowser(pvName: pvName)
+    }
+    
+    private func getArchiveData(pvName: String) -> Void {
+        if let serverURL = archiveServerURL {
+            let searchingName = serverURL + getData + ".csv" + "?pv=" + pvName
+            var time = [Int]()
+            var value = [Double]()
+            
+            if let url = URL(string: searchingName) {
+                do {
+                    let rawData = try String(contentsOf: url)
+                    
+                    let split = rawData.split(separator: "\n")
+                    for i in 0 ..< split.count {
+                        let spliteData = split[i].split(separator: ",")
+                        dataDrawView.time.append(Int(spliteData[0])!)
+                        dataDrawView.data.append(Double(spliteData[1])!)
+                    }
+                    
+                    print(time)
+                    
+                } catch {
+                    print("Cannot load contents")
+                }
+            }
+        }
     }
     
     private func rotated(notification:Notification) -> Void {
@@ -344,7 +382,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     //********* Notification *************
     private func catchConnectionNotification(notification:Notification) -> Void {
         if let caMessage = notification.object as? String {
-            if caMessage == "Connected" {
+            if caMessage == pv {
                 startDrawing = true
                 self.title = pv
             }

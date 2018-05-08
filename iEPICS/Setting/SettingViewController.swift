@@ -26,17 +26,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
             CAAddressListTextField.text = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         }
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        let caAddressList = textField.text
-        UserDefaults.standard.set(caAddressList, forKey: "CAEnvAddressList")
-        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: caAddressList)
-        
-        self.view.endEditing(true)
-        return true
-    }
-    
+ 
     @IBAction func CAAutoListSwitchAction(_ sender: UISwitch) {
         var autoAddressList = "NO"
         
@@ -69,6 +59,16 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(sender.isOn, forKey: "MotionVerticalAxisEnable")
     }
     
+    // Archiver Appliance Settings
+    @IBOutlet weak var archiveSettingView: UIView!
+    @IBOutlet weak var archiveURLTextField: UITextField! {
+        didSet {
+            archiveURLTextField.delegate = self
+            archiveURLTextField.text = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,6 +83,10 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         motionSettingView.layer.borderWidth = 1
         motionSettingView.layer.borderColor = UIColor.black.cgColor
         
+        archiveSettingView.layer.cornerRadius = viewCornerRadius
+        archiveSettingView.layer.borderWidth = 1
+        archiveSettingView.layer.borderColor = UIColor.black.cgColor
+        
 //        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable")
 //        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
         
@@ -93,6 +97,25 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
 //        caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: "10.1.4.63")
         
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == CAAddressListTextField {
+            let caAddressList = textField.text
+            UserDefaults.standard.set(caAddressList, forKey: "CAEnvAddressList")
+            caObject.channelAccessSetEnvironment("EPICS_CA_ADDR_LIST", key: caAddressList)
+        }
+        else if textField == archiveURLTextField {
+            let archiveURL = textField.text
+            UserDefaults.standard.set(archiveURL, forKey: "ArchiveServerURL")
+        }
+        else {
+            
+        }
+        
+        self.view.endEditing(true)
+        return true
+    }
+
     
     override var shouldAutorotate: Bool {
         return true
