@@ -87,7 +87,6 @@ class DataDrawView: UIView {
 //                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
                     let valueString = String(describing: data[probe])
                     valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
-                    
                 }
                 
                 index = index - 1

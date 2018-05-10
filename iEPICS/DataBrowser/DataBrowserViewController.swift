@@ -31,6 +31,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     var appDidEnterBackgroundProtocol: NSObjectProtocol?
     var appWillEnterForegroundProtocol: NSObjectProtocol?
     
+    let dateFormatter = DateFormatter()
+    
     @IBOutlet weak var dataDrawView: DataDrawView!
     @IBOutlet weak var axisDrawView: AxisDrawView!
     
@@ -48,6 +50,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //                errorMessage(message: "Can Not Access to Server")
             }
         }
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         
         print("DataBrowser ViewDidLoad")
     }
@@ -144,7 +148,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 
                             let currentValue = (value[0] as? NSString)?.doubleValue
                             let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
-                            print(currentTimestamp)
+
                             if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
                                 let timeDiff = currentTimestamp - lastTimestamp
                                 if( timeDiff > 1 ) {
@@ -203,31 +207,45 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         self.title = pvName
         
         if isArchiveEnabled {
-            getArchiveData(pvName: pvName)
+            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+            let initArchiveTimeRange = TimeInterval(dataBrowserModel.timeRange)
+            getArchiveData(pvName: pv!, from: -initArchiveTimeRange, to: 0)
         }
         
         startDataBrowser(pvName: pvName)
     }
     
-    private func getArchiveData(pvName: String) -> Void {
+    private func getArchiveData(pvName: String, from: TimeInterval, to: TimeInterval) -> Void {
         if let serverURL = archiveServerURL {
-            let searchingName = serverURL + getData + ".csv" + "?pv=" + pvName
-            var time = [Int]()
-            var value = [Double]()
+            let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
+            let getDataTo = dateFormatter.string(from: Date().addingTimeInterval(to))
+            
+            let getDataFromURLEncode = getDataFrom.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+            let getDataToURLEncode = getDataTo.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+            
+            let pvNameURLEncode = pvName.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+            
+            let searchingName = serverURL + getData + ".csv" + "?pv=" + pvNameURLEncode! + "&from=" + getDataFromURLEncode! + "&to=" + getDataToURLEncode!
+//            var time = [Int]()
+//            var value = [Double]()
             
             if let url = URL(string: searchingName) {
                 do {
                     let rawData = try String(contentsOf: url)
                     
+                    if let drawView = dataDrawView {
+                        drawView.data.removeAll()
+                        drawView.time.removeAll()
+                    }
+                    
                     let split = rawData.split(separator: "\n")
                     for i in 0 ..< split.count {
                         let spliteData = split[i].split(separator: ",")
-                        dataDrawView.time.append(Int(spliteData[0])!)
-                        dataDrawView.data.append(Double(spliteData[1])!)
+                        if Int(spliteData[0]) != dataDrawView.time.last {
+                            dataDrawView.time.append(Int(spliteData[0])!)
+                            dataDrawView.data.append(Double(spliteData[1])!)
+                        }
                     }
-                    
-                    print(time)
-                    
                 } catch {
                     print("Cannot load contents")
                 }
@@ -289,6 +307,15 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                     dataBrowserModel.value2 += dY
                 }
                 
+                if isArchiveEnabled {
+                    let getDataOffsetTo = dataBrowserModel.timeOffset
+                    let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
+                    getArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
+                    drawTimer?.invalidate()
+                    
+                    print(dataDrawView.time.count)
+                }
+                
                 dataDrawView.setNeedsDisplay()
                 axisDrawView.setNeedsDisplay()
                 
@@ -325,6 +352,13 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                 break
             }
             
+            if isArchiveEnabled {
+                let getDataOffsetTo = dataBrowserModel.timeOffset
+                let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
+                getArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
+                drawTimer?.invalidate()
+            }
+            
             dataDrawView.setNeedsDisplay()
             axisDrawView.setNeedsDisplay()
         }
@@ -341,20 +375,20 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             case .began:
                 dataBrowserModel.isLongPressed = true
                 dataBrowserModel.longPressedLocation = sender.location(in: dataDrawView)
-                dataDrawView.setNeedsDisplay()
                 
             case .changed:
                 dataBrowserModel.longPressedLocation = sender.location(in: dataDrawView)
-                dataDrawView.setNeedsDisplay()
-                
+
             case .ended:
                 dataBrowserModel.isLongPressed = false
                 dataDrawView.probeIndex = nil
-                dataDrawView.setNeedsDisplay()
                 
             default:
                 break
             }
+            
+            dataDrawView.setNeedsDisplay()
+            axisDrawView.setNeedsDisplay()
         }
     }
     
@@ -424,4 +458,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return [.portrait, .landscape]
     }
+}
+
+extension CharacterSet {
+    static let rfc3986Unreserved = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
 }

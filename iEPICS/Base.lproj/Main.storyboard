@@ -7,6 +7,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -206,26 +207,35 @@
                         <viewLayoutGuide key="safeArea" id="V7D-z2-a4H"/>
                     </view>
                     <navigationItem key="navigationItem" id="bPZ-l3-D0u">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="YHg-aF-mfY">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5aZ-3g-WKa">
-                                <rect key="frame" x="329" y="7" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                <state key="normal" title="➕">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="➕">
-                                            <attributes>
-                                                <font key="NSFont" size="15" name=".AppleColorEmojiUI"/>
-                                                <font key="NSOriginalFont" metaFont="system" size="15"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </state>
-                                <connections>
-                                    <segue destination="2gg-MI-gK1" kind="presentation" identifier="newElementViewController" id="fYh-vg-6fm"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem style="plain" id="YHg-aF-mfY">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5aZ-3g-WKa">
+                                    <rect key="frame" x="329" y="7" width="30" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                    <state key="normal" title="➕">
+                                        <attributedString key="attributedTitle">
+                                            <fragment content="➕">
+                                                <attributes>
+                                                    <font key="NSFont" size="15" name=".AppleColorEmojiUI"/>
+                                                    <font key="NSOriginalFont" metaFont="system" size="15"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                    </state>
+                                    <connections>
+                                        <segue destination="2gg-MI-gK1" kind="presentation" identifier="newElementViewController" id="fYh-vg-6fm"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="BXm-v3-1y0">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9Pk-2X-e6j">
+                                    <rect key="frame" x="291" y="7" width="30" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="U"/>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="axisDrawView" destination="9Wm-VY-VoF" id="7Nx-wi-VUs"/>
@@ -1401,7 +1411,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wzN-5Z-6AW"/>
-        <segue reference="dck-XA-d2z"/>
+        <segue reference="fYh-vg-6fm"/>
         <segue reference="APA-hH-wj0"/>
     </inferredMetricsTieBreakers>
 </document>
