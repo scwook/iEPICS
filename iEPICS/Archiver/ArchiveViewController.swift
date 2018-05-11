@@ -12,9 +12,10 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var archiveTableView: UITableView!
     @IBOutlet weak var archiveSearchBar: UISearchBar!
+    @IBOutlet weak var archiveActivityIndicator: UIActivityIndicatorView!
     
     var archivePVList = [String]()
-    var isArchiveEnabled = false
+//    var isArchiveEnabled = false
     
     let getData = "http://192.168.3.231:17665/retrieval/data/getData.csv?pv=scwookHost2:aiExample1&from=2018-04-29T15%3A00%3A00.000Z&to=2018-05-01T15%3A00%3A00.000Z"
     let getAllPVs = "/mgmt/bpl/getAllPVs"
@@ -24,6 +25,49 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let getAppliaceInfo = "getApplianceInfo"
     
+    let archiveURLSessionConfig = URLSessionConfiguration.default
+    var archiveURLSeesion: URLSession?
+    
+    
+    
+    
+//    if let serverURL = archiveServerURL {
+//        let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
+//        let getDataTo = dateFormatter.string(from: Date().addingTimeInterval(to))
+//
+//        let getDataFromURLEncode = getDataFrom.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+//        let getDataToURLEncode = getDataTo.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+//
+//        let pvNameURLEncode = pvName.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+//
+//        let searchingName = serverURL + getData + ".csv" + "?pv=" + pvNameURLEncode! + "&from=" + getDataFromURLEncode! + "&to=" + getDataToURLEncode!
+//        //            var time = [Int]()
+//        //            var value = [Double]()
+//
+//        if let url = URL(string: searchingName) {
+//            do {
+//                let rawData = try String(contentsOf: url)
+//
+//                if let drawView = dataDrawView {
+//                    drawView.data.removeAll()
+//                    drawView.time.removeAll()
+//                }
+//
+//                let split = rawData.split(separator: "\n")
+//                for i in 0 ..< split.count {
+//                    let spliteData = split[i].split(separator: ",")
+//                    if Int(spliteData[0]) != dataDrawView.time.last {
+//                        dataDrawView.time.append(Int(spliteData[0])!)
+//                        dataDrawView.data.append(Double(spliteData[1])!)
+//                    }
+//                }
+//            } catch {
+//                print("Cannot load contents")
+//            }
+//        }
+//    }
+//}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,43 +75,54 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         archiveSearchBar.backgroundImage = UIImage()
         // Do any additional setup after loading the view.
         
-        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+        archiveURLSessionConfig.timeoutIntervalForResource = 5
+        archiveURLSessionConfig.timeoutIntervalForRequest = 5
+        archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
-        if archiveServerURL != nil {
-            let url = URL(string: archiveServerURL!)
-            do {
-                _ = try String(contentsOf: url!)
-                isArchiveEnabled = true
-            } catch {
-                errorMessage(message: "Can Not Access to Server")
-            }
-        }
-        else {
-            errorMessage(message: "Archive Server is Not Set")
-        }
+        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if isArchiveEnabled {
-            if let pvName = searchBar.text, let serverURL = archiveServerURL {
-                let searchingName = serverURL + getAllPVs + "?pv=" + pvName
+        if let pvName = searchBar.text, let serverURL = archiveServerURL {
+            let searchingName = serverURL + getAllPVs + "?pv=" + pvName
+            
+            if let getDataURL = URL(string: searchingName) {
+                archiveActivityIndicator.startAnimating()
                 
-                if let url = URL(string: searchingName) {
-                    do {
-                        let data = try String(contentsOf: url)
-                        let filter = data.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",").map{ String($0) }
-                        archivePVList = filter
+                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
+                    (data, response, error) in
+                    guard let archiveData = data, error == nil else {
+                        DispatchQueue.main.async {
+                            self.errorMessage(message: "Can not connect to server")
+                            self.archiveActivityIndicator.stopAnimating()
+                        }
                         
-                        archiveTableView.reloadData()
-                        
-                    } catch {
-                        errorMessage(message: "Data Retrieval Error")
+                        return
+                    }
+                    
+                    let resultData = String(data: archiveData, encoding: String.Encoding.utf8) ?? "Error Decoding"
+                    let filter = resultData.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",").map{ String($0) }
+                    
+                    DispatchQueue.main.async {
+                        self.archivePVList = filter
+                        self.archiveTableView.reloadData()
+                        self.archiveActivityIndicator.stopAnimating()
                     }
                 }
+                
+                archiveURLTask?.resume()
+      
+//                do {
+//                    let data = try String(contentsOf: url)
+//                    let filter = data.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",").map{ String($0) }
+//                    archivePVList = filter
+//
+//                    archiveTableView.reloadData()
+//
+//                } catch {
+//                    errorMessage(message: "Data Retrieval Error")
+//                }
             }
-        }
-        else {
-            
         }
     }
     
@@ -101,27 +156,27 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             let pvName = archivePVList[indexPath.row]
             cell.pvNameTextLabel.text = pvName
             
-            let getURL = archiveServerURL! + getPVState + "?pv=" + pvName
-            if let url = URL(string: getURL) {
-                do {
-                    let data = try String(contentsOf: url)
-                    let filter = data.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",")
-                    let pvStatus = filter.last?.split(separator: ":").map{ $0 }
-
-                    if pvStatus?.last == "Being archived" {
-                        cell.archivingImageView.image = UIImage(named: "Clock")
-                    }
-                    else if pvStatus?.last == "Paused" {
-                        cell.archivingImageView.image = UIImage()
-                    }
-                    else {
-                        cell.archivingImageView.image = UIImage()
-                    }
-
-                } catch {
-                    print("Cannot load contents")
-                }
-            }
+//            let getURL = archiveServerURL! + getPVState + "?pv=" + pvName
+//            if let url = URL(string: getURL) {
+//                do {
+//                    let data = try String(contentsOf: url)
+//                    let filter = data.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",")
+//                    let pvStatus = filter.last?.split(separator: ":").map{ $0 }
+//
+//                    if pvStatus?.last == "Being archived" {
+//                        cell.archivingImageView.image = UIImage(named: "Clock")
+//                    }
+//                    else if pvStatus?.last == "Paused" {
+//                        cell.archivingImageView.image = UIImage()
+//                    }
+//                    else {
+//                        cell.archivingImageView.image = UIImage()
+//                    }
+//
+//                } catch {
+//                    print("Cannot load contents")
+//                }
+//            }
 
             return cell
         }

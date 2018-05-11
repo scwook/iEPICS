@@ -421,6 +421,11 @@
                                     <outlet property="delegate" destination="Q6Y-nr-WhE" id="hy3-LY-Yg3"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RB8-qb-n0z">
+                                <rect key="frame" x="170" y="316" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qnw-Aj-8x0">
                                 <rect key="frame" x="0.0" y="64" width="375" height="56"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -435,6 +440,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" id="4lt-SI-cge"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="archiveActivityIndicator" destination="RB8-qb-n0z" id="Lu5-zN-F3c"/>
                         <outlet property="archiveSearchBar" destination="Qnw-Aj-8x0" id="jMP-Cl-RMO"/>
                         <outlet property="archiveTableView" destination="m2F-Ao-MUh" id="24T-ks-Ryu"/>
                     </connections>
