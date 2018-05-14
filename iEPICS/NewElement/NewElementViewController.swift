@@ -22,7 +22,7 @@ class NewElementViewController: UIViewController, UITextFieldDelegate {
     
     let caErrorNotification = Notification.Name("NewElementCallbackNotification")
 
-    var delegate:NewElementDataDelegate? = nil
+    var delegate: NewElementDataDelegate? = nil
     var lastPVName: String?
     
     @IBAction func okButton(_ sender: UIButton) {

@@ -436,18 +436,51 @@
                         <color key="backgroundColor" red="0.84705882352941175" green="0.80784313725490198" blue="0.74901960784313726" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="0I6-bV-fKg"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Archive" id="dKf-Nh-4m1">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="4lt-SI-cge"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Archive" id="dKf-Nh-4m1"/>
                     <connections>
                         <outlet property="archiveActivityIndicator" destination="RB8-qb-n0z" id="Lu5-zN-F3c"/>
                         <outlet property="archiveSearchBar" destination="Qnw-Aj-8x0" id="jMP-Cl-RMO"/>
                         <outlet property="archiveTableView" destination="m2F-Ao-MUh" id="24T-ks-Ryu"/>
+                        <segue destination="VaK-QG-UtB" kind="show" identifier="archiveRetrievedTableViewController" id="qZP-ws-KWh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MiM-Ym-HST" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="976.79999999999995" y="1408.2458770614694"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="Irl-Rq-H7v">
+            <objects>
+                <tableViewController id="VaK-QG-UtB" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8cy-dY-lxU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Sk4-QE-mVz">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sk4-QE-mVz" id="PAM-ud-EuK">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="VaK-QG-UtB" id="hUN-r5-FzL"/>
+                            <outlet property="delegate" destination="VaK-QG-UtB" id="FxY-ht-OR9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="wGB-oi-jQG">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" id="vsM-XP-8Da"/>
+                            <barButtonItem title="Item" id="ubM-ZK-b1E"/>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fRX-sZ-arR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2210" y="1408"/>
         </scene>
         <!--Setting-->
         <scene sceneID="gXr-NR-70o">
@@ -572,6 +605,7 @@
                                             <constraint firstAttribute="width" constant="210" id="Ydq-5x-eRR"/>
                                         </constraints>
                                         <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYU-vZ-Myl">

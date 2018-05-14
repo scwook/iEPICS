@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, retrieveDataDelegate {
     
     @IBOutlet weak var archiveTableView: UITableView!
     @IBOutlet weak var archiveSearchBar: UISearchBar!
@@ -27,9 +27,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let archiveURLSessionConfig = URLSessionConfiguration.default
     var archiveURLSeesion: URLSession?
-    
-    
-    
+
     
 //    if let serverURL = archiveServerURL {
 //        let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
@@ -156,6 +154,8 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             let pvName = archivePVList[indexPath.row]
             cell.pvNameTextLabel.text = pvName
             
+            
+            
 //            let getURL = archiveServerURL! + getPVState + "?pv=" + pvName
 //            if let url = URL(string: getURL) {
 //                do {
@@ -184,6 +184,31 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         return UITableViewCell()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath) as! ArchiveTableViewCell
+        let pvName = currentCell.pvNameTextLabel
+        
+        let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
+        archiveDatePopUp.delegate = self
+        
+        archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+        archiveDatePopUp.frame = self.view.frame
+        archiveDatePopUp.center.y = self.view.frame.height + 100
+        
+        archiveDatePopUp.childView.backgroundColor = UIColor.white
+        archiveDatePopUp.childView.layer.cornerRadius = 12.0
+        
+        self.view.addSubview(archiveDatePopUp)
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveEaseOut, animations: ({
+            archiveDatePopUp.center.y = self.view.frame.height / 2
+            
+        }), completion: nil)
+    }
+    
+    func retrieveDataFromDate(from: Date?, to: Date?) {
+        print(from, to)
+    }
     
     private func errorMessage(message: String) -> Void {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
