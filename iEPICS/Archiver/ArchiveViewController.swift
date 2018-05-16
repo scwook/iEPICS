@@ -28,6 +28,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     let archiveURLSessionConfig = URLSessionConfiguration.default
     var archiveURLSeesion: URLSession?
 
+    var retrievePVName: String?
     
 //    if let serverURL = archiveServerURL {
 //        let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
@@ -186,17 +187,28 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentCell = tableView.cellForRow(at: indexPath) as! ArchiveTableViewCell
-        let pvName = currentCell.pvNameTextLabel
+        retrievePVName = currentCell.pvNameTextLabel.text
         
+        createDatePopUpView()
+    }
+    
+    private func createDatePopUpView() {
         let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
         archiveDatePopUp.delegate = self
         
+        // Init date pop up view
         archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         archiveDatePopUp.frame = self.view.frame
         archiveDatePopUp.center.y = self.view.frame.height + 100
         
         archiveDatePopUp.childView.backgroundColor = UIColor.white
         archiveDatePopUp.childView.layer.cornerRadius = 12.0
+        
+        // Init date
+        archiveDatePopUp.fromDate = Date()
+        archiveDatePopUp.toDate = Date()
+        
+        archiveDatePopUp.datePicker.date = Date()
         
         self.view.addSubview(archiveDatePopUp)
         
@@ -207,7 +219,10 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func retrieveDataFromDate(from: Date?, to: Date?) {
-        print(from, to)
+        if let _ = retrievePVName, let fromDate = from, let toDate = to {
+            let retrieveDate = [fromDate, toDate]
+            self.performSegue(withIdentifier: "archiveRetrievedTableViewController", sender: retrieveDate)
+        }
     }
     
     private func errorMessage(message: String) -> Void {
@@ -215,6 +230,19 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         present(alert, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "archiveRetrievedTableViewController" {
+            let retrievedTableView: RetrievedTableViewController = segue.destination as! RetrievedTableViewController
+        
+            let retrieveInfo = sender as! Array<Date>
+            retrievedTableView.pvName = retrievePVName
+            retrievedTableView.fromDate = retrieveInfo[0]
+            retrievedTableView.toDate = retrieveInfo[1]
+            
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+        }
     }
     
     override var shouldAutorotate: Bool {

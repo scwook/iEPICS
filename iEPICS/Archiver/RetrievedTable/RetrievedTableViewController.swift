@@ -10,6 +10,11 @@ import UIKit
 
 class RetrievedTableViewController: UITableViewController {
 
+    @IBOutlet weak var retrievedTableViewNavigationItem: UINavigationItem!
+    var pvName: String?
+    var fromDate: Date?
+    var toDate: Date?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,6 +23,14 @@ class RetrievedTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        retrievedTableViewNavigationItem.title = pvName
+        print(fromDate, toDate)
+        
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        //
+        //        print(dateformatter.string(from: from!), to)
     }
 
     override func didReceiveMemoryWarning() {

@@ -21,12 +21,20 @@ class ArchiveDatePopUpView: UIView {
     
     var fromDate: Date?
     var toDate: Date?
+    @IBAction func dateSegmentValueChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0, let from = fromDate {
+            datePicker.date = from
+        }
+        else if sender.selectedSegmentIndex == 1, let to = toDate {
+            datePicker.date = to
+        }
+    }
     
     @IBAction func dateValueChanged(_ sender: UIDatePicker) {
         if dateSegmentControl.selectedSegmentIndex == 0 {
             fromDate = sender.date
         }
-        else {
+        else if dateSegmentControl.selectedSegmentIndex == 1 {
             toDate = sender.date
         }
     }
