@@ -8,12 +8,23 @@
 
 import UIKit
 
-class RetrievedTableViewController: UITableViewController {
+class RetrievedTableViewController: UITableViewController, retrieveDataDelegate {
 
     @IBOutlet weak var retrievedTableViewNavigationItem: UINavigationItem!
+    @IBOutlet weak var upLoadButton: UIBarButtonItem!
+    @IBOutlet weak var calendarButton: UIBarButtonItem!
+    
     var pvName: String?
     var fromDate: Date?
     var toDate: Date?
+    
+    var archiveServerURL: String?
+    let archiveURLSessionConfig = URLSessionConfiguration.default
+    var archiveURLSeesion: URLSession?
+    
+    let getData = "/retrieval/data/getData.json"
+    
+    var retrievedData = [Dictionary<String, Any>]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,42 +34,129 @@ class RetrievedTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+
         retrievedTableViewNavigationItem.title = pvName
-        print(fromDate, toDate)
+
+        archiveURLSessionConfig.timeoutIntervalForResource = 5
+        archiveURLSessionConfig.timeoutIntervalForRequest = 5
+        archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+
+        if let pvName = pvName, let from = fromDate, let to = toDate {
+            retrieveArchiveData(pvName: pvName, from: from, to: to)
+        }
         //
         //        print(dateformatter.string(from: from!), to)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func upLoadButtonAction(_ sender: UIBarButtonItem) {
+        
     }
-
-    // MARK: - Table view data source
-
+    
+    @IBAction func calendarButtonAction(_ sender: UIBarButtonItem) {
+        createDatePopUpView()
+    }
+    
+    private func createDatePopUpView() {
+        let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
+        archiveDatePopUp.delegate = self
+        
+        // Init date pop up view
+        archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+        archiveDatePopUp.frame = self.view.frame
+        archiveDatePopUp.center.y = self.view.frame.height + 100
+        
+        archiveDatePopUp.childView.backgroundColor = UIColor.white
+        archiveDatePopUp.childView.layer.cornerRadius = 12.0
+        
+        // Init date
+        archiveDatePopUp.fromDate = fromDate
+        archiveDatePopUp.toDate = toDate
+        
+        archiveDatePopUp.datePicker.date = Date()
+        
+        self.view.addSubview(archiveDatePopUp)
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveEaseOut, animations: ({
+            archiveDatePopUp.center.y = self.view.frame.height / 2
+            
+        }), completion: nil)
+    }
+    
+    private func retrieveArchiveData(pvName: String, from: Date, to: Date) {
+        if let serverURL = archiveServerURL {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            
+            let getDataFrom = dateFormatter.string(from: from)
+            let getDataTo = dateFormatter.string(from: to)
+            
+            let getDataFromURLEncode = getDataFrom.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserve)
+            let getDataToURLEncode = getDataTo.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserve)
+            
+            let pvNameEncode = pvName.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserve)
+            
+            let searchingName = serverURL + getData + "?pv=" + pvNameEncode! + "&from=" + getDataFromURLEncode! + "&to=" + getDataToURLEncode!
+            
+            if let getDataURL = URL(string: searchingName) {
+                //                archiveActivityIndicator.startAnimating()
+                
+                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
+                    (data, response, error) in
+                    guard let archiveData = data, error == nil else {
+                        DispatchQueue.main.async {
+                            self.errorMessage(message: "Can not connect to server")
+//                            self.archiveActivityIndicator.stopAnimating()
+                        }
+                        
+                        return
+                    }
+                    
+                    do {
+                        let jsonRawData = try JSONSerialization.jsonObject(with: data! , options: .allowFragments) as! [Dictionary<String, Any>]
+                        let jsonParsing = jsonRawData[0]
+                        let dictionaryDataFromJson = jsonParsing["data"] as! [[String : Any]]
+                        self.retrievedData = dictionaryDataFromJson
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    } catch {
+                        //
+                    }
+                }
+                archiveURLTask?.resume()
+            }
+        }
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return retrievedData.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
-
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "RetrievedTableViewCell", for: indexPath) as? RetrievedTableViewCell {
+            
+            let data = retrievedData[indexPath.row]
+            let date = Date().addingTimeInterval(data["secs"] as! TimeInterval)
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            
+            let stringDate = dateFormatter.string(from: date)
+            cell.dateTextLabel.text = stringDate
+            
+            return cell
+        }
+        
+        return UITableViewCell()
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -104,5 +202,20 @@ class RetrievedTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func retrieveDataFromDate(from: Date?, to: Date?) {
+        if let pvName = pvName, let fromDate = from, let toDate = to {
+            retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
+        }
+    }
+    
+    private func errorMessage(message: String) -> Void {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alert, animated: true)
+    }
+}
 
+extension CharacterSet {
+    static let rfc3986Unreserve = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
 }
