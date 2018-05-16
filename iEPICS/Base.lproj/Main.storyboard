@@ -153,6 +153,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="nAX-SV-IZG"/>
                     <connections>
+                        <outlet property="archiveButton" destination="MaI-S4-ILl" id="Yra-hC-JeU"/>
                         <outlet property="cableInfoButton" destination="zrb-Zz-8jI" id="aHb-QL-HLr"/>
                         <outlet property="currentIPAddress" destination="lVn-Uk-iwI" id="JCS-eS-acE"/>
                         <outlet property="databroserButton" destination="ofP-jd-DvC" id="MoB-pa-svH"/>
@@ -435,7 +436,7 @@
                         <outlet property="archiveActivityIndicator" destination="RB8-qb-n0z" id="Lu5-zN-F3c"/>
                         <outlet property="archiveSearchBar" destination="Qnw-Aj-8x0" id="jMP-Cl-RMO"/>
                         <outlet property="archiveTableView" destination="m2F-Ao-MUh" id="24T-ks-Ryu"/>
-                        <segue destination="VaK-QG-UtB" kind="show" identifier="archiveRetrievedTableViewController" id="qZP-ws-KWh"/>
+                        <segue destination="8n7-ZB-PzQ" kind="show" identifier="archiveRetrievedTableViewController" id="Bmj-7Y-lVh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MiM-Ym-HST" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -443,66 +444,83 @@
             <point key="canvasLocation" x="976.79999999999995" y="1408.2458770614694"/>
         </scene>
         <!--PV Name-->
-        <scene sceneID="Irl-Rq-H7v">
+        <scene sceneID="hnE-Mg-b2c">
             <objects>
-                <tableViewController id="VaK-QG-UtB" customClass="RetrievedTableViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8cy-dY-lxU">
+                <viewController id="8n7-ZB-PzQ" customClass="RetrievedViewController" customModule="iEPICS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RAn-Ia-5Qw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.84705882352941175" green="0.80784313725490198" blue="0.74901960784313726" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RetrievedTableViewCell" id="Sk4-QE-mVz" customClass="RetrievedTableViewCell" customModule="iEPICS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sk4-QE-mVz" id="PAM-ud-EuK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="wPh-BX-rDo">
-                                            <rect key="frame" x="16" y="11" width="215" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.84705882352941175" green="0.80784313725490198" blue="0.74901960784313726" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bUg-Xw-AsH">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.84705882349999995" green="0.80784313730000001" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RetrievedTableViewCell" id="PGX-vo-qke" customClass="RetrievedTableViewCell" customModule="iEPICS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PGX-vo-qke" id="cM7-Bw-u4Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2018-06-19 23:59:59" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBI-rk-AEF">
+                                                    <rect key="frame" x="15" y="12" width="188" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHC-4U-DLX">
+                                                    <rect key="frame" x="235" y="12" width="125" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.84705882349999995" green="0.80784313730000001" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="dateTextLabel" destination="pBI-rk-AEF" id="yZS-I8-YXP"/>
+                                            <outlet property="valueTextLabel" destination="cHC-4U-DLX" id="QaA-a7-WW8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
-                                    <outlet property="dateTextLabel" destination="wPh-BX-rDo" id="rO9-D6-SsM"/>
+                                    <outlet property="dataSource" destination="8n7-ZB-PzQ" id="zK2-4E-ZSZ"/>
+                                    <outlet property="delegate" destination="8n7-ZB-PzQ" id="SBx-8A-H33"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="VaK-QG-UtB" id="hUN-r5-FzL"/>
-                            <outlet property="delegate" destination="VaK-QG-UtB" id="FxY-ht-OR9"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="PV Name" id="wGB-oi-jQG">
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.84705882349999995" green="0.80784313730000001" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="if6-eA-e0k"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="PV Name" id="GXI-GB-2Zu">
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="Calendar_black" id="ubM-ZK-b1E">
+                            <barButtonItem title="Item" image="Calendar_black" id="NRm-97-Mg4">
                                 <connections>
-                                    <action selector="calendarButtonAction:" destination="VaK-QG-UtB" id="c7H-rc-3i0"/>
+                                    <action selector="calendarButtonAction:" destination="8n7-ZB-PzQ" id="Rqr-pS-BOh"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="Upload_black" id="vsM-XP-8Da">
+                            <barButtonItem title="Item" image="Upload_black" id="sYn-P1-cxt">
                                 <connections>
-                                    <action selector="upLoadButtonAction:" destination="VaK-QG-UtB" id="qbq-px-ztL"/>
+                                    <action selector="upLoadButtonAction:" destination="8n7-ZB-PzQ" id="khC-Wr-Zbo"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="calendarButton" destination="ubM-ZK-b1E" id="iNW-uK-dM7"/>
-                        <outlet property="retrievedTableViewNavigationItem" destination="wGB-oi-jQG" id="gP2-oz-RJn"/>
-                        <outlet property="upLoadButton" destination="vsM-XP-8Da" id="llU-RJ-BRb"/>
+                        <outlet property="calendarButton" destination="NRm-97-Mg4" id="JAd-uE-UMy"/>
+                        <outlet property="retrievedTableView" destination="bUg-Xw-AsH" id="Cot-wi-Rsw"/>
+                        <outlet property="retrievedTableViewNavigationItem" destination="GXI-GB-2Zu" id="4Cq-n4-jdv"/>
+                        <outlet property="upLoadButton" destination="sYn-P1-cxt" id="Tyq-fH-VDb"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fRX-sZ-arR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hbu-4T-c7S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2208.8000000000002" y="1407.3463268365817"/>
+            <point key="canvasLocation" x="2197.5999999999999" y="1407.3463268365817"/>
         </scene>
         <!--Setting-->
         <scene sceneID="gXr-NR-70o">

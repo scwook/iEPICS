@@ -234,7 +234,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "archiveRetrievedTableViewController" {
-            let retrievedTableView: RetrievedTableViewController = segue.destination as! RetrievedTableViewController
+            let retrievedTableView: RetrievedViewController = segue.destination as! RetrievedViewController
         
             let retrieveInfo = sender as! Array<Date>
             retrievedTableView.pvName = retrievePVName

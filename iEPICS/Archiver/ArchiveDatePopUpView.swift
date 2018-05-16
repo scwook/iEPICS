@@ -41,7 +41,7 @@ class ArchiveDatePopUpView: UIView {
     
     @IBAction func okButton(_ sender: UIButton) {
         if delegate != nil {
-           delegate!.retrieveDataFromDate(from: fromDate, to: toDate)
+            delegate!.retrieveDataFromDate(from: fromDate, to: toDate)
             disAppearViewAnimation()
             
         }

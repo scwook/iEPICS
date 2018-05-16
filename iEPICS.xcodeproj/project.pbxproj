@@ -37,6 +37,7 @@
 		4DDDD06820A966F7002504C8 /* ArchiveDatePopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DDDD06720A966F7002504C8 /* ArchiveDatePopUpView.xib */; };
 		4DDDD06B20A986AB002504C8 /* RetrievedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */; };
 		4DDDD06D20A986C8002504C8 /* RetrievedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */; };
+		4DDDD06F20AC0959002504C8 /* RetrievedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */; };
 		4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */; };
 		4DF79C581FC693E90003FC01 /* DataDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C571FC693E90003FC01 /* DataDrawView.swift */; };
 		4DF79C5C1FC695EB0003FC01 /* DataBrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */; };
@@ -93,6 +94,7 @@
 		4DDDD06720A966F7002504C8 /* ArchiveDatePopUpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArchiveDatePopUpView.xib; sourceTree = "<group>"; };
 		4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedTableViewController.swift; sourceTree = "<group>"; };
 		4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedTableViewCell.swift; sourceTree = "<group>"; };
+		4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedViewController.swift; sourceTree = "<group>"; };
 		4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserViewController.swift; sourceTree = "<group>"; };
 		4DF79C571FC693E90003FC01 /* DataDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDrawView.swift; sourceTree = "<group>"; };
 		4DF79C5B1FC695EB0003FC01 /* DataBrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserModel.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			children = (
 				4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */,
 				4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */,
+				4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */,
 			);
 			path = RetrievedTable;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				4D4D77111FA993B6000BCAD1 /* ChannelAccessClient.m in Sources */,
 				4D4D77121FA993B6000BCAD1 /* ChannelAccessData.m in Sources */,
 				4D4D76C31FA97F5F000BCAD1 /* ParentMonitoringTableViewCell.swift in Sources */,
+				4DDDD06F20AC0959002504C8 /* RetrievedViewController.swift in Sources */,
 				4DF79C5E1FC697530003FC01 /* AxisDrawView.swift in Sources */,
 				4D95C9E0207425FC006D59ED /* MotionViewController.swift in Sources */,
 				4D4D77141FA9942E000BCAD1 /* ChannelAccessNotification.swift in Sources */,

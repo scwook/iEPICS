@@ -15,6 +15,7 @@ class MainMenuViewController: UIViewController {
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var cableInfoButton: UIButton!
     @IBOutlet weak var motionButton: UIButton!
+    @IBOutlet weak var archiveButton: UIButton!
     //    @IBOutlet weak var manuView: UIView!
 //    @IBOutlet weak var backgroundImageView: UIImageView!
     
@@ -29,6 +30,7 @@ class MainMenuViewController: UIViewController {
     var monitoringButtonImageName = "Monitoring"
     var chartButtonImageName = "Chart"
     var motionButtonImageName = "Motion"
+    var archiveButtonImageName = "Floppy"
     var cableInfoButtonImageName = "CableInfo"
     var settingButtonImageName = "Setting"
     var scwookMarginFromBottom: CGFloat = 15
@@ -43,12 +45,14 @@ class MainMenuViewController: UIViewController {
         monitoringButton.setTitle(nil, for: .normal)
         databroserButton.setTitle(nil, for: .normal)
         motionButton.setTitle(nil, for: .normal)
+        archiveButton.setTitle(nil, for: .normal)
         cableInfoButton.setTitle(nil, for: .normal)
         settingButton.setTitle(nil, for: .normal)
 
         monitoringButton.translatesAutoresizingMaskIntoConstraints = false
         databroserButton.translatesAutoresizingMaskIntoConstraints = false
         motionButton.translatesAutoresizingMaskIntoConstraints = false
+        archiveButton.translatesAutoresizingMaskIntoConstraints = false
         cableInfoButton.translatesAutoresizingMaskIntoConstraints = false
         settingButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -62,6 +66,7 @@ class MainMenuViewController: UIViewController {
             monitoringButtonImageName = "Monitoring_4inch"
             chartButtonImageName = "Chart_4inch"
             motionButtonImageName = "Motion_4inch"
+            archiveButtonImageName = "Floppy_4inch"
             cableInfoButtonImageName = "CableInfo_4inch"
             settingButtonImageName = "Setting_4inch"
             
@@ -72,6 +77,7 @@ class MainMenuViewController: UIViewController {
             monitoringButtonImageName = "Monitoring_4inch"
             chartButtonImageName = "Chart_4inch"
             motionButtonImageName = "Motion_4inch"
+            archiveButtonImageName = "Floppy_4inch"
             cableInfoButtonImageName = "CableInfo_4inch"
             settingButtonImageName = "Setting_4inch"
 
@@ -85,6 +91,7 @@ class MainMenuViewController: UIViewController {
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
             motionButtonImageName = "Motion"
+            archiveButtonImageName = "Floppy"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             
@@ -95,6 +102,7 @@ class MainMenuViewController: UIViewController {
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
             motionButtonImageName = "Motion"
+            archiveButtonImageName = "Floppy"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             scwookMarginFromBottom = 5
@@ -106,6 +114,7 @@ class MainMenuViewController: UIViewController {
             monitoringButtonImageName = "Monitoring"
             chartButtonImageName = "Chart"
             motionButtonImageName = "Motion"
+            archiveButtonImageName = "Floppy"
             cableInfoButtonImageName = "CableInfo"
             settingButtonImageName = "Setting"
             break
@@ -114,6 +123,7 @@ class MainMenuViewController: UIViewController {
         monitoringButton.setImage(UIImage(named: monitoringButtonImageName), for: .normal)
         databroserButton.setImage(UIImage(named: chartButtonImageName), for: .normal)
         motionButton.setImage(UIImage(named: motionButtonImageName), for: .normal)
+        archiveButton.setImage(UIImage(named: archiveButtonImageName), for: .normal)
         cableInfoButton.setImage(UIImage(named: cableInfoButtonImageName), for: .normal)
         settingButton.setImage(UIImage(named: settingButtonImageName), for: .normal)
 
@@ -132,14 +142,19 @@ class MainMenuViewController: UIViewController {
         motionButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton * 2).isActive = true
         motionButton.centerYAnchor.constraint(equalTo: cableInfoButton.centerYAnchor, constant: -marginBetweenButton * 2).isActive = true
         
+        archiveButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        archiveButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        archiveButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton * 2).isActive = true
+        archiveButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
+
         cableInfoButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         cableInfoButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        cableInfoButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: -marginBetweenButton).isActive = true
+        cableInfoButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: 0).isActive = true
         cableInfoButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
         
         settingButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         settingButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
-        settingButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton).isActive = true
+        settingButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor, constant: marginBetweenButton * 2).isActive = true
         settingButton.centerYAnchor.constraint(equalTo: margins.bottomAnchor, constant: -marginFromBottom).isActive = true
         
 
