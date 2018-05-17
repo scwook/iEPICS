@@ -21,6 +21,7 @@ class ArchiveDatePopUpView: UIView {
     
     var fromDate: Date?
     var toDate: Date?
+    
     @IBAction func dateSegmentValueChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0, let from = fromDate {
             datePicker.date = from
@@ -41,6 +42,9 @@ class ArchiveDatePopUpView: UIView {
     
     @IBAction func okButton(_ sender: UIButton) {
         if delegate != nil {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+            
             delegate!.retrieveDataFromDate(from: fromDate, to: toDate)
             disAppearViewAnimation()
             

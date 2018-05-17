@@ -493,6 +493,11 @@
                                     <outlet property="delegate" destination="8n7-ZB-PzQ" id="SBx-8A-H33"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bpn-1f-Npg">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.25098040700000002" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.84705882349999995" green="0.80784313730000001" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="if6-eA-e0k"/>
@@ -512,6 +517,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="archiveActivityIndicator" destination="Bpn-1f-Npg" id="1Fl-B4-0mp"/>
                         <outlet property="calendarButton" destination="NRm-97-Mg4" id="JAd-uE-UMy"/>
                         <outlet property="retrievedTableView" destination="bUg-Xw-AsH" id="Cot-wi-Rsw"/>
                         <outlet property="retrievedTableViewNavigationItem" destination="GXI-GB-2Zu" id="4Cq-n4-jdv"/>

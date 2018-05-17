@@ -47,7 +47,7 @@
                             </connections>
                         </button>
                         <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="GDu-yI-2mq">
-                            <rect key="frame" x="25" y="80" width="245" height="133"/>
+                            <rect key="frame" x="18" y="80" width="259" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <date key="date" timeIntervalSinceReferenceDate="547973023.88612795">
                                 <!--2018-05-14 06:43:43 +0000-->

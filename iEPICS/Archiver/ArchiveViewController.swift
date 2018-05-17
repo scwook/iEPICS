@@ -123,6 +123,8 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
 //                }
             }
         }
+        
+        searchBar.endEditing(true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
