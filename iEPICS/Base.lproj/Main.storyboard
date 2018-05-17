@@ -229,7 +229,9 @@
                                     </connections>
                                 </button>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="Upload_black" id="EPw-aQ-mCb"/>
+                            <barButtonItem title="Item" image="Upload_black" id="EPw-aQ-mCb">
+                                <inset key="imageInsets" minX="24" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -402,6 +404,14 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xJ-eu-N8m">
+                                                    <rect key="frame" x="344" y="13" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YGL-s5-WyN">
+                                                    <rect key="frame" x="320" y="13" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.84705882349999995" green="0.80784313730000001" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -505,23 +515,25 @@
                     <navigationItem key="navigationItem" title="PV Name" id="GXI-GB-2Zu">
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="Calendar_black" id="NRm-97-Mg4">
+                                <inset key="largeContentSizeImageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
                                 <connections>
-                                    <action selector="calendarButtonAction:" destination="8n7-ZB-PzQ" id="Rqr-pS-BOh"/>
+                                    <action selector="calendarBarButtonAction:" destination="8n7-ZB-PzQ" id="Rqr-pS-BOh"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="Upload_black" id="sYn-P1-cxt">
+                                <inset key="imageInsets" minX="24" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
-                                    <action selector="upLoadButtonAction:" destination="8n7-ZB-PzQ" id="khC-Wr-Zbo"/>
+                                    <action selector="upLoadBarButtonAction:" destination="8n7-ZB-PzQ" id="khC-Wr-Zbo"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="archiveActivityIndicator" destination="Bpn-1f-Npg" id="1Fl-B4-0mp"/>
-                        <outlet property="calendarButton" destination="NRm-97-Mg4" id="JAd-uE-UMy"/>
+                        <outlet property="calendarBarButton" destination="NRm-97-Mg4" id="JAd-uE-UMy"/>
                         <outlet property="retrievedTableView" destination="bUg-Xw-AsH" id="Cot-wi-Rsw"/>
                         <outlet property="retrievedTableViewNavigationItem" destination="GXI-GB-2Zu" id="4Cq-n4-jdv"/>
-                        <outlet property="upLoadButton" destination="sYn-P1-cxt" id="Tyq-fH-VDb"/>
+                        <outlet property="upLoadBarButton" destination="sYn-P1-cxt" id="Tyq-fH-VDb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hbu-4T-c7S" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1499,7 +1511,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wzN-5Z-6AW"/>
-        <segue reference="fYh-vg-6fm"/>
-        <segue reference="HPh-di-gIm"/>
+        <segue reference="dck-XA-d2z"/>
+        <segue reference="APA-hH-wj0"/>
     </inferredMetricsTieBreakers>
 </document>

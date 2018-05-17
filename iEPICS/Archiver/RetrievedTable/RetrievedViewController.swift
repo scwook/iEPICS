@@ -10,8 +10,8 @@ import UIKit
 
 class RetrievedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, retrieveDataDelegate {
     @IBOutlet weak var retrievedTableViewNavigationItem: UINavigationItem!
-    @IBOutlet weak var upLoadButton: UIBarButtonItem!
-    @IBOutlet weak var calendarButton: UIBarButtonItem!
+    @IBOutlet weak var upLoadBarButton: UIBarButtonItem!
+    @IBOutlet weak var calendarBarButton: UIBarButtonItem!
     @IBOutlet weak var retrievedTableView: UITableView!
     @IBOutlet weak var archiveActivityIndicator: UIActivityIndicatorView!
     
@@ -28,11 +28,11 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var retrievedData = [Dictionary<String, Any>]()
     
-    @IBAction func upLoadButtonAction(_ sender: UIBarButtonItem) {
+    @IBAction func upLoadBarButtonAction(_ sender: UIBarButtonItem) {
         upLoadArchiveData(pvName: pvName!, from: fromDate!, to: toDate!)
     }
     
-    @IBAction func calendarButtonAction(_ sender: UIBarButtonItem) {
+    @IBAction func calendarBarButtonAction(_ sender: UIBarButtonItem) {
         createDatePopUpView()
     }
     

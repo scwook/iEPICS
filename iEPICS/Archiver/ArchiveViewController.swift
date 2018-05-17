@@ -14,10 +14,11 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var archiveSearchBar: UISearchBar!
     @IBOutlet weak var archiveActivityIndicator: UIActivityIndicatorView!
     
-    var archivePVList = [String]()
+//    var archivePVList = [String]()
+    var archivePVInfo = [Dictionary<String, Any>]()
 //    var isArchiveEnabled = false
     
-    let getData = "http://192.168.3.231:17665/retrieval/data/getData.csv?pv=scwookHost2:aiExample1&from=2018-04-29T15%3A00%3A00.000Z&to=2018-05-01T15%3A00%3A00.000Z"
+//    let getData = "http://192.168.3.231:17665/retrieval/data/getData.csv?pv=scwookHost2:aiExample1&from=2018-04-29T15%3A00%3A00.000Z&to=2018-05-01T15%3A00%3A00.000Z"
     let getAllPVs = "/mgmt/bpl/getAllPVs"
     let getPVState = "/mgmt/bpl/getPVStatus"
     
@@ -79,11 +80,13 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
         archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+        
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let pvName = searchBar.text, let serverURL = archiveServerURL {
-            let searchingName = serverURL + getAllPVs + "?pv=" + pvName
+            let pvNameEncode = pvName.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
+            let searchingName = serverURL + getPVState + "?pv=" + pvNameEncode!
             
             if let getDataURL = URL(string: searchingName) {
                 archiveActivityIndicator.startAnimating()
@@ -99,14 +102,25 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
                         return
                     }
                     
-                    let resultData = String(data: archiveData, encoding: String.Encoding.utf8) ?? "Error Decoding"
-                    let filter = resultData.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",").map{ String($0) }
                     
-                    DispatchQueue.main.async {
-                        self.archivePVList = filter
-                        self.archiveTableView.reloadData()
-                        self.archiveActivityIndicator.stopAnimating()
+//                    let resultData = String(data: archiveData, encoding: String.Encoding.utf8) ?? "Error Decoding"
+//                    let filter = resultData.replacingOccurrences(of: "[\\{\\}\\[\\]\"\\n]", with: "", options: .regularExpression, range: nil).split(separator: ",").map{ String($0) }
+
+                    do {
+                        let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [Dictionary<String, Any>]
+                        DispatchQueue.main.async {
+                            self.archivePVInfo = jsonRawData
+                            self.archiveTableView.reloadData()
+                            self.archiveActivityIndicator.stopAnimating()
+                        }
+                    } catch {
+                        
                     }
+                    
+//                    DispatchQueue.main.async {
+//                        self.archiveTableView.reloadData()
+//                        self.archiveActivityIndicator.stopAnimating()
+//                    }
                 }
                 
                 archiveURLTask?.resume()
@@ -134,7 +148,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return archivePVList.count
+        return archivePVInfo.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -154,10 +168,18 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ArchiveTableCell", for: indexPath) as? ArchiveTableViewCell {
-            let pvName = archivePVList[indexPath.row]
+            let pvInfo = archivePVInfo[indexPath.row]
+            let pvName = pvInfo["pvName"] as! String
+        
+            if let status = pvInfo["status"] {
+                print(status as! String)
+            }
+            
+            if let connectionState = pvInfo["connectionState"] {
+                print(connectionState as! String)
+            }
+                        
             cell.pvNameTextLabel.text = pvName
-            
-            
             
 //            let getURL = archiveServerURL! + getPVState + "?pv=" + pvName
 //            if let url = URL(string: getURL) {
