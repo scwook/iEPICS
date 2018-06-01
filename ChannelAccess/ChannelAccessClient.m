@@ -683,6 +683,7 @@ void eventCallbackString( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -727,6 +728,7 @@ void eventCallbackShort( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -781,6 +783,7 @@ void eventCallbackFloat( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -825,6 +828,7 @@ void eventCallbackEnum( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -869,6 +873,7 @@ void eventCallbackLong( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -922,6 +927,7 @@ void eventCallbackDouble( evargs eha) {
         myData.alarmStatus = status;
         myData.elementCount = nElement;
         myData.timeStampSince1990 = timeStampPosix.secPastEpoch;
+        myData.timeStampNanoSec = timeStampPosix.nsec;
         myData.host = host;
         
         [myChannelAccess ChannelAccessSetCAData:myData name:pname];
@@ -929,105 +935,3 @@ void eventCallbackDouble( evargs eha) {
         [notification EventCallbackToSwiftWithPvName:pname];
     }
 }
-
-//void eventCallback( struct event_handler_args eha) {
-//
-//    ChannelAccessClient *myChannelAccess = [ChannelAccessClient sharedObject];
-//
-//    if( eha.type == DBR_TIME_STRING) {
-//        //const char  *pdata = (char *)eha.dbr;
-//        struct dbr_time_string *pTD = eha.dbr;
-//        const dbr_string_t *pValue = &pTD->value;
-//
-//        char timeStamp[32];
-//
-//        epicsTimeToStrftime(timeStamp, sizeof(timeStamp), "%Y-%m-%d %H:%M:%S", &pTD->stamp);
-//        NSString *ptimestamp = [NSString stringWithUTF8String:timeStamp];
-//
-//        unsigned long nElement = eha.count;
-//        NSString *elementCount = [[NSNumber numberWithLong:nElement] stringValue];
-//        //NSString *elementCount = [[NSNumber numberWithLong:ca_element_count(eha.chid)] stringValue];
-//        NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
-//        NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-//        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
-//
-//        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
-//        //NSString *pvalue = [NSString stringWithUTF8String:pTD->value];
-//
-//        ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
-//
-//        [myData.value removeAllObjects];
-//
-//        if( nElement > 1 ) {
-//            for(int i = 0; i < nElement; i++) {
-//                //[myChannelAccess ChannelAccessArrayDataAddObject:pValue[i]];
-//                //[pvArrayData addObject: [NSNumber numberWithDouble:pValue[i]]];
-//                [myData.value addObject:[NSString stringWithUTF8String:pValue[i]]];
-//            }
-//        }
-//        else {
-//            [myData.value addObject:[NSString stringWithUTF8String:pValue[0]]];
-//        }
-//
-//        //myData.value = pvalue;
-//        myData.timeStamp = ptimestamp;
-//        myData.alarmSeverity = severity;
-//        myData.alarmStatus = status;
-//        myData.elementCount = elementCount;
-//        myData.host = host;
-//
-//        [myChannelAccess ChannelAccessSetCAData:myData name:pname];
-//
-//        [notification EventCallbackToSwiftWithPvName:pname];
-//    }
-//    else if( eha.type == DBR_TIME_DOUBLE) {
-//        //const char  *pdata = (char *)eha.dbr;
-//        struct dbr_time_double *pTD = eha.dbr;
-//        const dbr_double_t *pValue = &pTD->value;
-//
-//        char timeStamp[32];
-//
-//        //const dbr_double_t * pValue;
-//        //pValue = & pTD->value;
-//
-//        epicsTimeToStrftime(timeStamp, sizeof(timeStamp), "%Y-%m-%d %H:%M:%S", &pTD->stamp);
-//        NSString *ptimestamp = [NSString stringWithUTF8String:timeStamp];
-//
-//        unsigned long nElement = eha.count;
-//        NSString *elementCount = [[NSNumber numberWithLong:nElement] stringValue];
-//        //NSString *elementCount = [[NSNumber numberWithLong:ca_element_count(eha.chid)] stringValue];
-//        NSString *severity = [NSString stringWithUTF8String:epicsAlarmSeverityStrings[pTD->severity]];
-//        NSString *status = [NSString stringWithUTF8String:epicsAlarmConditionStrings[pTD->status]];
-//        NSString *host = [NSString stringWithUTF8String:ca_host_name(eha.chid)];
-//
-//        NSString *pname = [NSString stringWithUTF8String:ca_name(eha.chid)];
-////        NSString *pvalue = [[NSNumber numberWithDouble:pValue[0]] stringValue];
-//        //NSString *pvalue = @"Array Data";
-//
-//        ChannelAccessData *myData = [myChannelAccess ChannelAccessGetCAData:pname];
-//
-//        [myData.value removeAllObjects];
-//
-//        if( nElement > 1 ) {
-//            for(int i = 0; i < nElement; i++) {
-//                //[myChannelAccess ChannelAccessArrayDataAddObject:pValue[i]];
-//                //[pvArrayData addObject: [NSNumber numberWithDouble:pValue[i]]];
-//                [myData.value addObject:[[NSNumber numberWithDouble:pValue[i]] stringValue]];
-//            }
-//        }
-//        else {
-//            [myData.value addObject:[[NSNumber numberWithDouble:*pValue] stringValue]];
-//        }
-//
-//        //myData.value = pvalue;
-//        myData.timeStamp = ptimestamp;
-//        myData.alarmSeverity = severity;
-//        myData.alarmStatus = status;
-//        myData.elementCount = elementCount;
-//        myData.host = host;
-//
-//        [myChannelAccess ChannelAccessSetCAData:myData name:pname];
-//
-//        [notification EventCallbackToSwiftWithPvName:pname];
-//    }
-//}

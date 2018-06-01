@@ -30,12 +30,10 @@
 		4DCA906520386C4800B5E01B /* CableInfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */; };
 		4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906820386CF100B5E01B /* SecondCPViewController.swift */; };
 		4DCA906B20386D0A00B5E01B /* FirstCPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */; };
-		4DDDD03E209ACBD3002504C8 /* ArchiveTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD03D209ACBD3002504C8 /* ArchiveTableViewController.swift */; };
 		4DDDD040209ACD92002504C8 /* ArchiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD03F209ACD92002504C8 /* ArchiveTableViewCell.swift */; };
 		4DDDD042209AFEC1002504C8 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD041209AFEC1002504C8 /* ArchiveViewController.swift */; };
 		4DDDD06620A966CD002504C8 /* ArchiveDatePopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06520A966CD002504C8 /* ArchiveDatePopUpView.swift */; };
 		4DDDD06820A966F7002504C8 /* ArchiveDatePopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DDDD06720A966F7002504C8 /* ArchiveDatePopUpView.xib */; };
-		4DDDD06B20A986AB002504C8 /* RetrievedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */; };
 		4DDDD06D20A986C8002504C8 /* RetrievedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */; };
 		4DDDD06F20AC0959002504C8 /* RetrievedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */; };
 		4DF79C561FC693A80003FC01 /* DataBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */; };
@@ -87,12 +85,10 @@
 		4DCA906420386C4800B5E01B /* CableInfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CableInfoPageViewController.swift; sourceTree = "<group>"; };
 		4DCA906820386CF100B5E01B /* SecondCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCPViewController.swift; sourceTree = "<group>"; };
 		4DCA906A20386D0A00B5E01B /* FirstCPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCPViewController.swift; sourceTree = "<group>"; };
-		4DDDD03D209ACBD3002504C8 /* ArchiveTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewController.swift; sourceTree = "<group>"; };
 		4DDDD03F209ACD92002504C8 /* ArchiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveTableViewCell.swift; sourceTree = "<group>"; };
 		4DDDD041209AFEC1002504C8 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
 		4DDDD06520A966CD002504C8 /* ArchiveDatePopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveDatePopUpView.swift; sourceTree = "<group>"; };
 		4DDDD06720A966F7002504C8 /* ArchiveDatePopUpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArchiveDatePopUpView.xib; sourceTree = "<group>"; };
-		4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedTableViewController.swift; sourceTree = "<group>"; };
 		4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedTableViewCell.swift; sourceTree = "<group>"; };
 		4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedViewController.swift; sourceTree = "<group>"; };
 		4DF79C551FC693A80003FC01 /* DataBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBrowserViewController.swift; sourceTree = "<group>"; };
@@ -227,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				4DDDD06920A985E4002504C8 /* RetrievedTable */,
-				4DDDD03D209ACBD3002504C8 /* ArchiveTableViewController.swift */,
 				4DDDD03F209ACD92002504C8 /* ArchiveTableViewCell.swift */,
 				4DDDD041209AFEC1002504C8 /* ArchiveViewController.swift */,
 				4DDDD06520A966CD002504C8 /* ArchiveDatePopUpView.swift */,
@@ -239,7 +234,6 @@
 		4DDDD06920A985E4002504C8 /* RetrievedTable */ = {
 			isa = PBXGroup;
 			children = (
-				4DDDD06A20A986AB002504C8 /* RetrievedTableViewController.swift */,
 				4DDDD06C20A986C8002504C8 /* RetrievedTableViewCell.swift */,
 				4DDDD06E20AC0959002504C8 /* RetrievedViewController.swift */,
 			);
@@ -367,9 +361,7 @@
 				4DDDD06620A966CD002504C8 /* ArchiveDatePopUpView.swift in Sources */,
 				4DDDD06D20A986C8002504C8 /* RetrievedTableViewCell.swift in Sources */,
 				4DCA906920386CF100B5E01B /* SecondCPViewController.swift in Sources */,
-				4DDDD03E209ACBD3002504C8 /* ArchiveTableViewController.swift in Sources */,
 				4D4D76C91FA97F8D000BCAD1 /* SettingViewController.swift in Sources */,
-				4DDDD06B20A986AB002504C8 /* RetrievedTableViewController.swift in Sources */,
 				4D258B151FCF9300004083B2 /* ArrayTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

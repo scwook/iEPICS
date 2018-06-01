@@ -47,13 +47,13 @@ class AxisDrawView: UIView {
         
         let bigTickScale = 5 * tickInfo.dt
         
-        let date = Date()
-        let currentTime = date.timeIntervalSince1970 + dataBrowserModel.timeOffset
+//        let currentTime = date.timeIntervalSince1970 + dataBrowserModel.timeOffset
+        let currentTime = dataBrowserModel.timeOffset
         
         let currentPositionOffset = CGFloat(Int(currentTime) % bigTickScale) * tickInfo.dx
         movePositionX -= CGFloat(currentPositionOffset)
-        let originX = movePositionX
         
+        let date = Date()
         let currentTimeOffset = Int(currentTime) % bigTickScale
         let formatter = DateFormatter()
         
@@ -74,6 +74,7 @@ class AxisDrawView: UIView {
         var legendLabel: String = "yyyy-MM-dd"
         let size: CGSize = legendLabel.size(withAttributes: nil)
         
+        let originX = movePositionX
         while( movePositionX > viewSize.origin.x ) {
             
             if( count % 5 == 0) {
@@ -132,7 +133,7 @@ class AxisDrawView: UIView {
     private func testDrawY() {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         let tickPath = UIBezierPath()
-        let tickInfo = dataBrowserModel.test()
+        let tickInfo = dataBrowserModel.getDyInfoValue()
         
         let viewSize = dataBrowserModel.drawViewSize
         let movePositionX = viewSize.origin.x

@@ -11,8 +11,10 @@ import UIKit
 class DataDrawView: UIView {
 
     var data = [Double]()
-    var time: Array<Int> = [Int]()
-    var position: Array<Int> = [Int]()
+    var time = [Int]()
+    var nSecTime = [Int]()
+    
+    private var position: Array<Int> = [Int]()
     var probeIndex: Int? = nil
 //    var arrayData = [Double]()
     
@@ -54,6 +56,57 @@ class DataDrawView: UIView {
         path.stroke()
     }
     
+/* First version draw function */
+//    private func DrawValue() {
+//        let plot = UIBezierPath()
+//
+//        var timeOffset: Int = 0
+//        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//        let dtInfo = dataBrowserModel.getDxInfoValue()
+//        let dx = dtInfo.dx
+//        let startPoint: CGPoint = CGPoint(x: self.bounds.width, y: self.bounds.height - ValueToPixel(value: CGFloat(data[data.count - 1])))
+//
+//        if (data.count > 0) {
+//            plot.move(to: startPoint)
+//            var index = data.count
+//            let currentTime = Date()
+//            timeOffset = Int(currentTime.timeIntervalSince1970 + dataBrowserModel.timeOffset) - time[index - 1]
+//
+//            position.removeAll()
+//            for i in 0..<index {
+//                let dataLocation = CGPoint(x: startPoint.x - dx * CGFloat(i + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[index-1])))
+//                plot.addLine(to: dataLocation)
+//
+//                //position.append(Int(dataLocation.x))
+//                position.insert(Int(dataLocation.x), at: 0)
+//                if let probe = probeIndex, i == probeIndex {
+//                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
+//                    let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
+//
+////                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).setFill()
+//                    UIColor.black.setFill()
+//                    circle.fill()
+//
+////                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+//                    let valueString = String(describing: data[probe])
+//                    valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
+//                }
+//
+//                index = index - 1
+//            }
+//
+//            //position = position.reversed()
+//
+////            UIColor.black.set()
+//            UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
+//            plot.lineJoinStyle = .round
+//            plot.lineWidth = 2.5
+//            plot.stroke()
+//        }
+//
+//    }
+    
+    /* Second version draw function */
     private func DrawValue() {
         let plot = UIBezierPath()
         
@@ -61,30 +114,33 @@ class DataDrawView: UIView {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         let dtInfo = dataBrowserModel.getDxInfoValue()
         let dx = dtInfo.dx
-        let startPoint: CGPoint = CGPoint(x: self.bounds.width, y: self.bounds.height - ValueToPixel(value: CGFloat(data[data.count - 1])))
+        
+        // Plotting line will be started form right to left of view.
+        let startPoint = CGPoint(x: self.bounds.width, y: self.bounds.height - ValueToPixel(value: CGFloat(data[data.count - 1])))
         
         if (data.count > 0) {
             plot.move(to: startPoint)
             var index = data.count
-            let currentTime = Date()
-            timeOffset = Int(currentTime.timeIntervalSince1970 + dataBrowserModel.timeOffset) - time[index - 1]
+//            let currentTime = Date()
+//            timeOffset = Int(currentTime.timeIntervalSince1970 + dataBrowserModel.timeOffset) - time[index - 1]
+            timeOffset = Int(dataBrowserModel.timeOffset) - time[index - 1]
             
             position.removeAll()
-            for i in 0..<index {
+            for i in 0..<data.count {
                 let dataLocation = CGPoint(x: startPoint.x - dx * CGFloat(i + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[index-1])))
                 plot.addLine(to: dataLocation)
                 
-                //position.append(Int(dataLocation.x))
+                // Insert data position to find when navigation line is moved on view
                 position.insert(Int(dataLocation.x), at: 0)
+                
+                // Find data for navigation line and draw circle
                 if let probe = probeIndex, i == probeIndex {
                     let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
                     let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
-//                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).setFill()
                     UIColor.black.setFill()
                     circle.fill()
                     
-//                    UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
                     let valueString = String(describing: data[probe])
                     valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
                 }
@@ -94,7 +150,7 @@ class DataDrawView: UIView {
             
             //position = position.reversed()
             
-//            UIColor.black.set()
+            //            UIColor.black.set()
             UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
             plot.lineJoinStyle = .round
             plot.lineWidth = 2.5
@@ -177,7 +233,7 @@ class DataDrawView: UIView {
         
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
 //        let dtInfo = dataBrowserModel.getDyInfoValue()
-        let dtInfo = dataBrowserModel.test()
+        let dtInfo = dataBrowserModel.getDyInfoValue()
         let offsetValue = dataBrowserModel.value1
         let pixel = (value - offsetValue) * dtInfo.dy
         

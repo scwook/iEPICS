@@ -55,7 +55,58 @@ class DataBrowserModel {
         return returnValue
     }
     
-    public func test() -> (dy: CGFloat, scale: CGFloat, exp: Int){
+    /* First version get dy information function */
+//    public func getDyInfoValue() -> (dy: CGFloat, scale: CGFloat, exp: Int) {
+//
+//        let valueRange = abs(value2 - value1)
+//        let pixelPerValue = drawViewSize.height / valueRange
+//
+//        var count = 0;
+//        var pixelPerTick = pixelPerValue
+//        var valuePerTick: CGFloat = 1
+//
+//        let maxPixelPerTick = drawViewSize.height / dyNumberOfMinTick
+//        let minPixelPerTick = drawViewSize.height / dyNumberOfMaxTick
+//
+//        if( pixelPerValue > maxPixelPerTick ) {
+//            while( pixelPerTick > maxPixelPerTick ) {
+//                pixelPerTick /= 2
+//                count += 1
+//                valuePerTick = pow(2.0, -CGFloat(count))
+//            }
+//        }
+//        else {
+//            while( pixelPerTick < minPixelPerTick ) {
+//                pixelPerTick *= 2
+//                count += 1
+//                valuePerTick = pow(2.0, CGFloat(count))
+//            }
+//        }
+//
+//        scale = valuePerTick
+//
+//        var exponentialReference = (valueRange + abs(value1 + value2)) / 2
+//        var exponentValue: Int = 0
+//
+//        if( exponentialReference < 1 ) {
+//            while( exponentialReference <= 0.1 ) {
+//                exponentialReference *= 10
+//                exponentValue -= 1
+//            }
+//        }
+//        else {
+//            while( exponentialReference >= 10 ) {
+//                exponentialReference /= 10
+//                exponentValue += 1
+//            }
+//        }
+//
+//        let returnValue = (dy: pixelPerValue, scale: valuePerTick, exp: exponentValue)
+//        return returnValue
+//    }
+    
+    /* Second version get dy information function */
+    public func getDyInfoValue() -> (dy: CGFloat, scale: CGFloat, exp: Int){
         let valueRange = abs(value2 - value1)
         let pixelPerValue = drawViewSize.height / valueRange
 
@@ -104,55 +155,7 @@ class DataBrowserModel {
         return (dy: pixelPerValue, scale: CGFloat(tickRange) / 5.0, exp: count)
         
     }
-    
-    public func getDyInfoValue() -> (dy: CGFloat, scale: CGFloat, exp: Int) {
-        
-        let valueRange = abs(value2 - value1)
-        let pixelPerValue = drawViewSize.height / valueRange
-        
-        var count = 0;
-        var pixelPerTick = pixelPerValue
-        var valuePerTick: CGFloat = 1
-        
-        let maxPixelPerTick = drawViewSize.height / dyNumberOfMinTick
-        let minPixelPerTick = drawViewSize.height / dyNumberOfMaxTick
-        
-        if( pixelPerValue > maxPixelPerTick ) {
-            while( pixelPerTick > maxPixelPerTick ) {
-                pixelPerTick /= 2
-                count += 1
-                valuePerTick = pow(2.0, -CGFloat(count))
-            }
-        }
-        else {
-            while( pixelPerTick < minPixelPerTick ) {
-                pixelPerTick *= 2
-                count += 1
-                valuePerTick = pow(2.0, CGFloat(count))
-            }
-        }
-        
-        scale = valuePerTick
-        
-        var exponentialReference = (valueRange + abs(value1 + value2)) / 2
-        var exponentValue: Int = 0
-        
-        if( exponentialReference < 1 ) {
-            while( exponentialReference <= 0.1 ) {
-                exponentialReference *= 10
-                exponentValue -= 1
-            }
-        }
-        else {
-            while( exponentialReference >= 10 ) {
-                exponentialReference /= 10
-                exponentValue += 1
-            }
-        }
-        
-        let returnValue = (dy: pixelPerValue, scale: valuePerTick, exp: exponentValue)
-        return returnValue
-    }
+
     
     public func getArrayDxInfoValue() -> (dx: CGFloat, dt: Int) {
         let pixelPerCount = drawViewSize.width / CGFloat(elementCount)

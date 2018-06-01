@@ -17,6 +17,7 @@
 @synthesize dataType;
 @synthesize elementCount;
 @synthesize timeStampSince1990;
+@synthesize timeStampNanoSec;
 @synthesize timeStamp;
 @synthesize alarmSeverity;
 @synthesize alarmStatus;
@@ -32,6 +33,7 @@
         dataType = @"Undefined";
         elementCount = 0;
         timeStampSince1990 = 0;
+        timeStampNanoSec = 0;
         timeStamp = @"Undefined";
         alarmSeverity = @"Undefined";
         alarmStatus = @"Undefined";

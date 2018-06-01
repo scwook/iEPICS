@@ -25,13 +25,17 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     let getPVState = "/mgmt/bpl/getPVStatus"
     
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
-
+    let caEventNotification = Notification.Name("EventCallbackNotification")
+    
+    var caEventNotificationProtocol: NSObjectProtocol?
     var caConnectionNotificationProtocol: NSObjectProtocol?
     var appOrientationDidChangeProtocol: NSObjectProtocol?
     var appDidEnterBackgroundProtocol: NSObjectProtocol?
     var appWillEnterForegroundProtocol: NSObjectProtocol?
     
     let dateFormatter = DateFormatter()
+    
+    let drawTimeInterval: TimeInterval = 1.0
     
     @IBOutlet weak var dataDrawView: DataDrawView!
     @IBOutlet weak var axisDrawView: AxisDrawView!
@@ -62,6 +66,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 
     }
     override func viewDidAppear(_ animated: Bool) {
+        caEventNotificationProtocol = NotificationCenter.default.addObserver(forName: caEventNotification, object: nil, queue: nil, using: catchEventNotification)
         caConnectionNotificationProtocol = NotificationCenter.default.addObserver(forName: caConnectionNotification, object: nil, queue: nil, using: catchConnectionNotification)
         appOrientationDidChangeProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIDeviceOrientationDidChange, object: nil, queue: OperationQueue.main, using: rotated)
         appDidEnterBackgroundProtocol = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationDidEnterBackground, object: nil, queue: OperationQueue.main, using: applicationDidEnterBackground)
@@ -82,6 +87,10 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //        NotificationCenter.default.removeObserver(self)
         if let timer = drawTimer {
             timer.invalidate()
+        }
+        
+        if let eventNotificationProtocol = caEventNotificationProtocol {
+            NotificationCenter.default.removeObserver(eventNotificationProtocol)
         }
         
         if let connectionNotificationProtocol = caConnectionNotificationProtocol {
@@ -128,52 +137,56 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
 //        Timer Method
         if let pvNameDictionary = caObject.channelAccessGetDictionary() {
             if pvNameDictionary.count != 0 {
-                let myData = pvNameDictionary[pvName] as! ChannelAccessData
-                let value = myData.value as NSMutableArray
+//                let myData = pvNameDictionary[pvName] as! ChannelAccessData
+//                let value = myData.value as NSMutableArray
                 
 //  Because element count of data at first is always 0, Following line will cause waveform drawing at first time.
 //                dataBrowserModel.elementCount = value.count
 
-                drawTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                drawTimer = Timer.scheduledTimer(withTimeInterval: drawTimeInterval, repeats: true) { timer in
                     if( self.startDrawing ) {
-                        if (value.count > 1) {
-                            dataBrowserModel.elementCount = value.count
-                            let arrayValue = value.map{ ($0 as! NSString).doubleValue }
-                            
-//                            self.dataDrawView.arrayData = arrayValue
-                            self.dataDrawView.data = arrayValue
-                        }
-                        else {
-                            dataBrowserModel.elementCount = value.count
+                        // In case of array
+//                        if (value.count > 1) {
+//                            dataBrowserModel.elementCount = value.count
+//                            let arrayValue = value.map{ ($0 as! NSString).doubleValue }
+//
+//                            self.dataDrawView.data = arrayValue
+//                        }
+                        // In case of single value
+//                        else {
+//                            dataBrowserModel.elementCount = value.count
+//
+//                            let currentValue = (value[0] as? NSString)?.doubleValue
+//                            let currentTimestamp = Int(myData.timeStampSince1990 + 631152000) // Convert to Timestamp Since 1970
 
-                            let currentValue = (value[0] as? NSString)?.doubleValue
-                            let currentTimestamp = Int(myData.timeStampSince1990 + 631152000)
-
-                            if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
-                                let timeDiff = currentTimestamp - lastTimestamp
-                                if( timeDiff > 1 ) {
-                                    for i in 1..<timeDiff {
-                                        self.dataDrawView.data.append(lastValue)
-                                        self.dataDrawView.time.append(lastTimestamp + i)
-                                    }
-                                }
-                            }
-                            
-                            if(self.dataDrawView.data.count > self.maxArraySize) {
-                                let overCount = self.dataDrawView.data.count - self.maxArraySize
-                                for _ in 0 ..< overCount {
-                                    self.dataDrawView.data.remove(at: 0)
-                                    self.dataDrawView.time.remove(at: 0)
-                                }
-                            }
-                            
-                            self.dataDrawView.data.append(currentValue!)
-                            self.dataDrawView.time.append(currentTimestamp)
-                            
+//                            if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
+//                                let timeDiff = currentTimestamp - lastTimestamp
+//                                if( timeDiff > 1 ) {
+//                                    for i in 1..<timeDiff {
+//                                        self.dataDrawView.data.append(lastValue)
+//                                        self.dataDrawView.time.append(lastTimestamp + i)
+//                                    }
+//                                }
+//                            }
+                        
+//                            if(self.dataDrawView.data.count > self.maxArraySize) {
+//                                let overCount = self.dataDrawView.data.count - self.maxArraySize
+//                                for _ in 0 ..< overCount {
+//                                    self.dataDrawView.data.remove(at: 0)
+//                                    self.dataDrawView.time.remove(at: 0)
+//                                }
+//                            }
+                        
+//                            self.dataDrawView.data.append(currentValue!)
+//                            self.dataDrawView.time.append(currentTimestamp)
+                        
                             if( self.dataDrawView.data.count == 2) {
                                 dataBrowserModel.setAutoViewSize(self.dataDrawView.data)
                             }
-                        }
+//                        }
+                        
+                        dataBrowserModel.timeOffset += self.drawTimeInterval
+                        
                         self.dataDrawView.setNeedsDisplay()
                         self.axisDrawView.setNeedsDisplay()
                     }
@@ -206,16 +219,19 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
         caObject.channelAccessAddProcessVariable(pvName)
         self.title = pvName
         
-        if isArchiveEnabled {
-            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-            let initArchiveTimeRange = TimeInterval(dataBrowserModel.timeRange)
-            getArchiveData(pvName: pv!, from: -initArchiveTimeRange, to: 0)
-        }
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+        dataBrowserModel.timeOffset = Date().timeIntervalSince1970
+        
+//        if isArchiveEnabled {
+//            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//            let initArchiveTimeRange = TimeInterval(dataBrowserModel.timeRange)
+//            retrieveArchiveData(pvName: pv!, from: -initArchiveTimeRange, to: 0)
+//        }
         
         startDataBrowser(pvName: pvName)
     }
     
-    private func getArchiveData(pvName: String, from: TimeInterval, to: TimeInterval) -> Void {
+    private func retrieveArchiveData(pvName: String, from: TimeInterval, to: TimeInterval) -> Void {
         if let serverURL = archiveServerURL {
             let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
             let getDataTo = dateFormatter.string(from: Date().addingTimeInterval(to))
@@ -307,14 +323,14 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                     dataBrowserModel.value2 += dY
                 }
                 
-                if isArchiveEnabled {
-                    let getDataOffsetTo = dataBrowserModel.timeOffset
-                    let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
-                    getArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
-                    drawTimer?.invalidate()
-                    
-                    print(dataDrawView.time.count)
-                }
+//                if isArchiveEnabled {
+//                    let getDataOffsetTo = dataBrowserModel.timeOffset
+//                    let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
+//                    retrieveArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
+//                    drawTimer?.invalidate()
+//
+//                    print(dataDrawView.time.count)
+//                }
                 
                 dataDrawView.setNeedsDisplay()
                 axisDrawView.setNeedsDisplay()
@@ -336,10 +352,12 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
             
             switch sender.state {
             case .began, .changed:
-//                dataBrowserModel.value1 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
-//                dataBrowserModel.value2 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
-                dataBrowserModel.value1 += (translation.y / dataBrowserModel.test().dy)
-                dataBrowserModel.value2 += (translation.y / dataBrowserModel.test().dy)
+                if let timer = drawTimer {
+                    timer.invalidate()
+                }
+                
+                dataBrowserModel.value1 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
+                dataBrowserModel.value2 += (translation.y / dataBrowserModel.getDyInfoValue().dy)
                 
                 dataBrowserModel.timeOffset -= TimeInterval(translation.x / dataBrowserModel.getDxInfoValue().dx)
                 
@@ -347,17 +365,21 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                 
             case .ended:
                 sender.setTranslation(CGPoint.zero, in: self.view)
+                if let pvName = pv {
+                    startDataBrowser(pvName: pvName)
+                }
+                
             //print(velocityScale)
             default:
                 break
             }
             
-            if isArchiveEnabled {
-                let getDataOffsetTo = dataBrowserModel.timeOffset
-                let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
-                getArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
-                drawTimer?.invalidate()
-            }
+//            if isArchiveEnabled {
+//                let getDataOffsetTo = dataBrowserModel.timeOffset
+//                let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
+//                retrieveArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
+//                drawTimer?.invalidate()
+//            }
             
             dataDrawView.setNeedsDisplay()
             axisDrawView.setNeedsDisplay()
@@ -414,6 +436,53 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
     }
     
     //********* Notification *************
+    private func catchEventNotification(notification:Notification) -> Void {
+        if let pvNameDictionary = caObject.channelAccessGetDictionary(), let pvName = pv {
+            if pvNameDictionary.count != 0 {
+                let myData = pvNameDictionary[pvName] as! ChannelAccessData
+                let value = myData.value as NSMutableArray
+                let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+
+                if (value.count > 1) {
+                    dataBrowserModel.elementCount = value.count
+                    let arrayValue = value.map{ ($0 as! NSString).doubleValue }
+                    
+                    self.dataDrawView.data = arrayValue
+                }
+                
+                else {
+                    dataBrowserModel.elementCount = value.count
+                    
+                    let currentValue = (value[0] as? NSString)?.doubleValue
+                    let currentTimestamp = Int(myData.timeStampSince1990 + 631152000) // Convert to Timestamp Since 1970
+                    let nSecTime = Int(myData.timeStampNanoSec)
+                    
+//                    if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
+//                        let timeDiff = currentTimestamp - lastTimestamp
+//                        if( timeDiff > 1 ) {
+//                            for i in 1..<timeDiff {
+//                                self.dataDrawView.data.append(lastValue)
+//                                self.dataDrawView.time.append(lastTimestamp + i)
+//                            }
+//                        }
+//                    }
+                    
+                    if(self.dataDrawView.data.count > self.maxArraySize) {
+                        let overCount = self.dataDrawView.data.count - self.maxArraySize
+                        for _ in 0 ..< overCount {
+                            self.dataDrawView.data.remove(at: 0)
+                            self.dataDrawView.time.remove(at: 0)
+                        }
+                    }
+                    
+                    self.dataDrawView.data.append(currentValue!)
+                    self.dataDrawView.time.append(currentTimestamp)
+                    self.dataDrawView.nSecTime.append(nSecTime)
+                }
+            }
+        }
+    }
+    
     private func catchConnectionNotification(notification:Notification) -> Void {
         if let caMessage = notification.object as? String {
             if caMessage == pv {

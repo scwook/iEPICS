@@ -22,6 +22,7 @@
 @property NSString *dataType;
 @property unsigned long elementCount;
 @property int timeStampSince1990;
+@property int timeStampNanoSec;
 @property NSString *timeStamp;
 @property NSString *alarmSeverity;
 @property NSString *alarmStatus;
