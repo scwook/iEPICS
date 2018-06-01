@@ -455,7 +455,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate {
                     
                     let currentValue = (value[0] as? NSString)?.doubleValue
                     let currentTimestamp = Int(myData.timeStampSince1990 + 631152000) // Convert to Timestamp Since 1970
-                    let nSecTime = Int(myData.timeStampNanoSec)
+                    let nSecTime = CGFloat(myData.timeStampNanoSec) / 1000000000
                     
 //                    if let lastValue = self.dataDrawView.data.last, let lastTimestamp = self.dataDrawView.time.last {
 //                        let timeDiff = currentTimestamp - lastTimestamp

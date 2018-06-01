@@ -12,9 +12,9 @@ class DataDrawView: UIView {
 
     var data = [Double]()
     var time = [Int]()
-    var nSecTime = [Int]()
+    var nSecTime = [CGFloat]()
     
-    private var position: Array<Int> = [Int]()
+    private var position = [Int]()
     var probeIndex: Int? = nil
 //    var arrayData = [Double]()
     
@@ -110,7 +110,7 @@ class DataDrawView: UIView {
     private func DrawValue() {
         let plot = UIBezierPath()
         
-        var timeOffset: Int = 0
+        var timeOffset: CGFloat = 0.0
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         let dtInfo = dataBrowserModel.getDxInfoValue()
         let dx = dtInfo.dx
@@ -123,11 +123,11 @@ class DataDrawView: UIView {
             var index = data.count
 //            let currentTime = Date()
 //            timeOffset = Int(currentTime.timeIntervalSince1970 + dataBrowserModel.timeOffset) - time[index - 1]
-            timeOffset = Int(dataBrowserModel.timeOffset) - time[index - 1]
-            
+            timeOffset = dx * CGFloat(dataBrowserModel.timeOffset ) - dx * CGFloat(time[index - 1]) - dx * nSecTime[index - 1]
+
             position.removeAll()
             for i in 0..<data.count {
-                let dataLocation = CGPoint(x: startPoint.x - dx * CGFloat(i + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[index-1])))
+                let dataLocation = CGPoint(x: startPoint.x - dx * CGFloat(i) - timeOffset, y: bounds.height - ValueToPixel(value: CGFloat(data[index-1])))
                 plot.addLine(to: dataLocation)
                 
                 // Insert data position to find when navigation line is moved on view
@@ -135,7 +135,7 @@ class DataDrawView: UIView {
                 
                 // Find data for navigation line and draw circle
                 if let probe = probeIndex, i == probeIndex {
-                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1 + timeOffset), y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
+                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1) - timeOffset, y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
                     let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
                     UIColor.black.setFill()
