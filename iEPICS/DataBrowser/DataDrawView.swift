@@ -14,6 +14,10 @@ class DataDrawView: UIView {
     var time = [Int]()
     var nSecTime = [CGFloat]()
     
+    var archiveData = [Double]()
+    var archiveTime = [Int]()
+    var archiveNSecTime = [CGFloat]()
+    
     private var position = [Int]()
     var probeIndex: Int? = nil
 //    var arrayData = [Double]()
@@ -108,40 +112,45 @@ class DataDrawView: UIView {
     
     /* Second version draw function */
     private func DrawValue() {
+        let drawData = archiveData + data
+        let drawDataTime = archiveTime + time
+        let drawDataNSecTime = archiveNSecTime + nSecTime
+        
         let plot = UIBezierPath()
         
-        var timeOffset: CGFloat = 0.0
+        var drawTimeOffset: CGFloat = 0.0
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         let dtInfo = dataBrowserModel.getDxInfoValue()
         let dx = dtInfo.dx
         
-        // Plotting line will be started form right to left of view.
-        let startPoint = CGPoint(x: self.bounds.width, y: self.bounds.height - ValueToPixel(value: CGFloat(data[data.count - 1])))
-        
-        if (data.count > 0) {
+        if (drawData.count > 0) {
+            var index = drawData.count - 1
+            
+            // Plotting line will be started form right to left of view.
+            let startPoint = CGPoint(x: self.bounds.width + drawTimeOffset, y: self.bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
             plot.move(to: startPoint)
-            var index = data.count
-//            let currentTime = Date()
-//            timeOffset = Int(currentTime.timeIntervalSince1970 + dataBrowserModel.timeOffset) - time[index - 1]
-            timeOffset = dx * CGFloat(dataBrowserModel.timeOffset ) - dx * CGFloat(time[index - 1]) - dx * nSecTime[index - 1]
-
+            
             position.removeAll()
-            for i in 0..<data.count {
-                let dataLocation = CGPoint(x: startPoint.x - dx * CGFloat(i) - timeOffset, y: bounds.height - ValueToPixel(value: CGFloat(data[index-1])))
+            for i in 0..<drawData.count {
+                drawTimeOffset = dx * (CGFloat(dataBrowserModel.timeOffset ) - CGFloat(drawDataTime[index]) - drawDataNSecTime[index])
+
+                let dataLocation = CGPoint(x: startPoint.x - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
                 plot.addLine(to: dataLocation)
+
+//                print(drawData.count)
                 
                 // Insert data position to find when navigation line is moved on view
                 position.insert(Int(dataLocation.x), at: 0)
                 
                 // Find data for navigation line and draw circle
                 if let probe = probeIndex, i == probeIndex {
-                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index - 1) - timeOffset, y: bounds.height - ValueToPixel(value: CGFloat(data[probe])))
+                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index) - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[probe])))
                     let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
                     
                     UIColor.black.setFill()
                     circle.fill()
                     
-                    let valueString = String(describing: data[probe])
+                    let valueString = String(describing: drawData[probe])
                     valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
                 }
                 
@@ -158,27 +167,6 @@ class DataDrawView: UIView {
         }
         
     }
-    
-//    private func DrawArrayValue() {
-//        let plot = UIBezierPath()
-//        let dx = self.bounds.width / CGFloat(arrayData.count)
-//
-//        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[0])))
-//
-//        plot.move(to: startPoint)
-//
-//        for i in 1 ..< arrayData.count {
-//            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData[i])))
-//
-//            plot.addLine(to: nextPoint)
-//        }
-//
-////        UIColor.black.set()
-//        UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
-//        plot.lineJoinStyle = .round
-//        plot.lineWidth = 2
-//        plot.stroke()
-//    }
     
     private func DrawArrayValue() {
         let plot = UIBezierPath()

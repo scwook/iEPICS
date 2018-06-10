@@ -36,6 +36,9 @@ class DataBrowserModel {
     
     public var elementCount: Int = 1
     
+    public var startedDrawTime: Double = 0
+    public var startedDrawNSecTime: CGFloat = 0.0
+    
     public func getDxInfoValue() -> (dx: CGFloat, dt: Int){
         
         let pixelPerSecond = drawViewSize.width / timeRange
