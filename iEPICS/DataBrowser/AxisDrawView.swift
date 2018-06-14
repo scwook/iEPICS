@@ -53,7 +53,6 @@ class AxisDrawView: UIView {
         let currentPositionOffset = CGFloat(Int(currentTime) % bigTickScale) * tickInfo.dx
         movePositionX -= CGFloat(currentPositionOffset)
         
-        let date = Date()
         let currentTimeOffset = Int(currentTime) % bigTickScale
         let formatter = DateFormatter()
         
@@ -65,7 +64,9 @@ class AxisDrawView: UIView {
             formatter.dateFormat = "HH:mm"
         }
         
-        let timeDate = date.addingTimeInterval(dataBrowserModel.timeOffset)
+//        let timeDate = date.addingTimeInterval(dataBrowserModel.timeOffset)
+//        let date = Date(timeIntervalSince1970: currentTime)
+        let timeDate = Date(timeIntervalSince1970: currentTime)
         
         var count = 0
         var idx = 0

@@ -19,12 +19,12 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
 //    var isArchiveEnabled = false
     
 //    let getData = "http://192.168.3.231:17665/retrieval/data/getData.csv?pv=scwookHost2:aiExample1&from=2018-04-29T15%3A00%3A00.000Z&to=2018-05-01T15%3A00%3A00.000Z"
-    let getAllPVs = "/mgmt/bpl/getAllPVs"
-    let getPVState = "/mgmt/bpl/getPVStatus"
+    let getAllPVs = "/bpl/getAllPVs"
+    let getPVState = "/bpl/getPVStatus"
     
     var archiveServerURL: String?
     
-    let getAppliaceInfo = "getApplianceInfo"
+//    let getAppliaceInfo = "getApplianceInfo"
     
     let archiveURLSessionConfig = URLSessionConfiguration.default
     var archiveURLSeesion: URLSession?

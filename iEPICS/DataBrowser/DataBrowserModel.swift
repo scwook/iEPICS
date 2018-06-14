@@ -37,7 +37,9 @@ class DataBrowserModel {
     public var elementCount: Int = 1
     
     public var startedDrawTime: Double = 0
-    public var startedDrawNSecTime: CGFloat = 0.0
+    
+    public var drawingIndexFrom: Int = 0
+    public var drawingIndexTo: Int = 0
     
     public func getDxInfoValue() -> (dx: CGFloat, dt: Int){
         
@@ -198,7 +200,7 @@ class DataBrowserModel {
         }
         else {
             while( pixelPerTick < minPixelPerTick ) {
-                pixelPerTick *= 2
+                pixelPerTick *= 21
                 count += 1
                 valuePerTick = pow(2.0, CGFloat(count))
             }

@@ -115,7 +115,7 @@ class DataDrawView: UIView {
         let drawData = archiveData + data
         let drawDataTime = archiveTime + time
         let drawDataNSecTime = archiveNSecTime + nSecTime
-        
+    
         let plot = UIBezierPath()
         
         var drawTimeOffset: CGFloat = 0.0
@@ -127,16 +127,17 @@ class DataDrawView: UIView {
             var index = drawData.count - 1
             
             // Plotting line will be started form right to left of view.
-            let startPoint = CGPoint(x: self.bounds.width + drawTimeOffset, y: self.bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
+            let startPoint = CGPoint(x: self.bounds.width, y: self.bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
             plot.move(to: startPoint)
             
+            var dataLocation = startPoint
             position.removeAll()
             for i in 0..<drawData.count {
                 drawTimeOffset = dx * (CGFloat(dataBrowserModel.timeOffset ) - CGFloat(drawDataTime[index]) - drawDataNSecTime[index])
 
-                let dataLocation = CGPoint(x: startPoint.x - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
+                dataLocation = CGPoint(x: startPoint.x - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
                 plot.addLine(to: dataLocation)
-
+                
 //                print(drawData.count)
                 
                 // Insert data position to find when navigation line is moved on view
@@ -152,6 +153,10 @@ class DataDrawView: UIView {
                     
                     let valueString = String(describing: drawData[probe])
                     valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
+                }
+                
+                if dataLocation.x < -1 {
+                    break
                 }
                 
                 index = index - 1

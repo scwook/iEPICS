@@ -60,6 +60,9 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     }
     
     // Archiver Appliance Settings
+    let archiveURLSessionConfig = URLSessionConfiguration.default
+    var archiveURLSeesion: URLSession?
+    
     @IBOutlet weak var archiveSettingView: UIView!
     @IBOutlet weak var archiveURLTextField: UITextField! {
         didSet {
@@ -67,7 +70,6 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
             archiveURLTextField.text = UserDefaults.standard.string(forKey: "ArchiveServerURL")
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +88,10 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         archiveSettingView.layer.cornerRadius = viewCornerRadius
         archiveSettingView.layer.borderWidth = 1
         archiveSettingView.layer.borderColor = UIColor.black.cgColor
+        
+        archiveURLSessionConfig.timeoutIntervalForResource = 5
+        archiveURLSessionConfig.timeoutIntervalForRequest = 5
+        archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
 //        let autoAddressEnalbeState = UserDefaults.standard.bool(forKey: "CAEnvAutoAddressEnable")
 //        let autoAddressList = UserDefaults.standard.string(forKey: "CAEnvAddressList")
@@ -106,7 +112,8 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         }
         else if textField == archiveURLTextField {
             let archiveURL = textField.text
-            UserDefaults.standard.set(archiveURL, forKey: "ArchiveServerURL")
+            getArchiveServerInfo(archiveURL)
+            
         }
         else {
             
@@ -114,6 +121,35 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         
         self.view.endEditing(true)
         return true
+    }
+    
+    func getArchiveServerInfo(_ mgmtURL: String?) {
+        if let serverURL = mgmtURL {
+            let searchingName = serverURL + "/bpl/getApplianceInfo"
+            
+            if let getDataURL = URL(string: searchingName) {
+                
+                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
+                    (data, response, error) in
+                    guard let archiveData = data, error == nil else {
+                        return
+                    }
+                    
+                    do {
+                        let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [String : String]
+                        
+                        UserDefaults.standard.set(jsonRawData["dataRetrievalURL"], forKey: "ArchiveDataRetrievalURL")
+                        
+                    } catch {
+                        
+                    }
+
+                }
+                archiveURLTask?.resume()
+            }
+        }
+        
+        UserDefaults.standard.set(mgmtURL, forKey: "ArchiveServerURL")
     }
 
     
@@ -124,12 +160,6 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return [.portrait]
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
     /*
     // MARK: - Navigation

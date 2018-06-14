@@ -23,8 +23,8 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
     let archiveURLSessionConfig = URLSessionConfiguration.default
     var archiveURLSeesion: URLSession?
     
-    let getData = "/retrieval/data/getData.json"
-    let getUploadData = "/retrieval/data/getData.txt"
+    let getData = "/data/getData.json"
+    let getUploadData = "/data/getData.txt"
     
     var retrievedData = [Dictionary<String, Any>]()
     
@@ -47,7 +47,7 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
         archiveURLSessionConfig.timeoutIntervalForRequest = 5
         archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
-        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+        archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveDataRetrievalURL")
         
         if let pvName = pvName, let from = fromDate, let to = toDate {
             retrieveArchiveData(pvName: pvName, from: from, to: to)
