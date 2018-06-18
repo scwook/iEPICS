@@ -77,8 +77,23 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     }
     
     func retrieveDataFromDate(from: Date?, to: Date?) {
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+
+        fromDate = from
+        toDate = to
+        
         if let pvName = pv, let fromDate = from, let toDate = to {
+            if let timer = drawTimer {
+                timer.invalidate()
+            }
+            
+            dataBrowserModel.timeOffset = toDate.timeIntervalSince1970
+            dataBrowserModel.timeRange = CGFloat(toDate.timeIntervalSince1970 - fromDate.timeIntervalSince1970)
+            
             retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
+            
+            dataDrawView.setNeedsDisplay()
+            axisDrawView.setNeedsDisplay()
         }
     }
     
@@ -308,55 +323,78 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
 
     @IBAction func pinchGestureRecognizer(_ sender: UIPinchGestureRecognizer) {
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-
+        
+        if let timer = drawTimer {
+            timer.invalidate()
+        }
+        
         if( dataBrowserModel.elementCount > 1 ) {
             
         }
         else {
             if sender.view != nil {
-                let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-                let deltaY = abs(dataBrowserModel.value2 - dataBrowserModel.value1)
-                let const = deltaY / dataBrowserModel.timeRange
-                
-                if( sender.scale > 1) {
+                switch sender.state {
+                case .began, .changed:
+                    let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+                    let deltaY = abs(dataBrowserModel.value2 - dataBrowserModel.value1)
+                    let const = deltaY / dataBrowserModel.timeRange
                     
-                    let dT = 4 * sender.scale
-                    let secondForOnMinute: CGFloat = 60
-                    dataBrowserModel.timeRange -= dT
-                    
-                    if( dataBrowserModel.timeRange <= secondForOnMinute ) {
-                        dataBrowserModel.timeRange = CGFloat(secondForOnMinute)
+                    if( sender.scale > 1) {
+                        
+                        let dT = 4 * sender.scale
+                        let secondForOneMinute: CGFloat = 60
+                        dataBrowserModel.timeRange -= dT
+                        
+                        if( dataBrowserModel.timeRange <= secondForOneMinute ) {
+                            dataBrowserModel.timeRange = CGFloat(secondForOneMinute)
+                        }
+                        
+                        let dY = -(const * dataBrowserModel.timeRange - deltaY) / 2
+                        
+                        dataBrowserModel.value1 += dY
+                        dataBrowserModel.value2 -= dY
+                        
+                        
+                        
+                    }
+                    else {
+                        let dT = 4 / sender.scale
+                        let secondForOneDay: CGFloat = 60.0 * 60.0
+                        
+                        dataBrowserModel.timeRange += dT
+                        
+                        if( dataBrowserModel.timeRange >= secondForOneDay ) {
+                            dataBrowserModel.timeRange = CGFloat(secondForOneDay)
+                        }
+                        
+                        let dY = (const * dataBrowserModel.timeRange - deltaY) / 2
+                        
+                        dataBrowserModel.value1 -= dY
+                        dataBrowserModel.value2 += dY
                     }
                     
-                    let dY = -(const * dataBrowserModel.timeRange - deltaY) / 2
-                    
-                    dataBrowserModel.value1 += dY
-                    dataBrowserModel.value2 -= dY
-                }
-                else {
-                    let dT = 4 / sender.scale
-                    let secondForOneDay: CGFloat = 60.0 * 60.0
-                    
-                    dataBrowserModel.timeRange += dT
-                    
-                    if( dataBrowserModel.timeRange >= secondForOneDay ) {
-                        dataBrowserModel.timeRange = CGFloat(secondForOneDay)
+                case .ended:
+                    if let pvName = pv {
+                        var getDataOffsetTo = Double(dataBrowserModel.timeOffset)
+                        
+                        
+                        if getDataOffsetTo >= dataBrowserModel.startedDrawTime {
+                            getDataOffsetTo = dataBrowserModel.startedDrawTime
+                        }
+                        
+                        let retrivealToDate = Date(timeIntervalSince1970: getDataOffsetTo)
+                        let retrievalFromDate = Date(timeIntervalSince1970: getDataOffsetTo - Double(dataBrowserModel.timeRange))
+                        
+                        retrieveArchiveData(pvName: pvName, from: retrievalFromDate, to: retrivealToDate)
+                        
+                        if dataBrowserModel.timeOffset >= Date().timeIntervalSince1970 {
+                            startDataBrowser(pvName: pvName)
+                        }
                     }
                     
-                    let dY = (const * dataBrowserModel.timeRange - deltaY) / 2
-                    
-                    dataBrowserModel.value1 -= dY
-                    dataBrowserModel.value2 += dY
+                default :
+                    break
                 }
-                
-//                if isArchiveEnabled {
-//                    let getDataOffsetTo = dataBrowserModel.timeOffset
-//                    let getDataOffsetFrom = getDataOffsetTo - TimeInterval(dataBrowserModel.timeRange)
-//                    retrieveArchiveData(pvName: pv!, from: getDataOffsetFrom, to: getDataOffsetTo)
-//                    drawTimer?.invalidate()
-//
-//                    print(dataDrawView.time.count)
-//                }
                 
                 dataDrawView.setNeedsDisplay()
                 axisDrawView.setNeedsDisplay()
@@ -438,7 +476,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
 
             case .ended:
                 dataBrowserModel.isLongPressed = false
-                dataDrawView.probeIndex = nil
+                dataDrawView.probeIndex.x = nil
                 
             default:
                 break

@@ -20,14 +20,14 @@ class ChildMonitoringTableViewCell: UITableViewCell {
         let height = UIScreen.main.bounds.height
         switch height {
         case 480.0:
-            print(height)
+            break
         case 568.0:
             detailElementNameLabel.font = UIFont.systemFont(ofSize: 13.0)
             detailElementValueLabel.font = UIFont.systemFont(ofSize: 13.0)
         case 667.0:
-            print(height)
+            break
         case 736.0:
-            print(height)
+            break
         default:
             break
         }

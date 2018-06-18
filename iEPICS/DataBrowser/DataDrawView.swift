@@ -18,8 +18,8 @@ class DataDrawView: UIView {
     var archiveTime = [Int]()
     var archiveNSecTime = [CGFloat]()
     
-    private var position = [Int]()
-    var probeIndex: Int? = nil
+    private var position = [Int : Double]()
+    var probeIndex: (x: CGFloat?, data: Double?) = (nil, nil)
 //    var arrayData = [Double]()
     
     let attributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
@@ -132,7 +132,7 @@ class DataDrawView: UIView {
             
             var dataLocation = startPoint
             position.removeAll()
-            for i in 0..<drawData.count {
+            for _ in 0..<drawData.count {
                 drawTimeOffset = dx * (CGFloat(dataBrowserModel.timeOffset ) - CGFloat(drawDataTime[index]) - drawDataNSecTime[index])
 
                 dataLocation = CGPoint(x: startPoint.x - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
@@ -140,20 +140,9 @@ class DataDrawView: UIView {
                 
 //                print(drawData.count)
                 
-                // Insert data position to find when navigation line is moved on view
-                position.insert(Int(dataLocation.x), at: 0)
-                
-                // Find data for navigation line and draw circle
-                if let probe = probeIndex, i == probeIndex {
-                    let probeLocation = CGPoint(x: startPoint.x - dx * CGFloat(index) - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[probe])))
-                    let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
-                    
-                    UIColor.black.setFill()
-                    circle.fill()
-                    
-                    let valueString = String(describing: drawData[probe])
-                    valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
-                }
+                // Insert data position and it's data to find when navigation line is moved on view
+                position[Int(dataLocation.x)] = drawData[index]
+
                 
                 if dataLocation.x < -1 {
                     break
@@ -205,10 +194,30 @@ class DataDrawView: UIView {
         probeLine.lineWidth = 2.0
         probeLine.stroke()
         
-        if let index = position.index(of: Int(location.x)) {
-            probeIndex = index
-        }
+        if let data = position[Int(location.x)] {
+            let probeLocation = CGPoint(x: location.x, y: bounds.height - ValueToPixel(value: CGFloat(data)))
+            let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
+            
+            UIColor.black.setFill()
+            circle.fill()
+            
+            let valueString = String(describing: data)
+            valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
+            
+            probeIndex.x = location.x
+            probeIndex.data = data
         
+        }
+        else if let posX = probeIndex.x, let data = probeIndex.data {
+            let probeLocation = CGPoint(x: posX, y: bounds.height - ValueToPixel(value: CGFloat(data)))
+            let circle = UIBezierPath(arcCenter: probeLocation, radius: 6, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
+            
+            UIColor.black.setFill()
+            circle.fill()
+            
+            let valueString = String(describing: data)
+            valueString.draw(at: CGPoint(x: probeLocation.x + 10, y: probeLocation.y - 18), withAttributes: attributes)
+        }
     }
     
     private func DrawDashLine() -> Void {
