@@ -116,6 +116,9 @@ class DataDrawView: UIView {
         let drawDataTime = archiveTime + time
         let drawDataNSecTime = archiveNSecTime + nSecTime
     
+        var minValue = drawData.max()!
+        var maxValue = drawData.min()!
+        
         let plot = UIBezierPath()
         
         var drawTimeOffset: CGFloat = 0.0
@@ -134,16 +137,21 @@ class DataDrawView: UIView {
             position.removeAll()
             for _ in 0..<drawData.count {
                 drawTimeOffset = dx * (CGFloat(dataBrowserModel.timeOffset ) - CGFloat(drawDataTime[index]) - drawDataNSecTime[index])
-
                 dataLocation = CGPoint(x: startPoint.x - drawTimeOffset, y: bounds.height - ValueToPixel(value: CGFloat(drawData[index])))
-                plot.addLine(to: dataLocation)
                 
-//                print(drawData.count)
-                
-                // Insert data position and it's data to find when navigation line is moved on view
-                position[Int(dataLocation.x)] = drawData[index]
+                if dataLocation.x <= bounds.width {
+                    plot.addLine(to: dataLocation)
+                    position[Int(dataLocation.x)] = drawData[index]
+                    
+                    if drawData[index] < minValue {
+                        minValue = drawData[index]
+                    }
+                    
+                    if drawData[index] > maxValue {
+                        maxValue = drawData[index]
+                    }
+                }
 
-                
                 if dataLocation.x < -1 {
                     break
                 }
@@ -151,15 +159,14 @@ class DataDrawView: UIView {
                 index = index - 1
             }
             
-            //position = position.reversed()
-            
-            //            UIColor.black.set()
             UIColor(red: 0.6, green: 0.0, blue: 0.0, alpha: 1.0).set()
             plot.lineJoinStyle = .round
             plot.lineWidth = 2.5
             plot.stroke()
         }
         
+        dataBrowserModel.minValueOfDrawData = CGFloat(minValue)
+        dataBrowserModel.maxValueOfDrawData = CGFloat(maxValue)
     }
     
     private func DrawArrayValue() {

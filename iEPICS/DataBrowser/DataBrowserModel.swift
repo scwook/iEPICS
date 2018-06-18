@@ -41,6 +41,9 @@ class DataBrowserModel {
     public var drawingIndexFrom: Int = 0
     public var drawingIndexTo: Int = 0
     
+    public var maxValueOfDrawData: CGFloat?
+    public var minValueOfDrawData: CGFloat?
+    
     public func getDxInfoValue() -> (dx: CGFloat, dt: Int){
         
         let pixelPerSecond = drawViewSize.width / timeRange
@@ -241,6 +244,13 @@ class DataBrowserModel {
         // Time Axis Auto Reset
 //        timeOffset = 0
 
+    }
+    
+    public func setAutoViewSize() {
+        if let max = maxValueOfDrawData, let min = minValueOfDrawData {
+            value1 = CGFloat(min - abs(min) * 0.1)
+            value2 = CGFloat(max + abs(max) * 0.1)
+        }
     }
 }
 

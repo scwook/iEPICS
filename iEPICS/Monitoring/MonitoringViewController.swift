@@ -451,7 +451,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func savePVListFromTable() {
         let reversedList = pvNameDicKeyCopyArray.reversed()
-        UserDefaults.standard.set(reversedList.flatMap({ $0 }), forKey: "PVNameList")
+        UserDefaults.standard.set(reversedList.compactMap({ $0 }), forKey: "PVNameList")
     }
     
     

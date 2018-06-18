@@ -93,7 +93,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
-                    guard let archiveData = data, error == nil else {
+                    guard let _ = data, error == nil else {
                         DispatchQueue.main.async {
                             self.errorMessage(message: "Can not connect to server")
                             self.archiveActivityIndicator.stopAnimating()
