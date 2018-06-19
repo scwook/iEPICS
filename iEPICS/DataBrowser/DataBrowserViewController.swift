@@ -20,6 +20,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     
 //    var isArchiveEnabled = false
     var archiveServerURL: String?
+    var archiveMGMTURL: String?
+
     let archiveURLSessionConfig = URLSessionConfiguration.default
     var archiveURLSeesion: URLSession?
     
@@ -105,7 +107,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
         archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveDataRetrievalURL")
-
+        archiveMGMTURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
+        
 //        if archiveServerURL != nil {
 //            let url = URL(string: archiveServerURL!)
 //            do {
@@ -202,9 +205,9 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                 drawTimer = Timer.scheduledTimer(withTimeInterval: drawTimeInterval, repeats: true) { timer in
                     if( self.startDrawing ) {
                         
-                            if( self.dataDrawView.data.count == 2) {
-                                dataBrowserModel.setAutoViewSize()
-                        }
+//                            if( self.dataDrawView.data.count == 2) {
+//                                dataBrowserModel.setAutoViewSize()
+//                        }
                         
                         dataBrowserModel.timeOffset += self.drawTimeInterval
                         
@@ -232,6 +235,10 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         if let drawView = dataDrawView {
             drawView.data.removeAll()
             drawView.time.removeAll()
+            dataDrawView.nSecTime.removeAll()
+            drawView.archiveData.removeAll()
+            drawView.archiveTime.removeAll()
+            drawView.archiveNSecTime.removeAll()
         }
         
         pvValueArray.removeAllObjects()
@@ -239,19 +246,45 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         pv = pvName
         caObject.channelAccessAddProcessVariable(pvName)
         self.title = pvName
-        
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
 
-        let currentDate = Date()
-        let startedTimeStamp =  currentDate.timeIntervalSince1970
-        dataBrowserModel.timeOffset = startedTimeStamp
-        
-        let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
-        retrieveArchiveData(pvName: pvName, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
-        
-        dataBrowserModel.startedDrawTime = startedTimeStamp
+        checkArchiveData(name: pvName)
         
         startDataBrowser()
+    }
+    
+    private func checkArchiveData(name pv: String) {
+        if let serverURL = archiveMGMTURL {
+            let searchingName = serverURL + "/bpl/getPVTypeInfo?pv=" + pv
+            
+            if let getDataURL = URL(string: searchingName) {
+                
+                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
+                    (data, response, error) in
+                    guard let _ = data, error == nil else {
+                        return
+                    }
+                    
+                    do {
+                        let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [String : Any]
+                        let elementCount = jsonRawData["elementCount"] as? String
+                        if elementCount == "1" {
+                            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+                            let currentDate = Date()
+                            let startedTimeStamp =  currentDate.timeIntervalSince1970
+                            
+                            dataBrowserModel.timeOffset = startedTimeStamp
+                            let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
+                            self.retrieveArchiveData(pvName: pv, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
+                            
+                            dataBrowserModel.startedDrawTime = startedTimeStamp
+                        }
+                    } catch {
+                        
+                    }
+                }
+                archiveURLTask?.resume()
+            }
+        }
     }
     
     private func retrieveArchiveData(pvName: String, from: Date, to: Date) -> Void {
@@ -293,7 +326,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                             self.dataDrawView.archiveNSecTime.removeAll()
                             
                             for i in 0..<dictionaryDataFromJson.count {
-                                //                            let data = self.retrievedData
                                 self.dataDrawView.archiveData.append(dictionaryDataFromJson[i]["val"] as! Double)
                                 self.dataDrawView.archiveTime.append(dictionaryDataFromJson[i]["secs"] as! Int)
                                 self.dataDrawView.archiveNSecTime.append((dictionaryDataFromJson[i]["nanos"] as! CGFloat) / 1000000000)
@@ -498,7 +530,14 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     @IBAction func tapGestureRecognizer(_ sender: UITapGestureRecognizer) {
         sender.numberOfTapsRequired = 2
         let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        dataBrowserModel.setAutoViewSize()
+        let elementCount = dataBrowserModel.elementCount
+
+        if elementCount > 1 {
+            dataBrowserModel.setAutoViewSize(dataDrawView.data)
+        }
+        else {
+            dataBrowserModel.setAutoViewSize()
+        }
 
         dataDrawView.setNeedsDisplay()
         axisDrawView.setNeedsDisplay()
