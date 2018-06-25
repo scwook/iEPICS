@@ -28,8 +28,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     let getData = "/data/getData.json"
     
     var retrievedData = [Dictionary<String, Any>]()
-    var fromDate: Date?
-    var toDate: Date?
+    var fromDate: Date? = Date()
+    var toDate: Date? = Date()
     
     let caConnectionNotification = Notification.Name("ConnectionCallbackNotification")
     let caEventNotification = Notification.Name("EventCallbackNotification")
@@ -68,6 +68,15 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         archiveDatePopUp.fromDate = fromDate
         archiveDatePopUp.toDate = toDate
         
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+        if( dataBrowserModel.elementCount > 1 ) {
+            archiveDatePopUp.dateSegmentControl.isHidden = true
+        }
+        else {
+            archiveDatePopUp.dateSegmentControl.isHidden = false
+        }
+        
+
         archiveDatePopUp.datePicker.date = Date()
         
         self.view.addSubview(archiveDatePopUp)
@@ -88,11 +97,16 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
             if let timer = drawTimer {
                 timer.invalidate()
             }
-            
-            dataBrowserModel.timeOffset = toDate.timeIntervalSince1970
-            dataBrowserModel.timeRange = CGFloat(toDate.timeIntervalSince1970 - fromDate.timeIntervalSince1970)
-            
-            retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
+
+            if( dataBrowserModel.elementCount > 1 ) {
+                retrieveArchiveData(pvName: pvName, from: fromDate, to: fromDate)
+            }
+            else {
+                dataBrowserModel.timeOffset = toDate.timeIntervalSince1970
+                dataBrowserModel.timeRange = CGFloat(toDate.timeIntervalSince1970 - fromDate.timeIntervalSince1970)
+                
+                retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
+            }
             
             dataDrawView.setNeedsDisplay()
             axisDrawView.setNeedsDisplay()
@@ -108,16 +122,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         
         archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveDataRetrievalURL")
         archiveMGMTURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
-        
-//        if archiveServerURL != nil {
-//            let url = URL(string: archiveServerURL!)
-//            do {
-//                _ = try String(contentsOf: url!)
-//                isArchiveEnabled = true
-//            } catch {
-////                errorMessage(message: "Can Not Access to Server")
-//            }
-//        }
         
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         
@@ -247,45 +251,57 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         caObject.channelAccessAddProcessVariable(pvName)
         self.title = pvName
 
-        checkArchiveData(name: pvName)
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+        let currentDate = Date()
+        let startedTimeStamp =  currentDate.timeIntervalSince1970
+        
+        dataBrowserModel.timeOffset = startedTimeStamp
+        let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
+        self.retrieveArchiveData(pvName: pvName, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
+        
+        dataBrowserModel.startedDrawTime = startedTimeStamp
+        
+        
+//        checkArchiveData(name: pvName)
+
         
         startDataBrowser()
     }
     
-    private func checkArchiveData(name pv: String) {
-        if let serverURL = archiveMGMTURL {
-            let searchingName = serverURL + "/bpl/getPVTypeInfo?pv=" + pv
-            
-            if let getDataURL = URL(string: searchingName) {
-                
-                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
-                    (data, response, error) in
-                    guard let _ = data, error == nil else {
-                        return
-                    }
-                    
-                    do {
-                        let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [String : Any]
-                        let elementCount = jsonRawData["elementCount"] as? String
-                        if elementCount == "1" {
-                            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-                            let currentDate = Date()
-                            let startedTimeStamp =  currentDate.timeIntervalSince1970
-                            
-                            dataBrowserModel.timeOffset = startedTimeStamp
-                            let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
-                            self.retrieveArchiveData(pvName: pv, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
-                            
-                            dataBrowserModel.startedDrawTime = startedTimeStamp
-                        }
-                    } catch {
-                        
-                    }
-                }
-                archiveURLTask?.resume()
-            }
-        }
-    }
+//    private func checkArchiveData(name pv: String) {
+//        if let serverURL = archiveMGMTURL {
+//            let searchingName = serverURL + "/bpl/getPVTypeInfo?pv=" + pv
+//
+//            if let getDataURL = URL(string: searchingName) {
+//
+//                let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
+//                    (data, response, error) in
+//                    guard let _ = data, error == nil else {
+//                        return
+//                    }
+//
+//                    do {
+//                        let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [String : Any]
+//                        let elementCount = jsonRawData["elementCount"] as? String
+//                        if elementCount == "1" {
+//                            let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+//                            let currentDate = Date()
+//                            let startedTimeStamp =  currentDate.timeIntervalSince1970
+//
+//                            dataBrowserModel.timeOffset = startedTimeStamp
+//                            let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
+//                            self.retrieveArchiveData(pvName: pv, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
+//
+//                            dataBrowserModel.startedDrawTime = startedTimeStamp
+//                        }
+//                    } catch {
+//
+//                    }
+//                }
+//                archiveURLTask?.resume()
+//            }
+//        }
+//    }
     
     private func retrieveArchiveData(pvName: String, from: Date, to: Date) -> Void {
         if let serverURL = archiveServerURL {
@@ -299,7 +315,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
             let pvNameEncode = pvName.addingPercentEncoding(withAllowedCharacters: .rfc3986Unreserved)
             
             let searchingName = serverURL + getData + "?pv=" + pvNameEncode! + "&from=" + getDataFromURLEncode! + "&to=" + getDataToURLEncode!
-
             if let getDataURL = URL(string: searchingName) {
                 //                archiveActivityIndicator.startAnimating()
                 
@@ -324,11 +339,45 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                             self.dataDrawView.archiveData.removeAll()
                             self.dataDrawView.archiveTime.removeAll()
                             self.dataDrawView.archiveNSecTime.removeAll()
+                            self.dataDrawView.archiveArrayData?.removeAll()
+                            
+                            var value: Double = 0.0
+                            var time: Int = 0
+                            var nanos: CGFloat = 0.0
                             
                             for i in 0..<dictionaryDataFromJson.count {
-                                self.dataDrawView.archiveData.append(dictionaryDataFromJson[i]["val"] as! Double)
-                                self.dataDrawView.archiveTime.append(dictionaryDataFromJson[i]["secs"] as! Int)
-                                self.dataDrawView.archiveNSecTime.append((dictionaryDataFromJson[i]["nanos"] as! CGFloat) / 1000000000)
+                                time = dictionaryDataFromJson[i]["secs"] as! Int
+                                nanos = (dictionaryDataFromJson[i]["nanos"] as! CGFloat) / 1000000000
+                                
+                                switch dictionaryDataFromJson[i]["val"] {
+                                case 0 as Int:
+                                    value = 0.0
+                                    self.appendArchiveData(value, time: time, nanos: nanos)
+                                    
+                                case 0 as Double:
+                                    value = 0.0
+                                    self.appendArchiveData(value, time: time, nanos: nanos)
+                                    
+                                case let someInt as Int:
+                                    value = Double(someInt)
+                                    self.appendArchiveData(value, time: time, nanos: nanos)
+                                    
+                                    
+                                case let someDouble as Double:
+                                    value = someDouble
+                                    self.appendArchiveData(value, time: time, nanos: nanos)
+                                    
+                                    
+                                case let someString as String:
+                                    value = 0.0
+                                    self.appendArchiveData(value, time: time, nanos: nanos)
+                                    
+                                case let arrayData as Array<Double>:
+                                    self.appendArchiveArrayData(arrayData)
+                                    
+                                default:
+                                    break
+                                }
                             }
                             
                             self.dataDrawView.setNeedsDisplay()
@@ -340,6 +389,17 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                 archiveURLTask?.resume()
             }
         }
+    }
+    
+    private func appendArchiveData(_ value: Double, time: Int, nanos: CGFloat) {
+        dataDrawView.archiveData.append(value)
+        dataDrawView.archiveTime.append(time)
+        dataDrawView.archiveNSecTime.append(nanos)
+        
+    }
+    
+    private func appendArchiveArrayData(_ array: Array<Double>) {
+        dataDrawView.archiveArrayData = array
     }
     
     private func rotated(notification:Notification) -> Void {

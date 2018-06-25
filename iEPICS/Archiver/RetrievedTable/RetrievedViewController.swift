@@ -238,7 +238,6 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
             let stringDate = dateFormatter.string(from: date)
             cell.dateTextLabel.text = stringDate
 
-            print(data["val"] )
             var value: String?
             switch data["val"] {
             case 0 as Int:
@@ -260,7 +259,6 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
                 print("an (x, y) point at \(x), \(y)")
 
             case let arrayData as Array<Double>:
-                print(arrayData.count)
                 value = String(arrayData[0])
                 
             default:

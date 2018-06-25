@@ -18,6 +18,8 @@ class DataDrawView: UIView {
     var archiveTime = [Int]()
     var archiveNSecTime = [CGFloat]()
     
+    var archiveArrayData: Array<Double>?
+    
     private var position = [Int : Double]()
     var probeIndex: (x: CGFloat?, data: Double?) = (nil, nil)
 //    var arrayData = [Double]()
@@ -171,14 +173,18 @@ class DataDrawView: UIView {
     
     private func DrawArrayValue() {
         let plot = UIBezierPath()
-        let dx = self.bounds.width / CGFloat(data.count)
+        let arrayData = archiveArrayData == nil ? data : archiveArrayData
+        let dataCount = arrayData!.count
         
-        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(data[0])))
+        let dx = self.bounds.width / CGFloat(dataCount)
+        
+        let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData![0])))
+        print(Date(), arrayData![0])
         
         plot.move(to: startPoint)
         
-        for i in 1 ..< data.count {
-            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(data[i])))
+        for i in 1 ..< dataCount {
+            let nextPoint = CGPoint(x: startPoint.x + dx * CGFloat(i), y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData![i])))
             
             plot.addLine(to: nextPoint)
         }

@@ -231,6 +231,7 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Init date
         archiveDatePopUp.fromDate = Date()
         archiveDatePopUp.toDate = Date()
+        archiveDatePopUp.dateSegmentControl.isHidden = false
         
         archiveDatePopUp.datePicker.date = Date()
         

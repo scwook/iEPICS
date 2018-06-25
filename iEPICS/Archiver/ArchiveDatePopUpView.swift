@@ -16,7 +16,7 @@ class ArchiveDatePopUpView: UIView {
     @IBOutlet weak var childView: UIView!
     @IBOutlet weak var dateSegmentControl: UISegmentedControl!
     @IBOutlet weak var datePicker: UIDatePicker!
-    
+        
     var delegate: retrieveDataDelegate?
     
     var fromDate: Date?
