@@ -132,16 +132,19 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
                     guard let archiveData = data, error == nil else {
+                        UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
+                        self.errorMessage(message: "Can not connect to server")
+
                         return
                     }
                     
                     do {
                         let jsonRawData = try JSONSerialization.jsonObject(with: data!, options: []) as! [String : String]
-                        
                         UserDefaults.standard.set(jsonRawData["dataRetrievalURL"], forKey: "ArchiveDataRetrievalURL")
                         
                     } catch {
-                        
+                        UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
+                        self.errorMessage(message: "Invalide server address")
                     }
 
                 }
@@ -152,6 +155,12 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(mgmtURL, forKey: "ArchiveServerURL")
     }
 
+    private func errorMessage(message: String) -> Void {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alert, animated: true)
+    }
     
     override var shouldAutorotate: Bool {
         return true

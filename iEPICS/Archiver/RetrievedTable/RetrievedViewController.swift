@@ -119,7 +119,7 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.retrievedTableView.reloadData()
                         }
                     } catch {
-                        //
+                        self.errorMessage(message: "Invalide server address")
                     }
                 }
                 archiveURLTask?.resume()

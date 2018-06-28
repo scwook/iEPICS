@@ -95,8 +95,8 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
                     (data, response, error) in
                     guard let _ = data, error == nil else {
                         DispatchQueue.main.async {
-                            self.errorMessage(message: "Can not connect to server")
                             self.archiveActivityIndicator.stopAnimating()
+                            self.errorMessage(message: "Can not connect to server")
                         }
                         
                         return
@@ -114,7 +114,10 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
                             self.archiveActivityIndicator.stopAnimating()
                         }
                     } catch {
-                        
+                        DispatchQueue.main.async {
+                            self.archiveActivityIndicator.stopAnimating()
+                            self.errorMessage(message: "Invalide server address")
+                        }
                     }
                     
 //                    DispatchQueue.main.async {

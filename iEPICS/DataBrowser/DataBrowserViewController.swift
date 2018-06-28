@@ -72,10 +72,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         if( dataBrowserModel.elementCount > 1 ) {
             archiveDatePopUp.dateSegmentControl.isHidden = true
         }
-        else {
-            archiveDatePopUp.dateSegmentControl.isHidden = false
-        }
-        
 
         archiveDatePopUp.datePicker.date = Date()
         
@@ -93,20 +89,23 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         fromDate = from
         toDate = to
         
-        if let pvName = pv, let fromDate = from, let toDate = to {
+        if let pvName = pv, let retrievalFromDate = from, var retrievalToDate = to, archiveServerURL != nil{
             if let timer = drawTimer {
                 timer.invalidate()
             }
 
             if( dataBrowserModel.elementCount > 1 ) {
-                retrieveArchiveData(pvName: pvName, from: fromDate, to: fromDate)
+//                retrieveArchiveData(pvName: pvName, from: fromDate, to: fromDate)
+                retrievalToDate = retrievalFromDate
             }
             else {
-                dataBrowserModel.timeOffset = toDate.timeIntervalSince1970
-                dataBrowserModel.timeRange = CGFloat(toDate.timeIntervalSince1970 - fromDate.timeIntervalSince1970)
+                dataBrowserModel.timeOffset = retrievalToDate.timeIntervalSince1970
+                dataBrowserModel.timeRange = CGFloat(retrievalToDate.timeIntervalSince1970 - retrievalFromDate.timeIntervalSince1970)
                 
-                retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
+//                retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
             }
+            
+            retrieveArchiveData(pvName: pvName, from: retrievalFromDate, to: retrievalToDate)
             
             dataDrawView.setNeedsDisplay()
             axisDrawView.setNeedsDisplay()
@@ -257,7 +256,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         
         dataBrowserModel.timeOffset = startedTimeStamp
         let initTimeRange = TimeInterval(dataBrowserModel.timeRange)
-        self.retrieveArchiveData(pvName: pvName, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
+        
+        retrieveArchiveData(pvName: pvName, from: Date().addingTimeInterval(-initTimeRange), to: currentDate)
         
         dataBrowserModel.startedDrawTime = startedTimeStamp
         
@@ -321,10 +321,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
                     guard let _ = data, error == nil else {
-                        DispatchQueue.main.async {
-//                            self.errorMessage(message: "Can not connect to server")
-                            //                            self.archiveActivityIndicator.stopAnimating()
-                        }
+                        self.errorMessage(message: "Can not connect to server")
                         
                         return
                     }
@@ -383,7 +380,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                             self.dataDrawView.setNeedsDisplay()
                         }
                     } catch {
-                        //
+                        self.errorMessage(message: "Invalide server address")
                     }
                 }
                 archiveURLTask?.resume()
@@ -504,7 +501,9 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         }
         
         if( dataBrowserModel.elementCount > 1 ) {
+            dataDrawView.archiveArrayData = nil
             
+            startDataBrowser()
         }
         else {
             let translation = sender.translation(in: self.view)
@@ -697,6 +696,13 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
             self.title = pvName
             addNewProcessVariable(pvName: pvName)
         }
+    }
+    
+    private func errorMessage(message: String) -> Void {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alert, animated: true)
     }
     
     //********* Rotation *************

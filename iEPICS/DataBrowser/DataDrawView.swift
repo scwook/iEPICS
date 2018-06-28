@@ -179,7 +179,6 @@ class DataDrawView: UIView {
         let dx = self.bounds.width / CGFloat(dataCount)
         
         let startPoint: CGPoint = CGPoint(x: 0, y: self.bounds.height - ValueToPixelArray(value: CGFloat(arrayData![0])))
-        print(Date(), arrayData![0])
         
         plot.move(to: startPoint)
         
