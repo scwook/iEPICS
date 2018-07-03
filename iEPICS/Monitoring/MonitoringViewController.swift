@@ -180,7 +180,7 @@ class MonitoringViewController: UIViewController, UITableViewDelegate, UITableVi
                        
                         let elementCount = myData.elementCount
                         if(elementCount > 1) {
-                            cell.arrayImageView.image = UIImage(named: "Array")
+                            cell.arrayImageView.image = UIImage(named: "Wave_black")
                         }
                         else {
                             cell.arrayImageView.image = nil

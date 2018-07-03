@@ -10,13 +10,14 @@ import UIKit
 
 protocol retrieveDataDelegate {
     func retrieveDataFromDate(from: Date?, to: Date?)
+    func dismissDatePopUpView()
 }
 
 class ArchiveDatePopUpView: UIView {
     @IBOutlet weak var childView: UIView!
     @IBOutlet weak var dateSegmentControl: UISegmentedControl!
     @IBOutlet weak var datePicker: UIDatePicker!
-        
+    
     var delegate: retrieveDataDelegate?
     
     var fromDate: Date?
@@ -46,19 +47,23 @@ class ArchiveDatePopUpView: UIView {
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
             
             delegate!.retrieveDataFromDate(from: fromDate, to: toDate)
+            delegate!.dismissDatePopUpView()
+            
             disAppearViewAnimation()
             
         }
     }
     
     @IBAction func cancelButton(_ sender: UIButton) {
+        delegate!.dismissDatePopUpView()
+        
         disAppearViewAnimation()
     }
     
     func disAppearViewAnimation() {
         UIView.animate(withDuration: 0.5, animations: ({
-            self.center.y = self.frame.height * 2
-            
+            self.childView.center.y = self.frame.height * 2
+
         }), completion: { finished in self.removeFromSuperview()})
     }
     

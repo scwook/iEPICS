@@ -27,7 +27,8 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
     let getUploadData = "/data/getData.txt"
     
     var retrievedData = [Dictionary<String, Any>]()
-    
+    var archiveDatePopUpView: ArchiveDatePopUpView?
+
     @IBAction func upLoadBarButtonAction(_ sender: UIBarButtonItem) {
         upLoadArchiveData(pvName: pvName!, from: fromDate!, to: toDate!)
     }
@@ -55,29 +56,39 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     private func createDatePopUpView() {
-        let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
-        archiveDatePopUp.delegate = self
-        
-        // Init date pop up view
-        archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
-        archiveDatePopUp.frame = self.view.frame
-        archiveDatePopUp.center.y = self.view.frame.height + 100
-        
-        archiveDatePopUp.childView.backgroundColor = UIColor.white
-        archiveDatePopUp.childView.layer.cornerRadius = 12.0
-        
-        // Init date
-        archiveDatePopUp.fromDate = fromDate
-        archiveDatePopUp.toDate = toDate
-        
-        archiveDatePopUp.datePicker.date = Date()
-        
-        self.view.addSubview(archiveDatePopUp)
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveEaseOut, animations: ({
-            archiveDatePopUp.center.y = self.view.frame.height / 2
+        if archiveDatePopUpView == nil {
+            archiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? ArchiveDatePopUpView
             
-        }), completion: nil)
+            if let datePopUpView = archiveDatePopUpView {
+                datePopUpView.delegate = self
+                
+                // Init pop up view
+                datePopUpView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+                datePopUpView.frame = self.view.frame
+                
+                datePopUpView.childView.backgroundColor = UIColor.white
+                datePopUpView.childView.layer.cornerRadius = 12.0
+                datePopUpView.childView.center.y = datePopUpView.frame.height
+                
+                // Init date
+                datePopUpView.fromDate = fromDate
+                datePopUpView.toDate = toDate
+                
+                let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+                if( dataBrowserModel.elementCount > 1 ) {
+                    datePopUpView.dateSegmentControl.isHidden = true
+                }
+                
+                datePopUpView.datePicker.date = Date()
+                
+                self.view.addSubview(datePopUpView)
+                
+                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveLinear, animations: ({
+                    datePopUpView.childView.center.y =  datePopUpView.frame.height / 2
+                    
+                }), completion: nil)
+            }
+        }
     }
     
     private func retrieveArchiveData(pvName: String, from: Date, to: Date) {
@@ -225,6 +236,21 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
         return retrievedData.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var rowHeight: CGFloat = 40.0
+        let height = UIScreen.main.bounds.height
+        switch height {
+        case 568.0:
+            rowHeight = 35.0
+        default:
+            rowHeight = 40.0
+            break
+        }
+        
+        return rowHeight
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "RetrievedTableViewCell", for: indexPath) as? RetrievedTableViewCell {
             
@@ -276,6 +302,10 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
         if let pvName = pvName, let fromDate = from, let toDate = to {
             retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
         }
+    }
+    
+    func dismissDatePopUpView() {
+        archiveDatePopUpView = nil
     }
     
     private func errorMessage(message: String) -> Void {

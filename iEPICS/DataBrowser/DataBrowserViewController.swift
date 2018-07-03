@@ -44,6 +44,8 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     
     let drawTimeInterval: TimeInterval = 1.0
     
+    var archiveDatePopUpView: ArchiveDatePopUpView?
+    
     @IBOutlet weak var dataDrawView: DataDrawView!
     @IBOutlet weak var axisDrawView: AxisDrawView!
     
@@ -53,34 +55,39 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     }
     
     private func createDatePopUpView() {
-        let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
-        archiveDatePopUp.delegate = self
-        
-        // Init pop up view
-        archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
-        archiveDatePopUp.frame = self.view.frame
-        archiveDatePopUp.center.y = self.view.frame.height + 100
-        
-        archiveDatePopUp.childView.backgroundColor = UIColor.white
-        archiveDatePopUp.childView.layer.cornerRadius = 12.0
-        
-        // Init date
-        archiveDatePopUp.fromDate = fromDate
-        archiveDatePopUp.toDate = toDate
-        
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
-        if( dataBrowserModel.elementCount > 1 ) {
-            archiveDatePopUp.dateSegmentControl.isHidden = true
-        }
-
-        archiveDatePopUp.datePicker.date = Date()
-        
-        self.view.addSubview(archiveDatePopUp)
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveEaseOut, animations: ({
-            archiveDatePopUp.center.y = self.view.frame.height / 2
+        if archiveDatePopUpView == nil {
+            archiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? ArchiveDatePopUpView
             
-        }), completion: nil)
+            if let datePopUpView = archiveDatePopUpView {
+                datePopUpView.delegate = self
+                
+                // Init pop up view
+                datePopUpView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+                datePopUpView.frame = self.view.frame
+                
+                datePopUpView.childView.backgroundColor = UIColor.white
+                datePopUpView.childView.layer.cornerRadius = 12.0
+                datePopUpView.childView.center.y = datePopUpView.frame.height
+                
+                // Init date
+                datePopUpView.fromDate = fromDate
+                datePopUpView.toDate = toDate
+                
+                let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+                if( dataBrowserModel.elementCount > 1 ) {
+                    datePopUpView.dateSegmentControl.isHidden = true
+                }
+                
+                datePopUpView.datePicker.date = Date()
+                
+                self.view.addSubview(datePopUpView)
+                
+                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveLinear, animations: ({
+                    datePopUpView.childView.center.y =  datePopUpView.frame.height / 2
+
+                }), completion: nil)
+            }
+        }
     }
     
     func retrieveDataFromDate(from: Date?, to: Date?) {
@@ -110,6 +117,10 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
             dataDrawView.setNeedsDisplay()
             axisDrawView.setNeedsDisplay()
         }
+    }
+    
+    func dismissDatePopUpView() {
+        archiveDatePopUpView = nil
     }
     
     override func viewDidLoad() {
@@ -321,8 +332,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
                     guard let _ = data, error == nil else {
-                        self.errorMessage(message: "Can not connect to server")
-                        
+//                        self.errorMessage(message: "Can not connect to server")
                         return
                     }
                     
@@ -408,6 +418,28 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         dataDrawView.setNeedsDisplay()
         axisDrawView.setNeedsDisplay()
         
+        if let datePopUpView = archiveDatePopUpView {
+            datePopUpView.delegate = self
+
+            let width = UIScreen.main.bounds.width
+            let height = UIScreen.main.bounds.height
+            
+//            print(datePopUpView.center.x, datePopUpView.center.y)
+            
+//            let tmpCenterX = datePopUpView.center.x
+//            let tmpCenterY = datePopUpView.center.y
+//            datePopUpView.frame = self.view.frame
+//
+//            datePopUpView.center.x = 333.5
+//            datePopUpView.center.y = height
+//
+//            print(datePopUpView.center.x, datePopUpView.center.y)
+            
+
+            
+            print(datePopUpView.center.x, datePopUpView.center.y)
+
+        }
     }
 
     @IBAction func pinchGestureRecognizer(_ sender: UIPinchGestureRecognizer) {
@@ -428,7 +460,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                 let scaleY: CGFloat = deltaY * sender.scale / 100
 
                 if( sender.scale > 1) {
-                    print(sender.scale)
+//                    print(sender.scale)
                     let dT = 4 * sender.scale
                     let secondForOneMinute: CGFloat = 60
                     dataBrowserModel.timeRange -= dT

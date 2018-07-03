@@ -13,8 +13,9 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var archiveTableView: UITableView!
     @IBOutlet weak var archiveSearchBar: UISearchBar!
     @IBOutlet weak var archiveActivityIndicator: UIActivityIndicatorView!
+
     
-//    var archivePVList = [String]()
+    //    var archivePVList = [String]()
     var archivePVInfo = [Dictionary<String, Any>]()
 //    var isArchiveEnabled = false
     
@@ -30,6 +31,9 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     var archiveURLSeesion: URLSession?
 
     var retrievePVName: String?
+    var archiveDatePopUpView: ArchiveDatePopUpView?
+    var fromDate: Date? = Date()
+    var toDate: Date? = Date()
     
 //    if let serverURL = archiveServerURL {
 //        let getDataFrom = dateFormatter.string(from: Date().addingTimeInterval(from))
@@ -174,15 +178,53 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             let pvInfo = archivePVInfo[indexPath.row]
             let pvName = pvInfo["pvName"] as! String
         
+            cell.pvNameTextLabel.text = pvName
+
             if let status = pvInfo["status"] {
-                print(status as! String)
+                switch status as! String {
+                case "Being archived":
+                    cell.archiveStateImageview.image = UIImage(named: "Database_fill_black")
+                    
+                case "Paused":
+                    cell.archiveStateImageview.image = UIImage(named: "Database_stroke_black")
+
+                case "Not being archived":
+                    cell.archiveStateImageview.image = UIImage()
+
+                default:
+                    cell.archiveStateImageview.image = UIImage()
+                }
+            }
+            else {
+                cell.archiveStateImageview.image = UIImage()
             }
             
             if let connectionState = pvInfo["connectionState"] {
-                print(connectionState as! String)
+                switch connectionState as! String {
+                case "false":
+                    cell.archiveConnectionImageView.image = UIImage(named: "Disconnection_black")
+                    
+                default:
+                    cell.archiveConnectionImageView.image = UIImage()
+                }
+            }
+            else {
+                cell.archiveConnectionImageView.image = UIImage()
+            }
+            
+            if let isMonitored = pvInfo["isMonitored"] {
+                switch isMonitored as! String {
+                case "true":
+                    cell.archiveMonitorImageView.image = UIImage(named: "Monitor_black")
+                    
+                default:
+                    cell.archiveMonitorImageView.image = UIImage()
+                }
+            }
+            else {
+                cell.archiveMonitorImageView.image = UIImage()
             }
                         
-            cell.pvNameTextLabel.text = pvName
             
 //            let getURL = archiveServerURL! + getPVState + "?pv=" + pvName
 //            if let url = URL(string: getURL) {
@@ -220,30 +262,39 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func createDatePopUpView() {
-        let archiveDatePopUp: ArchiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ArchiveDatePopUpView
-        archiveDatePopUp.delegate = self
-        
-        // Init date pop up view
-        archiveDatePopUp.backgroundColor = UIColor.black.withAlphaComponent(0.0)
-        archiveDatePopUp.frame = self.view.frame
-        archiveDatePopUp.center.y = self.view.frame.height + 100
-        
-        archiveDatePopUp.childView.backgroundColor = UIColor.white
-        archiveDatePopUp.childView.layer.cornerRadius = 12.0
-        
-        // Init date
-        archiveDatePopUp.fromDate = Date()
-        archiveDatePopUp.toDate = Date()
-        archiveDatePopUp.dateSegmentControl.isHidden = false
-        
-        archiveDatePopUp.datePicker.date = Date()
-        
-        self.view.addSubview(archiveDatePopUp)
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveEaseOut, animations: ({
-            archiveDatePopUp.center.y = self.view.frame.height / 2
+        if archiveDatePopUpView == nil {
+            archiveDatePopUpView = UINib(nibName: "ArchiveDatePopUpView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as? ArchiveDatePopUpView
             
-        }), completion: nil)
+            if let datePopUpView = archiveDatePopUpView {
+                datePopUpView.delegate = self
+                
+                // Init pop up view
+                datePopUpView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+                datePopUpView.frame = self.view.frame
+                
+                datePopUpView.childView.backgroundColor = UIColor.white
+                datePopUpView.childView.layer.cornerRadius = 12.0
+                datePopUpView.childView.center.y = datePopUpView.frame.height
+                
+                // Init date
+                datePopUpView.fromDate = fromDate
+                datePopUpView.toDate = toDate
+                
+                let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+                if( dataBrowserModel.elementCount > 1 ) {
+                    datePopUpView.dateSegmentControl.isHidden = true
+                }
+                
+                datePopUpView.datePicker.date = Date()
+                
+                self.view.addSubview(datePopUpView)
+                
+                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 5.0, initialSpringVelocity: 10.0, options: UIViewAnimationOptions.curveLinear, animations: ({
+                    datePopUpView.childView.center.y =  datePopUpView.frame.height / 2
+                    
+                }), completion: nil)
+            }
+        }
     }
     
     func retrieveDataFromDate(from: Date?, to: Date?) {
@@ -251,6 +302,10 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             let retrieveDate = [fromDate, toDate]
             self.performSegue(withIdentifier: "archiveRetrievedTableViewController", sender: retrieveDate)
         }
+    }
+    
+    func dismissDatePopUpView() {
+        archiveDatePopUpView = nil
     }
     
     private func errorMessage(message: String) -> Void {

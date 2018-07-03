@@ -15,9 +15,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8D2-AY-Xji">
-                    <rect key="frame" x="40" y="183" width="295" height="284"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8D2-AY-Xji">
+                    <rect key="frame" x="40" y="201.5" width="295" height="284"/>
                     <subviews>
                         <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="GDu-yI-2mq">
                             <rect key="frame" x="8" y="55" width="279" height="158"/>
@@ -59,9 +58,17 @@
                         </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="295" id="DqJ-PV-uIn"/>
+                        <constraint firstAttribute="height" constant="284" id="Qyi-FW-k9s"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="8D2-AY-Xji" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="QS6-1m-QXs"/>
+                <constraint firstItem="8D2-AY-Xji" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="cgF-wD-LCz"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="childView" destination="8D2-AY-Xji" id="lJF-Y1-TY1"/>
