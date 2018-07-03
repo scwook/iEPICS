@@ -44,8 +44,8 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
         
         retrievedTableViewNavigationItem.title = pvName
         
-        archiveURLSessionConfig.timeoutIntervalForResource = 5
-        archiveURLSessionConfig.timeoutIntervalForRequest = 5
+        archiveURLSessionConfig.timeoutIntervalForResource = 15
+        archiveURLSessionConfig.timeoutIntervalForRequest = 15
         archiveURLSeesion = URLSession(configuration: archiveURLSessionConfig)
         
         archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveDataRetrievalURL")
@@ -107,14 +107,14 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
             let searchingName = serverURL + getData + "?pv=" + pvNameEncode! + "&from=" + getDataFromURLEncode! + "&to=" + getDataToURLEncode!
             
             if let getDataURL = URL(string: searchingName) {
-                //                archiveActivityIndicator.startAnimating()
+                archiveActivityIndicator.startAnimating()
                 
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
                     guard let _ = data, error == nil else {
                         DispatchQueue.main.async {
+                            self.archiveActivityIndicator.stopAnimating()
                             self.errorMessage(message: "Can not connect to server")
-                            //                            self.archiveActivityIndicator.stopAnimating()
                         }
                         
                         return
@@ -128,8 +128,10 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
                         
                         DispatchQueue.main.async {
                             self.retrievedTableView.reloadData()
+                            self.archiveActivityIndicator.stopAnimating()
                         }
                     } catch {
+                        self.archiveActivityIndicator.stopAnimating()
                         self.errorMessage(message: "Invalide server address")
                     }
                 }
@@ -302,6 +304,9 @@ class RetrievedViewController: UIViewController, UITableViewDelegate, UITableVie
         if let pvName = pvName, let fromDate = from, let toDate = to {
             retrieveArchiveData(pvName: pvName, from: fromDate, to: toDate)
         }
+        
+        fromDate = from
+        toDate = to
     }
     
     func dismissDatePopUpView() {

@@ -235,7 +235,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
     
     //***********
     func addNewProcessVariable(pvName: String) {
-        
+
         if startDrawing {
             startDrawing = false
         }
@@ -245,7 +245,9 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         }
         
         caObject.channelAccessAllClear()
-        
+
+        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
+
         if let drawView = dataDrawView {
             drawView.data.removeAll()
             drawView.time.removeAll()
@@ -253,6 +255,9 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
             drawView.archiveData.removeAll()
             drawView.archiveTime.removeAll()
             drawView.archiveNSecTime.removeAll()
+            drawView.archiveArrayData?.removeAll()
+            
+            dataBrowserModel.elementCount = 0
         }
         
         pvValueArray.removeAllObjects()
@@ -261,7 +266,6 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
         caObject.channelAccessAddProcessVariable(pvName)
         self.title = pvName
 
-        let dataBrowserModel = DataBrowserModel.DataBrowserModelSingleTon
         let currentDate = Date()
         let startedTimeStamp =  currentDate.timeIntervalSince1970
         
@@ -390,7 +394,7 @@ class DataBrowserViewController: UIViewController, NewElementDataDelegate, retri
                             self.dataDrawView.setNeedsDisplay()
                         }
                     } catch {
-                        self.errorMessage(message: "Invalide server address")
+//                        self.errorMessage(message: "Invalide server address")
                     }
                 }
                 archiveURLTask?.resume()

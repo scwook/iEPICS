@@ -85,6 +85,8 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         archiveServerURL = UserDefaults.standard.string(forKey: "ArchiveServerURL")
         
+        
+        
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -181,12 +183,17 @@ class ArchiveViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.pvNameTextLabel.text = pvName
 
             if let status = pvInfo["status"] {
+
                 switch status as! String {
                 case "Being archived":
                     cell.archiveStateImageview.image = UIImage(named: "Database_fill_black")
+                    cell.archiveStateImageview.image = cell.archiveStateImageview.image!.withRenderingMode(.alwaysTemplate)
+                    cell.archiveStateImageview.tintColor = UIColor(red: 0.0, green: 0.4, blue: 0.6, alpha: 1.0)
                     
                 case "Paused":
-                    cell.archiveStateImageview.image = UIImage(named: "Database_stroke_black")
+                    cell.archiveStateImageview.image = UIImage(named: "Database_fill_black")
+                    cell.archiveStateImageview.image = cell.archiveStateImageview.image!.withRenderingMode(.alwaysTemplate)
+                    cell.archiveStateImageview.tintColor = UIColor.gray
 
                 case "Not being archived":
                     cell.archiveStateImageview.image = UIImage()

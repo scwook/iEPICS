@@ -35,10 +35,10 @@ class DataDrawView: UIView {
     override func draw(_ rect: CGRect) {
         // Drawing code
         let elementCount = dataBrowserModel.elementCount
-        if (elementCount > 1) {
+        if elementCount > 1, archiveArrayData != nil {
             DrawArrayValue()
         }
-        else {
+        else if elementCount == 1 {
             if (data.count > 0) {
                 DrawValue()
                 //DrawDashLine()
