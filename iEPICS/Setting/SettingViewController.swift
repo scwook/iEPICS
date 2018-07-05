@@ -113,7 +113,6 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         else if textField == archiveURLTextField {
             let archiveURL = textField.text
             getArchiveServerInfo(archiveURL)
-            
         }
         else {
             
@@ -131,10 +130,11 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
                 
                 let archiveURLTask = archiveURLSeesion?.dataTask(with: getDataURL) {
                     (data, response, error) in
-                    guard let archiveData = data, error == nil else {
-                        UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
-                        self.errorMessage(message: "Can not connect to server")
-
+                    guard let _ = data, error == nil else {
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
+                            self.errorMessage(message: "Can not connect to server")
+                        }
                         return
                     }
                     
@@ -143,8 +143,10 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
                         UserDefaults.standard.set(jsonRawData["dataRetrievalURL"], forKey: "ArchiveDataRetrievalURL")
                         
                     } catch {
-                        UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
-                        self.errorMessage(message: "Invalide server address")
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(nil, forKey: "ArchiveDataRetrievalURL")
+                            self.errorMessage(message: "Invalide server address")
+                        }
                     }
 
                 }
